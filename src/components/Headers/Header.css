@@ -1,0 +1,13 @@
+header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: blue;
+    align-items: center;
+}
+
+header img{
+    height: 100px;
+    width: 100px;
+}
