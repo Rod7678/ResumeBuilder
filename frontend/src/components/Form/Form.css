@@ -21,8 +21,10 @@ form{
     font-size: 18px;
 }
 .control input{
-    width: 250px;
     padding: 5px;
+}
+.control-row input{
+    width: 350px;
 }
 
 @media (max-width: 600px){
