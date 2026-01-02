@@ -21,6 +21,13 @@ form{
     font-size: 18px;
 }
 .control input{
-    /* width: 250px; */
+    width: 250px;
     padding: 5px;
+}
+
+@media (max-width: 600px){
+    .control-row{
+        display: flex;
+        flex-direction: column;
+    }
 }
