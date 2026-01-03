@@ -1,22 +1,47 @@
 import Input from "./Input.jsx";
 import "./Form.css"
 import Button from "../UI/Button.jsx";
+import { useState } from "react";
 
 export default function UserForm(){
-    return (
-    <form action="">
-        <h2>Fill the details</h2>
-        <div className="control-row">
-            <Input id="firstName" label="first name" type={Text} value="john"/>
-            <Input id="lastName" label="last name" type={Text} value="cena"/>
-        </div>
-        <Input id="fatherName" label="father name" type={Text} value="mena"/>
-        <Input id="email" label="Enter your email" type="email" value="mena"/>
+    const [inputData, setInputData] = useState({
+        fullname: '',
+        proftitle: '',
+        email: '',
+        phone: '',
+        location: ' '
+    })
 
-        <p className="form-actions">
-            <Button txtOnly={true}>Reset</Button>
-            <Button >submit</Button>
-        </p>
-    </form>
+
+    function handleSubmit(event){
+        event.preventDefault();
+    
+        const fd = new FormData(event.target);
+        const formdata = Object.fromEntries(fd.entries());
+        setInputData(()=>({
+            ...formdata,
+        }))
+        
+        // event.target.reset()
+        console.log(inputData)
+    }
+    console.log(inputData)
+
+    return (
+        <div className="form-body">
+            <form onSubmit={handleSubmit}>
+                <h2>Edit personal details</h2>
+                <Input id="fullname"  label="Full name" type="text" />
+                <Input id="proftitle" label="Professional title" type="text" />
+                <Input id="email" label="Enter your email" type="email" />
+                <Input id="phone" label="Enter your phone" type="phone" minLength={10} maxLength={10}/>
+                <Input id="location" label="Location" type="text" />
+
+                <p className="form-actions">
+                    <Button txtOnly={true}>Reset</Button>
+                    <Button >Next</Button>
+                </p>
+            </form>
+        </div>
     )
 } 

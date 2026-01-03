@@ -8,7 +8,7 @@ async function fetched() {
         new Response({message: 'error to fetch'}, {status: 400})
     }
 
-    console.log(response);
+    console.log(response.json());
 }
 export default function Header(){
     fetched()
