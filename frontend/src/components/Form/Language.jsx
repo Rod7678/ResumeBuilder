@@ -16,7 +16,7 @@ const Language = ({ onSelect }) => {
         <option value="fluent">Fluent</option>
         <option value="natBil">Native/Bilingual</option>
       </select>
-      <Button onSelect={()=>navigate('../language')}>Done</Button>
+      <Button>Done</Button>
     </FormDiv>
   );
 };

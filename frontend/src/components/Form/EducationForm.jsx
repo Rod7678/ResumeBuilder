@@ -24,7 +24,8 @@ const EducationForm = ({ onSelect }) => {
         label="Description"
         type="textarea"
       />
-      
+      <input type="radio" value="lan" required name="experience" id="langForm" />
+      <label htmlFor="langForm">go to language Form</label>
       <Button>Done</Button>
     </FormDiv>
   );
