@@ -1,47 +1,35 @@
-import { useMemo, useState } from "react";
+import {  useState } from "react";
 import UserForm from "./UserForm";
 import ProfessionForm from "./ProfessionForm";
 
-export default function Main() {
-  const [inputData, setInputData] = useState([]);
+const handleSubmit = (submittedData, updateState)=>{
+  const fd = new FormData(submittedData);
+  const formdata = Object.fromEntries(fd.entries());
+  updateState((prevData) =>({
+    ...prevData,
+    ...formdata
+  }))
+}
+
+const Main = ()=> {
+  const [inputData, setInputData] = useState({});
   const [isProfForm, setIsProForm] = useState(false);
 
   function handlePersonalSubmit(event) {
     event.preventDefault();
-
-    const fd = new FormData(event.target);
-    const formdata = Object.fromEntries(fd.entries());
-    setInputData((prevData) => [
-      {
-        ...prevData,
-        ...formdata,
-      },
-    ]);
-    // event.target.reset()
-    // console.log(inputData);
-    // navigate("/professinalForm");
-    setIsProForm(true);
+    const haveExp = new FormData(event.target).get('experience');
+    handleSubmit(event.target, setInputData);
+    setIsProForm(() => haveExp);
   }
 
   function handleProfessionalSubmit(event) {
     event.preventDefault();
-
-    const fd = new FormData(event.target);
-    const formdata = Object.fromEntries(fd.entries());
-    setInputData((prevData) => [
-      {
-        ...prevData,
-        ...formdata,
-      },
-    ]);
-    setIsProForm(true);
-    navigate("/professinalForm");
+    handleSubmit(event.target, setInputData);
+    setIsProForm(false);
   }
-  const formDetail = useMemo(() => {
-    inputData;
-  }, []);
-  console.log(inputData);
-  console.log(formDetail);
+ 
+  // console.log(inputData);
+  // console.log(isProfForm);
 
   return (
     <>
@@ -53,3 +41,6 @@ export default function Main() {
     </>
   );
 }
+
+
+export default Main;
