@@ -1,46 +1,45 @@
-import {  useState } from "react";
-import UserForm from "./UserForm";
-import ProfessionForm from "./ProfessionForm";
+import { useState } from "react";
+import UserForm from "./UserForm.jsx";
+import ProfessionForm from "./ProfessionForm.jsx";
+import EducationForm from "./EducationForm.jsx";
+import Language from "./Language.jsx";
 
-const handleSubmit = (submittedData, updateState)=>{
+const handleSubmit = (submittedData, updateFormInputState, updateFormState) => {
   const fd = new FormData(submittedData);
   const formdata = Object.fromEntries(fd.entries());
-  updateState((prevData) =>({
+  updateFormInputState((prevData) => ({
     ...prevData,
-    ...formdata
-  }))
-}
+    ...formdata,
+  }));
+  if (formdata.experience === "yes") {
+    updateFormState(() => "prof");
+  }
+  updateFormState(() => "edu");
+};
 
-const Main = ()=> {
+const Main = () => {
   const [inputData, setInputData] = useState({});
-  const [isProfForm, setIsProForm] = useState(false);
+  const [isProfForm, setIsProfForm] = useState("");
 
-  function handlePersonalSubmit(event) {
+  function handleFormSubmit(event) {
     event.preventDefault();
-    const haveExp = new FormData(event.target).get('experience');
-    handleSubmit(event.target, setInputData);
-    setIsProForm(() => haveExp);
+    handleSubmit(event.target, setInputData, setIsProfForm);
   }
 
-  function handleProfessionalSubmit(event) {
-    event.preventDefault();
-    handleSubmit(event.target, setInputData);
-    setIsProForm(false);
-  }
- 
-  // console.log(inputData);
+  console.log(inputData);
   // console.log(isProfForm);
 
-  return (
-    <>
-      {isProfForm ? (
-        <ProfessionForm onSelect={handleProfessionalSubmit} />
-      ) : (
-        <UserForm onSelect={handlePersonalSubmit} />
-      )}
-    </>
-  );
-}
+  let content = <UserForm onSelect={handleFormSubmit} />;
 
+  if (isProfForm === "prof") {
+    content = <ProfessionForm onSelect={handleFormSubmit} />;
+  } else if (isProfForm === "edu") {
+    content = <EducationForm onSelect={handleFormSubmit} />;
+  }else if( isProfForm === "lan"){
+    content = <Language onSelect={handleFormSubmit}/>
+  }
+
+  return <>{content}</>;
+};
 
 export default Main;

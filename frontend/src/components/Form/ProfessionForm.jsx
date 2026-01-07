@@ -29,18 +29,12 @@ export default function ProfessionForm({ onSelect }) {
         />
         <div className="radio-button">
           <p>choose working type</p>
-          <input type="radio" value="WFH" name="typeOfWork" id="wfh"/>
+          <input type="radio" value="WFH" name="typeOfWork" id="wfh" />
           <label htmlFor="wfh">Work from home</label>
-          <input type="radio" value="WFO" name="typeOfWork" id="wfo"/>
+          <input type="radio" value="WFO" name="typeOfWork" id="wfo" />
           <label htmlFor="wfo">Work from office</label>
         </div>
-
-        <p className="form-actions">
-          <Button txtOnly={true} onClick={() => navigate("../")}>
-            Back
-          </Button>
-          <Button>Submit</Button>
-        </p>
+        <Button>Submit</Button>
       </FormDiv>
     </>
   );

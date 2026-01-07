@@ -27,17 +27,19 @@ export default function UserForm({ onSelect }) {
       /> */}
       <Input id="location" name="location" label="Location" type="text" />
       <div className="radio-button">
-          <p>Do you have any professional Experience ?</p>
-          <input type="radio" value="true" required name="experience" id="expYes"/>
-          <label htmlFor="expYes">Yes</label>
-          <input type="radio" value="" required name="experience" id="expNo"/>
-          <label htmlFor="expNo">No</label>
-        </div>
-
-      <p className="form-actions">
-        <Button txtOnly={true}>Reset</Button>
-        <Button>Next</Button>
-      </p>
+        <p>Do you have any professional Experience ?</p>
+        <input
+          type="radio"
+          value="true"
+          required
+          name="experience"
+          id="expYes"
+        />
+        <label htmlFor="expYes">Yes</label>
+        <input type="radio" value="" required name="experience" id="expNo" />
+        <label htmlFor="expNo">No</label>
+      </div>
+      <Button>Done</Button>
     </FormDiv>
   );
 }
