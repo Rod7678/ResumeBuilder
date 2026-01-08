@@ -1,10 +1,14 @@
 import Button from "../UI/Button.jsx";
 import Input from "./Input.jsx";
 import FormDiv from "../UI/FormDiv.jsx";
-import { useNavigate } from "react-router";
+import { useState } from "react";
 
 export default function ProfessionForm({ onSelect }) {
-  const navigate = useNavigate();
+  const [isCurrentlyWorking, setIsCurrentlyWorking] = useState("");
+  const handleCurrentlyWorking = (event) => {
+    setIsCurrentlyWorking(event.target.value);
+  };
+
   return (
     <>
       <FormDiv title={"Add Professional Experience"} onSend={onSelect}>
@@ -21,13 +25,41 @@ export default function ProfessionForm({ onSelect }) {
           label="Enter your joining date"
           type="date"
         />
+        {isCurrentlyWorking === "YES" ? (
+          <Input
+            id="leavingDate"
+            name="leavingDate"
+            label="Enter your last day of working"
+            type="date"
+          />
+        ) : (
+          <div className="radio-button text-start">
+            <p className="text-start">currently working</p>
+            <input
+              type="radio"
+              value="YES"
+              onChange={handleCurrentlyWorking}
+              name="currentlyWorking"
+              id="wokingYes"
+            />
+            <label htmlFor="currentlyWorking">Yes</label>
+            <input
+              type="radio"
+              value=""
+              onChange={handleCurrentlyWorking}
+              name="currentlyWorking"
+              id="wokingNo"
+            />
+            <label htmlFor="currentlyWorking">No</label>
+          </div>
+        )}
         <Input
           id="jobLocation"
           name="jobLocation"
           label="Company Location"
           type="text"
         />
-        <div className="radio-button">
+        <div className="radio-button text-start">
           <p>choose working type</p>
           <input type="radio" value="WFH" name="typeOfWork" id="wfh" />
           <label htmlFor="wfh">Work from home</label>

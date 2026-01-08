@@ -11,12 +11,15 @@ const handleSubmit = (submittedData, updateFormInputState, updateFormState) => {
     ...prevData,
     ...formdata,
   }));
-  if (formdata.experience === "yes") {
+  console.log(formdata.experience);
+  
+  if (formdata.experience === "true") {
     updateFormState(() => "prof");
   }else if(formdata.experience === 'lan'){
     updateFormState(() => "lan");
+  }else{
+    updateFormState(() => "edu");
   }
-  updateFormState(() => "edu");
 };
 
 const Main = () => {
