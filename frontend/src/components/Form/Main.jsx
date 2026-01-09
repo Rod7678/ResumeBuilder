@@ -12,12 +12,12 @@ const handleSubmit = (submittedData, updateFormInputState, updateFormState) => {
     ...formdata,
   }));
   console.log(formdata.experience);
-  
+
   if (formdata.experience === "true") {
     updateFormState(() => "prof");
-  }else if(formdata.experience === 'lan'){
+  } else if (formdata.experience === "lan") {
     updateFormState(() => "lan");
-  }else{
+  } else {
     updateFormState(() => "edu");
   }
 };
@@ -40,11 +40,12 @@ const Main = () => {
     content = <ProfessionForm onSelect={handleFormSubmit} />;
   } else if (isProfForm === "edu") {
     content = <EducationForm onSelect={handleFormSubmit} />;
-  }else if( isProfForm === "lan"){
-    content = <Language onSelect={handleFormSubmit}/>;
+  } else if (isProfForm === "lan") {
+    content = <Language onSelect={handleFormSubmit} />;
   }
 
-  return <>{content}</>;
+  return <>
+  {content}</>;
 };
 
 export default Main;
