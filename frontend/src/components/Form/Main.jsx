@@ -1,56 +1,76 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserForm from "./UserForm.jsx";
 import ProfessionForm from "./ProfessionForm.jsx";
 import EducationForm from "./EducationForm.jsx";
 import Language from "./Language.jsx";
 import ContentList from "../ContentList.jsx";
+import { queryClient, saveUserDetail } from "../../utils/http.js";
+import { useMutation } from '@tanstack/react-query';
 
-const handleSubmit = (submittedData, updateFormInputState) => {
-  const fd = new FormData(submittedData);
-  const formdata = Object.fromEntries(fd.entries());
+const extractedForm = (data, updateFormInputState) => {
   updateFormInputState((prevData) => ({
     ...prevData,
-    ...formdata,
+    ...data,
   }));
 };
 
 const Main = ({ data, addingContent }) => {
   const [inputData, setInputData] = useState({});
-  const [isEdit, setIsEdit] = useState(!addingContent);
+  const [isEdit, setIsEdit] = useState(false);
+  const { mutate, isPending, isError, error } = useMutation({
+      mutationFn: saveUserDetail,
+      onSuccess: () => {
+        queryClient.invalidateQueries({queryKey: ['users']})
+        navigate('/users');
+      }
+    })
+
+  useEffect(()=>{
+    setIsEdit(!addingContent);
+  },[addingContent]);
+
+  // console.log(addingContent);
 
   function handleFormSubmit(event) {
+    const fd = new FormData(event.target);
+  const data = Object.fromEntries(fd.entries());
     event.preventDefault();
-    handleSubmit(event.target, setInputData);
+    mutate(data)
+    extractedForm(data, setInputData);
     setIsEdit(false);
   }
 
-  console.log(inputData);
+
+
+  const handleEdit = () => {
+    setIsEdit(true);
+  };
+  // console.log(inputData);
   // console.log(isProfForm);
+  // console.log(data[0]);
+  const selectedType = data?.[0];
+  let content = null;
+  switch (selectedType) {
+    case "Professional Experience":
+      content = <ProfessionForm onSelect={handleFormSubmit} />;
+      break;
+    case "Education":
+      content = <EducationForm onSelect={handleFormSubmit} />;
+      break;
+    case "Languages":
+      content = <Language onSelect={handleFormSubmit} />;
+      break;
 
-  let content;
-  if(isEdit && data.length>0){
-    switch (data[0]) {
-      case "Professional Experience":
-        content = <ProfessionForm onSelect={handleFormSubmit} />;
-        break;
-      case "Education":
-        content = <EducationForm onSelect={handleFormSubmit} />;
-        break;
-      case "Languages":
-        content = <Language onSelect={handleFormSubmit} />;
-        break;
-  
-      default:
-        content = <ContentList data={data}/>;
-        break;
-    }
+    default:
+      content = <UserForm onSelect={handleFormSubmit} />;
+      break;
   }
-  else{
-    content = <ContentList data={data}/>;
-  }
-  
 
-  return <>{content}</>;
+  return (
+    <>
+      {isEdit ? content : <ContentList data={inputData} type={selectedType} onEdit={handleEdit} />}
+    </>
+  );
 };
 
 export default Main;

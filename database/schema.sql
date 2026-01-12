@@ -9,7 +9,10 @@ USE resume_builder;
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
+    pro_title VARCHAR(100),
     email VARCHAR(150) UNIQUE NOT NULL,
+    phone INT NOT NULL,
+    location VARCHAR(100) NOT NULL,
     created_at DATETIME CURRENT_TIMESTAMP
  );
 

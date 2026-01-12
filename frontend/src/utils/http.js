@@ -1,0 +1,52 @@
+import { QueryClient } from "@tanstack/react-query";
+
+export const queryClient = new QueryClient();
+
+let url = 'http://localhost:3000/api/users';
+
+
+export const saveUserDetail = async (data) =>{
+    console.log(data);
+    
+    const formData ={
+        full_name : data.full_name,
+        email: data.email,
+        location: data.location,
+        phone: data.phone,
+        pro_title: data.title
+        
+    }
+    console.log(formData);
+    const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+    })
+
+    if(!response.ok){
+        const error = new Error('An error occured to save user detail');
+        error.status = response.status;
+        error.info = await response.json();
+        throw error;
+    }
+
+    const { user } = await response.json();
+
+    return user;
+}
+
+export const fetchuserDetail = async ({signal})=>{
+    const response = await fetch(`${url}/:${id}`, {signal} );
+    if(!response.ok){
+        const error = new Error('An error occurred during fetching event');
+        error.code = response.status;
+        error.info = await response.json();
+        throw error;
+    }
+
+    const { user } = await response.json();
+
+    return user;
+}
