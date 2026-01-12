@@ -1,5 +1,10 @@
 const FORMS = [
   {
+    title: "User",
+    description: "A place to highlight your professional experience - including internships.",
+    icon: "fa-solid fa-briefcase",
+  },
+  {
     title: "Professional Experience",
     description: "A place to highlight your professional experience - including internships.",
     icon: "fa-solid fa-briefcase",

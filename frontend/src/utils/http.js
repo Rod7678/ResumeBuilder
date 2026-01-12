@@ -32,13 +32,14 @@ export const saveUserDetail = async (data) =>{
         throw error;
     }
 
-    const { user } = await response.json();
+    const  user  = await response.json();
 
     return user;
 }
 
-export const fetchuserDetail = async ({signal})=>{
-    const response = await fetch(`${url}/:${id}`, {signal} );
+export const fetchUserDetail = async ({queryKey, signal})=>{
+    const [ , userId] = queryKey;
+    const response = await fetch(`${url}/${userId}`, {signal} );
     if(!response.ok){
         const error = new Error('An error occurred during fetching event');
         error.code = response.status;
@@ -46,7 +47,7 @@ export const fetchuserDetail = async ({signal})=>{
         throw error;
     }
 
-    const { user } = await response.json();
+    const data  = await response.json();
 
-    return user;
+    return data;
 }

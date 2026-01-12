@@ -5,9 +5,14 @@ import { fetchUserDetail } from "../utils/http";
 const ContentList = ({ onEdit }) => {
   const userID = 1;
 
-  const { data: userData, isPending, isError, error } = useQuery({
+  const {
+    data: userData,
+    isPending,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["users", userID],
-    queryFn: fetchUserDetail
+    queryFn: fetchUserDetail,
   });
 
   if (isPending) {
@@ -18,21 +23,23 @@ const ContentList = ({ onEdit }) => {
     return <p>{error.message}</p>;
   }
   let addedList;
-  
-  return (
-    <div className="user-detail p-10 text-start">
-      <div className="content-title flex">
-        <h4>{userData.full_name}</h4>
-        <Button onClick={onEdit}>Edit</Button>
-      </div>
 
-      <p>{userData.email}</p>
-      <p>{userData.phone}</p>
-      <p>{userData.location}</p>
-      <p>{userData.pro_title}</p>
-    </div>
+  return (
+    <>
+      <div className="user-detail p-10 text-start">
+        <div className="content-title flex justify-between">
+          <h4>{userData.full_name}</h4>
+          <Button onClick={()=>onEdit("User")}>Edit</Button>
+        </div>
+
+        <p>{userData.email}</p>
+        <p>{userData.phone}</p>
+        <p>{userData.location}</p>
+        <p>{userData.pro_title}</p>
+      </div>
+      {addedList}
+    </>
   );
-  {addedList}
 };
 
 export default ContentList;
