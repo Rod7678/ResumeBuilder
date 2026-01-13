@@ -4,7 +4,7 @@ import FormDiv from "../UI/FormDiv.jsx";
 import { useState } from "react";
 
 export default function ProfessionForm({ onSelect }) {
-  const [isCurrentlyWorking, setIsCurrentlyWorking] = useState("");
+  const [isCurrentlyWorking, setIsCurrentlyWorking] = useState("NO");
   const handleCurrentlyWorking = (event) => {
     setIsCurrentlyWorking(event.target.value);
   };
@@ -40,17 +40,19 @@ export default function ProfessionForm({ onSelect }) {
               value="YES"
               onChange={handleCurrentlyWorking}
               name="currentlyWorking"
+              checked={isCurrentlyWorking === "YES"}
               id="wokingYes"
             />
-            <label htmlFor="currentlyWorking">Yes</label>
+            <label htmlFor="wokingYes">Yes</label>
             <input
               type="radio"
-              value=""
+              value="NO"
               onChange={handleCurrentlyWorking}
               name="currentlyWorking"
+              checked={isCurrentlyWorking === "NO"}
               id="wokingNo"
             />
-            <label htmlFor="currentlyWorking">No</label>
+            <label htmlFor="wokingNo">No</label>
           </div>
         )}
         <Input

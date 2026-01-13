@@ -1,6 +1,5 @@
 import { useState } from "react";
-import ContentList from "../ContentList.jsx";
-import Main from "../Form/Main.jsx";
+import Main from "../Main.jsx";
 import FormList from "../FormList.jsx";
 import Modal from "../UI/Modal";
 import Button from "../UI/Button.jsx";
@@ -19,7 +18,6 @@ const MainBody = () => {
   const handleModalClose = () => {
     setIsAddContent(false);
   };
-  console.log(isContentAdded);
 
   return (
     <>

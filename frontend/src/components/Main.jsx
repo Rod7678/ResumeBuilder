@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import UserForm from "./UserForm.jsx";
-import ProfessionForm from "./ProfessionForm.jsx";
-import EducationForm from "./EducationForm.jsx";
-import Language from "./Language.jsx";
-import ContentList from "../ContentList.jsx";
-import { queryClient, saveUserDetail } from "../../utils/http.js";
-import { useMutation } from '@tanstack/react-query';
+import UserForm from "./Form/UserForm.jsx";
+import ProfessionForm from "./Form/ProfessionForm.jsx";
+import EducationForm from "./Form/EducationForm.jsx";
+import Language from "./Form/Language.jsx";
+import ContentList from "./ContentList.jsx";
+import { queryClient, saveUserDetail } from "../utils/http.js";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
 // const extractedForm = (data, updateFormInputState) => {
@@ -19,41 +19,22 @@ const Main = ({ data, addingContent }) => {
   // const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState(data?.[0]);
   const [isEdit, setIsEdit] = useState(false);
-  const { mutate, isPending, isError, error } = useMutation({
-      mutationFn: saveUserDetail,
-      onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: ['users']})
-        // navigate('/users');
-      }
-    })
 
-  useEffect(()=>{
+  useEffect(() => {
     setIsEdit(!addingContent);
-    setSelectedType(data?.[0])
-  },[addingContent,data]);
-
+    setSelectedType(data?.[0]);
+  }, [addingContent, data]);
 
   function handleFormSubmit(event) {
-    const fd = new FormData(event.target);
-  const data = Object.fromEntries(fd.entries());
-    event.preventDefault();
-    mutate(data)
-    // extractedForm(data, setInputData);
     setIsEdit(false);
   }
 
-
-
-  
   const handleEdit = (editType) => {
-    console.log(editType);
-    
     setIsEdit(true);
-    setSelectedType(editType)
+    setSelectedType(editType);
   };
   let content = null;
-  console.log(selectedType);
-  
+
   switch (selectedType) {
     case "Professional Experience":
       content = <ProfessionForm onSelect={handleFormSubmit} />;
@@ -74,7 +55,11 @@ const Main = ({ data, addingContent }) => {
 
   return (
     <>
-      {isEdit ? content : <ContentList data={data} type={selectedType} onEdit={handleEdit} />}
+      {isEdit ? (
+        content
+      ) : (
+        <ContentList data={data} type={selectedType} onEdit={handleEdit} />
+      )}
     </>
   );
 };

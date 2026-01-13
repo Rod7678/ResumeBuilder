@@ -34,6 +34,21 @@ app.get("/api/users/:id", async (req, res) => {
   }
 });
 
+
+app.get("/api/users/latest", async (req, res) => {
+  try{
+    const [rows] = await db.query("SELECT * FROM users ORDER BY id DESC LIMIT 1");
+    if(!rows.length) {
+      return res.status(404).json({message: "user not found"})
+    }
+    
+    res.json(rows[0])
+  }catch (err){
+    res.status(500).json({error: err.message})
+  }
+});
+
+
 app.post("/api/users", async (req, res) => {
   try {
     const { full_name, email, phone, location, pro_title } = req.body;
@@ -42,10 +57,10 @@ app.post("/api/users", async (req, res) => {
       [full_name, email, phone, location, pro_title]
     );
 
-    res.status(201).json({
-      message: "user Created",
-      userId: result.insertId
-    });
+    const userID = result.insertId;
+    const [ rows ] = await db.query("SELECT * FROM users WHERE id = ? ", [userID]);
+
+    res.status(201).json(rows[0]);
   } catch (err) {
     res.status(500).json({error: err.message});
   }

@@ -24,8 +24,10 @@ CREATE TABLE professional_experience (
  job_role VARCHAR(100),
  professional_title VARCHAR(100),
  joining_date DATE,
+ leaving_date DATE,
  job_location VARCHAR(100),
  work_type ENUM('WFH','WFO'),
+ currently_working ENUM('YES','NO'),
  FOREIGN KEY (user_id) REFERENCES users(id)
  ON DELETE CASCADE
 );
