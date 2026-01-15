@@ -22,32 +22,34 @@ app.get("/api/users", async (req, res) => {
   res.json(rows);
 });
 
-app.get("/api/users/:id", async (req, res) => {
-  try{
-    const [row] = await db.query("SELECT * FROM users WHERE id = ?", [req.params.id]);
-    if(!row.length){
-      return res.status(404).json({message: "user not found"})
-    }
-    res.json(row[0])
-  }catch(err){
-    res.status(500).json({error: err.message});
-  }
-});
-
-
 app.get("/api/users/latest", async (req, res) => {
-  try{
-    const [rows] = await db.query("SELECT * FROM users ORDER BY id DESC LIMIT 1");
-    if(!rows.length) {
-      return res.status(404).json({message: "user not found"})
+  try {
+    const [rows] = await db.query(
+      "SELECT * FROM users ORDER BY id DESC LIMIT 1"
+    );
+    if (!rows.length) {
+      return res.status(404).json({ message: "user not found" });
     }
-    
-    res.json(rows[0])
-  }catch (err){
-    res.status(500).json({error: err.message})
+
+    res.json(rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
+app.get("/api/users/:id", async (req, res) => {
+  try {
+    const [row] = await db.query("SELECT * FROM users WHERE id = ?", [
+      req.params.id,
+    ]);
+    if (!row.length) {
+      return res.status(404).json({ message: "user not found" });
+    }
+    res.json(row[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 app.post("/api/users", async (req, res) => {
   try {
@@ -58,15 +60,82 @@ app.post("/api/users", async (req, res) => {
     );
 
     const userID = result.insertId;
-    const [ rows ] = await db.query("SELECT * FROM users WHERE id = ? ", [userID]);
+    const [rows] = await db.query("SELECT * FROM users WHERE id = ? ", [
+      userID,
+    ]);
 
     res.status(201).json(rows[0]);
   } catch (err) {
-    res.status(500).json({error: err.message});
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/professional/latest", async (req, res) => {
+  try {
+    const {
+      jobrole,
+      joiningDate,
+      leavingDate,
+      currentlyWorking,
+      jobLocation,
+      typeOfWork,
+    } = req.body;
+
+    const [users] = await db.query("SELECT id FROM users ORDER BY id DESC LIMIT 1");
+
+    if(!users.length){
+      return res.status(400).json({message: "No User exist "})
+    }
+    const userId = users[0].id;
+    await db.query(
+      "INSERT INTO professional_experience (user_id, job_role, joining_date, leaving_date, job_location, work_type , currently_working ) VALUES (?,?,?,?,?,?,?)",
+      [
+        userId,
+        jobrole,
+        joiningDate,
+        leavingDate || null,
+        jobLocation,
+        typeOfWork,
+        currentlyWorking,
+      ]
+    );
+
+    res.status(201).json("professional experience added");
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
 
+app.post("/api/professional/:id", async (req, res) => {
+  try {
+    const {
+      jobrole,
+      joiningDate,
+      leavingDate,
+      currentlyWorking,
+      jobLocation,
+      typeOfWork,
+    } = req.body;
+    const userId = req.params.id;
+    await db.query(
+      "INSERT INTO professional_experience (user_id, job_role, joining_date, leaving_date, job_location, work_type , currently_working ) VALUES (?,?,?,?,?,?,?)",
+      [
+        userId,
+        jobrole,
+        joiningDate,
+        leavingDate || null,
+        jobLocation,
+        typeOfWork,
+        currentlyWorking,
+      ]
+    );
+
+    res.status(201).json("professional experience added");
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 app.listen(PORT, () => {
   console.log("Backend listning on localhost:3000");

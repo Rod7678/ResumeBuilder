@@ -2,7 +2,7 @@ import { QueryClient } from "@tanstack/react-query";
 
 export const queryClient = new QueryClient();
 
-let url = 'http://localhost:3000/api/users';
+let url = 'http://localhost:3000/api';
 
 
 export const saveUserDetail = async (data) =>{  
@@ -14,7 +14,7 @@ export const saveUserDetail = async (data) =>{
         phone: data.phone,
         pro_title: data.title  
     }
-    const response = await fetch(url, {
+    const response = await fetch(`${url}/users`, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -29,14 +29,14 @@ export const saveUserDetail = async (data) =>{
         throw error;
     }
 
-    const  user  = await response.json();
+    const user  = await response.json();
 
     return user;
 }
 
 
 export const fetchLatestUser = async () => {
-    const response = await fetch(`${url}/latest`);
+    const response = await fetch(`${url}/users/latest`);
     if(!response.ok){
         const error = new Error('An error occurred during fetching user');
         error.code = response.status;
@@ -53,7 +53,7 @@ export const fetchLatestUser = async () => {
 export const fetchUserDetail = async ({queryKey, signal})=>{
    
     const [ , userId] = queryKey;
-    const response = await fetch(`${url}/${userId}`, {signal} );
+    const response = await fetch(`${url}/users/${userId}`, {signal} );
     if(!response.ok){
         const error = new Error('An error occurred during fetching user');
         error.code = response.status;
@@ -66,7 +66,24 @@ export const fetchUserDetail = async ({queryKey, signal})=>{
     return data;
 }
 
-export const SaveUserProfessionalData = ({queryKey, signal})=>{
-    const [, userId] = queryKey;
-    const response = fetch(`${url}/${userId}`)
+export const SaveUserProfessionalData = async (data)=>{
+    const response = await fetch(`${url}/professional/latest`, {
+        method : 'POST',
+        headers: {
+            'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify(data)
+    });
+
+    if(!response.ok){
+        const error = new Error("An error occuered during sending professional data");
+        error.code = response.status;
+        error.info = await response.json();
+        throw error;
+    }
+
+    const res = await response.json();
+
+    return res;
+
 }

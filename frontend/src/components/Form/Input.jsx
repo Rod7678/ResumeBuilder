@@ -10,6 +10,7 @@ export default function Input({ id, label, type, ...props }) {
         <input
           id={id}
           {...props}
+          type={type}
           className="p-7 bg-black rounded-md text-gray-200"
         />
       );
@@ -18,6 +19,7 @@ export default function Input({ id, label, type, ...props }) {
       content = (
         <textarea
           id={id}
+          type={type}
           {...props}
           className="p-7 bg-black rounded-md text-gray-200"
         />

@@ -4,15 +4,15 @@ import SelectedContent from "./SelectedContent.jsx";
 
 const ContentList = ({ onEdit, data }) => {
   console.log(data);
-  const userId = 1;
+  // const userId = 1;
   const {
     data: userData,
     isPending,
     isError,
     error,
   } = useQuery({
-    queryKey: ["users", userId],
-    queryFn: fetchUserDetail,
+    queryKey: ["users"],
+    queryFn: fetchLatestUser,
   });
 
   if (isPending) {
@@ -22,11 +22,8 @@ const ContentList = ({ onEdit, data }) => {
   if (isError) {
     return <p>{error.message}</p>;
   }
-  let addedList;
+  let addedList = <SelectedContent data={data} onEdit={onEdit}/>;
 
-  if (data.length > 0) {
-    addedList = <SelectedContent data={data}/>
-  }
   return (
     <>
       <div className="user-detail bg-black p-8 rounded-xl text-start">
