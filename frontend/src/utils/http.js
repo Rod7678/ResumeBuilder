@@ -86,4 +86,8 @@ export const SaveUserProfessionalData = async (data)=>{
 
     return res;
 
+};
+
+export const GetUsersProfessionalData = async () =>{
+    
 }

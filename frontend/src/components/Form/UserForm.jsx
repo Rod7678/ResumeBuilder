@@ -13,6 +13,7 @@ export default function UserForm({ onSelect }) {
       // navigate('/users');
     },
   });
+
   function handleFormSubmit(event) {
     const fd = new FormData(event.target);
     const data = Object.fromEntries(fd.entries());
@@ -21,15 +22,11 @@ export default function UserForm({ onSelect }) {
     onSelect();
   }
 
+
   return (
     <FormDiv title={"Edit personal details"} onSend={handleFormSubmit}>
       <Input id="fullname" name="full_name" label="Full name" type="text" />
-      <Input
-        id="title"
-        name="title"
-        label="Professional title"
-        type="text"
-      />
+      <Input id="title" name="title" label="Professional title" type="text" />
       <Input id="email" name="email" label="Enter your email" type="email" />
       <Input
         id="phone"
@@ -40,7 +37,9 @@ export default function UserForm({ onSelect }) {
         maxLength={10}
       />
       <Input id="location" name="location" label="Location" type="text" />
-      <Button>Done</Button>
+      {isPending && <p>Form is submitting please wait</p>}
+      {!isPending && <Button>Done</Button>}
+      {isError && <p> {error.info?.message || "there is error in submitting form"}</p>}
     </FormDiv>
   );
 }

@@ -12,7 +12,6 @@ export default function ProfessionForm({ onSelect }) {
     mutationFn: SaveUserProfessionalData,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["professional"] });
-      // navigate('/users');
     },
   });
   function handleFormSubmit(event) {
@@ -35,7 +34,7 @@ export default function ProfessionForm({ onSelect }) {
   //   content = <p>{error.info}</p>
   // }
   // if(data){
-  //   content = 
+  //   content =
   // }
 
   return (
@@ -91,7 +90,11 @@ export default function ProfessionForm({ onSelect }) {
           <input type="radio" value="WFO" name="typeOfWork" id="wfo" />
           <label htmlFor="wfo">Work from office</label>
         </div>
-        <Button>Submit</Button>
+        {isPending && <p>Form is submitting please wait</p>}
+        {!isPending && <Button>Done</Button>}
+        {isError && (
+          <p> {error.info?.message || "there is error in submitting form"}</p>
+        )}
       </FormDiv>
     </>
   );

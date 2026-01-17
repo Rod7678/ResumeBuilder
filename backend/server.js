@@ -59,9 +59,9 @@ app.post("/api/users", async (req, res) => {
       [full_name, email, phone, location, pro_title]
     );
 
-    const userID = result.insertId;
+    const userId = result.insertId;
     const [rows] = await db.query("SELECT * FROM users WHERE id = ? ", [
-      userID,
+      userId,
     ]);
 
     res.status(201).json(rows[0]);
@@ -81,10 +81,12 @@ app.post("/api/professional/latest", async (req, res) => {
       typeOfWork,
     } = req.body;
 
-    const [users] = await db.query("SELECT id FROM users ORDER BY id DESC LIMIT 1");
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1"
+    );
 
-    if(!users.length){
-      return res.status(400).json({message: "No User exist "})
+    if (!users.length) {
+      return res.status(400).json({ message: "No User exist " });
     }
     const userId = users[0].id;
     await db.query(
@@ -105,7 +107,6 @@ app.post("/api/professional/latest", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 app.post("/api/professional/:id", async (req, res) => {
   try {
@@ -132,6 +133,157 @@ app.post("/api/professional/:id", async (req, res) => {
     );
 
     res.status(201).json("professional experience added");
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/education/latest", async (req, res) => {
+  try {
+    const {
+      instituteName,
+      degree,
+      fieldOfStudy,
+      startDate,
+      endDate,
+      grade,
+      schlocation,
+    } = req.body;
+
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1"
+    );
+
+    if (!users.length) {
+      return res.status(400).json({ message: "No user Exist" });
+    }
+
+    const userId = users[0].id;
+
+    await db.query(
+      "INSERT INTO education_details (user_id, institute_name, degree, field_of_study, start_date, end_date, grade, location) VALUES (?,?,?,?,?,?,?,?)",
+      [
+        userId,
+        instituteName,
+        degree,
+        fieldOfStudy,
+        startDate,
+        endDate,
+        grade,
+        schlocation,
+      ]
+    );
+
+    res.status(201).json({ message: "Education Added" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/education/:id", async (req, res) => {
+  try {
+    const {
+      instituteName,
+      degree,
+      fieldOfStudy,
+      startDate,
+      endDate,
+      grade,
+      schlocation,
+    } = req.body;
+
+    const userId = req.params.id;
+
+    await db.query(
+      "INSERT INTO education_details (user_id, institute_name, degree, field_of_study, start_date, end_date, grade, location) VALUES (?,?,?,?,?,?,?,?)",
+      [
+        userId,
+        instituteName,
+        degree,
+        fieldOfStudy,
+        startDate,
+        endDate,
+        grade,
+        schlocation,
+      ]
+    );
+
+    res.status(201).json({ message: "Education Added" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
+app.post("/api/projects/latest", async (req, res) => {
+  try {
+    const {
+      projectTitle,
+      description,
+      technologies,
+      projectLink,
+      startDate,
+      endDate,
+    } = req.body;
+
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1"
+    );
+
+    if (!users.length) {
+      return res.status(400).json({ message: "No user Exist" });
+    }
+
+    const userId = users[0].id;
+
+    await db.query(
+      "INSERT INTO projects (user_id, project_title, description, technologies, project_link, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [
+        userId,
+        projectTitle,
+        description,
+        technologies,
+        projectLink,
+        startDate,
+        endDate,
+      ]
+    );
+
+    res.status(201).json({ message: "Project added" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+app.post("/api/projects/:id", async (req, res) => {
+  try {
+    const {
+      projectTitle,
+      description,
+      technologies,
+      projectLink,
+      startDate,
+      endDate,
+    } = req.body;
+
+    const userId = req.params.id;
+
+    await db.query(
+      "INSERT INTO projects (user_id, project_title, description, technologies, project_link, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [
+        userId,
+        projectTitle,
+        description,
+        technologies,
+        projectLink,
+        startDate,
+        endDate,
+      ]
+    );
+
+    res.status(201).json({ message: "Project added" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
