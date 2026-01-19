@@ -4,6 +4,7 @@ import ProfessionForm from "./Form/ProfessionForm.jsx";
 import EducationForm from "./Form/EducationForm.jsx";
 import Language from "./Form/Language.jsx";
 import ContentList from "./ContentList.jsx";
+import ProjectForm from "./Form/ProjectsForm.jsx";
 import { queryClient, saveUserDetail } from "../utils/http.js";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
@@ -44,6 +45,9 @@ const Main = ({ data, addingContent }) => {
       break;
     case "Languages":
       content = <Language onSelect={handleFormSubmit} />;
+      break;
+    case "Projects":
+      content = <ProjectForm onSelect={handleFormSubmit} />;
       break;
     case "User":
       content = <UserForm onSelect={handleFormSubmit} />;

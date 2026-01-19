@@ -2,13 +2,25 @@ import { useMutation } from "@tanstack/react-query";
 import Button from "../UI/Button.jsx";
 import FormDiv from "../UI/FormDiv.jsx";
 import Input from "./Input.jsx";
+import { queryClient, SaveEducationDetails } from "../../utils/http.js";
 
 const EducationForm = ({ onSelect }) => {
-  // const {mutate} = useMutation({
-  //   mutationFn:
-  // });
+  const {mutate} = useMutation({
+    mutationFn: SaveEducationDetails,
+    onSuccess: () =>{
+      queryClient.invalidateQueries({queryKey: ["users"]});
+    }
+  });
+
+  const handleFormSubmit = (event) =>{
+    event.preventDefault();
+    const fd = new FormData(event.target);
+    const data = Object.fromEntries(fd.entries());
+    mutate(data);
+    onSelect();
+  };
   return (
-    <FormDiv title="Education" onSend={onSelect}>
+    <FormDiv title="Education" onSend={handleFormSubmit}>
       <Input id="degree" name="degree" label="Degree" type="text" />
       <Input
         id="fieldOfStudy"

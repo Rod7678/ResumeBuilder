@@ -88,6 +88,47 @@ export const SaveUserProfessionalData = async (data)=>{
 
 };
 
-export const GetUsersProfessionalData = async () =>{
-    
-}
+
+export const saveProjectDetails = async (data) => {
+    const response = await fetch(`${url}/projects/latest`, {
+        method: "POST",
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    if(!response.ok){
+        const error = new Error("An error occured during sending Project Details");
+        error.code = response.status;
+        error.info = await response.json();
+        throw error;
+    }
+
+    const res = await response.json();
+
+    return res;
+};
+
+
+export const SaveEducationDetails = async (data) => {
+    const response = await fetch(`${url}/education/latest`, {
+        method: "POST",
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    if(!response.ok){
+        const error = new Error("An error occured during sending education details");
+        error.code = response.status;
+        error.info = await response.json();
+        throw error;
+    }
+
+    const res = await response.json();
+
+    return res;
+};
+

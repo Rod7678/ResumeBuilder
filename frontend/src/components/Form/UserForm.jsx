@@ -15,9 +15,9 @@ export default function UserForm({ onSelect }) {
   });
 
   function handleFormSubmit(event) {
+    event.preventDefault();
     const fd = new FormData(event.target);
     const data = Object.fromEntries(fd.entries());
-    event.preventDefault();
     mutate(data);
     onSelect();
   }
