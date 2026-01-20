@@ -6,6 +6,7 @@ export default function Input({ id, label, type, ...props }) {
     case "phone":
     case "date":
     case "radio":
+    case "url":
       content = (
         <input
           id={id}
@@ -26,7 +27,14 @@ export default function Input({ id, label, type, ...props }) {
       );
       break;
     default:
-      content = "input";
+      content = (
+        <input
+          id={id}
+          {...props}
+          type={type}
+          className="p-7 bg-black rounded-md text-gray-200"
+        />
+      );
   }
   return (
     <div className="control">

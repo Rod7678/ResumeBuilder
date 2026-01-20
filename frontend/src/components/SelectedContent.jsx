@@ -2,17 +2,22 @@ const SELECTED_FORM = [
   {
     id: 1,
     Title: "Professional Experience",
-    fn: "fetchProfExp",
   },
   {
     id: 2,
     Title: "Education",
-    fn: "fetchEdu",
   },
   {
     id: 3,
     Title: "Languages",
-    fn: "fetchLang",
+  },
+  {
+    id: 4,
+    Title: "Projects",
+  },
+  {
+    id: 3,
+    Title: "Certificates",
   },
 ];
 const SelectedContent = ({ data = [], onEdit }) => {
@@ -25,11 +30,11 @@ const SelectedContent = ({ data = [], onEdit }) => {
         if (!type) return null;
         return (
           <li key={type.id} className="py-4">
-            <div className="user-detail bg-black p-8 rounded-xl text-start">
+            <div className="user-detail bg-white p-8 rounded-xl text-start">
               <div className="content-title flex justify-between items-center">
-                <h3 className="font-bold text-xl">{type.Title}</h3>
+                <h3 className="text-zinc-950 font-bold text-2xl">{type.Title}</h3>
                 <button
-                  className="p-2 bg-gray-950 rounded-full h-fit w-fit m-0"
+                  className="bg-gray-950 rounded-full h-10 w-10 m-0"
                   onClick={() => onEdit(type.Title)}
                 >
                   <i className="fa-solid fa-pen-to-square"></i>

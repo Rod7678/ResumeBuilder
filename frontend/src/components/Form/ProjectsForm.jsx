@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import FormDiv from "../UI/FormDiv";
 import { queryClient, saveProjectDetails } from "../../utils/http";
+import Input from "./Input.jsx";
+import Button from "../UI/Button.jsx";
 
 const ProjectForm = ({ onSelect }) => {
   const { mutate, isPending, isError, error } = useMutation({
@@ -52,7 +54,7 @@ const ProjectForm = ({ onSelect }) => {
           id="projectLink"
           name="projectLink"
           label="Add Link of project"
-          type="link"
+          type="url"
         />
 
         {isPending && <p>Form is submitting please wait</p>}
