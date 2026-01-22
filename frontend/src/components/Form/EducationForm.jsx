@@ -8,7 +8,7 @@ const EducationForm = ({ onSelect }) => {
   const {mutate} = useMutation({
     mutationFn: SaveEducationDetails,
     onSuccess: () =>{
-      queryClient.invalidateQueries({queryKey: ["users"]});
+      queryClient.invalidateQueries({queryKey: ["latestResume"]});
     }
   });
 

@@ -3,6 +3,7 @@ import Main from "../Main.jsx";
 import FormList from "../FormList.jsx";
 import Modal from "../UI/Modal";
 import Button from "../UI/Button.jsx";
+import ResumePreview from "../ResumePreview/ResumePreview.jsx";
 
 const MainBody = () => {
   const [isAddContent, setIsAddContent] = useState(false);
@@ -29,7 +30,7 @@ const MainBody = () => {
       <section className="flex gap-4">
         <div className="resumePreview w-2/3 text-black p-2">
           <div className="resume  bg-amber-50 h-dvh rounded-xl">
-
+            <ResumePreview/>
           </div>
         </div>
         <div className="content-body w-1/3">

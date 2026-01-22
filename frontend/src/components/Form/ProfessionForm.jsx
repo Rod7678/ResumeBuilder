@@ -11,7 +11,7 @@ export default function ProfessionForm({ onSelect }) {
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: SaveUserProfessionalData,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["professional"] });
+      queryClient.invalidateQueries({ queryKey: ["latestResume"] });
     },
   });
   function handleFormSubmit(event) {

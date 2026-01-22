@@ -8,7 +8,7 @@ const ProjectForm = ({ onSelect }) => {
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: saveProjectDetails,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["latestResume"] });
       // navigate('/users');
     },
   });

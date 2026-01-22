@@ -9,7 +9,7 @@ export default function UserForm({ onSelect }) {
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: saveUserDetail,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["latestResume"] });
       // navigate('/users');
     },
   });

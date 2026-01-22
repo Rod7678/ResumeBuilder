@@ -25,7 +25,7 @@ app.get("/api/users", async (req, res) => {
 app.get("/api/users/latest", async (req, res) => {
   try {
     const [rows] = await db.query(
-      "SELECT * FROM users ORDER BY id DESC LIMIT 1"
+      "SELECT * FROM users ORDER BY id DESC LIMIT 1",
     );
     if (!rows.length) {
       return res.status(404).json({ message: "user not found" });
@@ -56,7 +56,7 @@ app.post("/api/users", async (req, res) => {
     const { full_name, email, phone, location, pro_title } = req.body;
     const [result] = await db.query(
       "INSERT INTO users (full_name, email, phone, location, pro_title) VALUES (?,?,?,?,?)",
-      [full_name, email, phone, location, pro_title]
+      [full_name, email, phone, location, pro_title],
     );
 
     const userId = result.insertId;
@@ -82,7 +82,7 @@ app.post("/api/professional/latest", async (req, res) => {
     } = req.body;
 
     const [users] = await db.query(
-      "SELECT id FROM users ORDER BY id DESC LIMIT 1"
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
 
     if (!users.length) {
@@ -99,7 +99,7 @@ app.post("/api/professional/latest", async (req, res) => {
         jobLocation,
         typeOfWork,
         currentlyWorking,
-      ]
+      ],
     );
 
     res.status(201).json("professional experience added");
@@ -129,7 +129,7 @@ app.post("/api/professional/:id", async (req, res) => {
         jobLocation,
         typeOfWork,
         currentlyWorking,
-      ]
+      ],
     );
 
     res.status(201).json("professional experience added");
@@ -151,7 +151,7 @@ app.post("/api/education/latest", async (req, res) => {
     } = req.body;
 
     const [users] = await db.query(
-      "SELECT id FROM users ORDER BY id DESC LIMIT 1"
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
 
     if (!users.length) {
@@ -171,7 +171,7 @@ app.post("/api/education/latest", async (req, res) => {
         endDate,
         grade,
         schlocation,
-      ]
+      ],
     );
 
     res.status(201).json({ message: "Education Added" });
@@ -205,7 +205,7 @@ app.post("/api/education/:id", async (req, res) => {
         endDate,
         grade,
         schlocation,
-      ]
+      ],
     );
 
     res.status(201).json({ message: "Education Added" });
@@ -213,8 +213,6 @@ app.post("/api/education/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-
 
 app.post("/api/projects/latest", async (req, res) => {
   try {
@@ -228,7 +226,7 @@ app.post("/api/projects/latest", async (req, res) => {
     } = req.body;
 
     const [users] = await db.query(
-      "SELECT id FROM users ORDER BY id DESC LIMIT 1"
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
 
     if (!users.length) {
@@ -247,7 +245,7 @@ app.post("/api/projects/latest", async (req, res) => {
         projectLink,
         startDate,
         endDate,
-      ]
+      ],
     );
 
     res.status(201).json({ message: "Project added" });
@@ -255,7 +253,6 @@ app.post("/api/projects/latest", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 app.post("/api/projects/:id", async (req, res) => {
   try {
@@ -280,10 +277,79 @@ app.post("/api/projects/:id", async (req, res) => {
         projectLink,
         startDate,
         endDate,
-      ]
+      ],
     );
 
     res.status(201).json({ message: "Project added" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/resume/latest", async (req, res) => {
+  try {
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+    
+    if (!users.length) {
+      return res.status(400).json({ message: "No user Exist" });
+    }
+
+    const userId = users[0].id;
+
+    const [[user]] = await db.query("SELECT * FROM users WHERE id = ?", [
+      userId,
+    ]);
+    const [professional] = await db.query(
+      "SELECT * FROM professional_experience WHERE user_id = ?",
+      [userId],
+    );
+    const [education] = await db.query(
+      "SELECT * FROM education_details WHERE user_id = ?",
+      [userId],
+    );
+    const [proects] = await db.query(
+      "SELECT * FROM projects WHERE user_id = ?",
+      [userId],
+    );
+
+    res.json({
+      user,
+      professional,
+      education,
+      proects,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+app.get("/api/resume/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const [[user]] = await db.query("SELECT * FROM users WHERE id = ?", [
+      userId,
+    ]);
+    const [professional] = await db.query(
+      "SELECT * FROM professional_experience WHERE user_id = ?",
+      [userId],
+    );
+    const [education] = await db.query(
+      "SELECT * FROM education_details WHERE user_id = ?",
+      [userId],
+    );
+    const [proects] = await db.query(
+      "SELECT * FROM projects WHERE user_id = ?",
+      [userId],
+    );
+
+    res.json({
+      user,
+      professional,
+      education,
+      proects,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
