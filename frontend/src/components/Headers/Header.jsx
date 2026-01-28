@@ -1,5 +1,6 @@
 import siteLogo from "../../assets/Logo.png";
-import Button from "../UI/Button";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ResumePDF from "./ResumePDF";
 import "./Header.css";
 
 // async function fetched() {
@@ -10,14 +11,21 @@ import "./Header.css";
 
 //   console.log(response.json());
 // }
-export default function Header() {
+export default function Header({ resume }) {
   // fetched();
   return (
     <header>
       <img src={siteLogo} alt="" />
-      <div className="getStarted">
-        <Button className="get-started">Get Started</Button>
-      </div>
+      <PDFDownloadLink
+        document={<ResumePDF resume={resume} />}
+        fileName="resume.pdf"
+      >
+        {({ loading }) => (
+          <button className="btn-primary">
+            {loading ? "Preparing..." : "Download Resume"}
+          </button>
+        )}
+      </PDFDownloadLink>
     </header>
   );
 }

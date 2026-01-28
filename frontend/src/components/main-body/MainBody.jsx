@@ -4,8 +4,10 @@ import FormList from "../FormList.jsx";
 import Modal from "../UI/Modal";
 import Button from "../UI/Button.jsx";
 import ResumePreview from "../ResumePreview/ResumePreview.jsx";
+import { useQuery } from "@tanstack/react-query";
 
 const MainBody = () => {
+   
   const [isAddContent, setIsAddContent] = useState(false);
   const [isContentAdded, setIsContentAdded] = useState([]);
   const handleAddContent = () => {
@@ -15,11 +17,11 @@ const MainBody = () => {
     setIsContentAdded((preContent) => [selected, ...preContent]);
     setIsAddContent(false);
   };
-
+  
   const handleModalClose = () => {
     setIsAddContent(false);
   };
-
+  
   return (
     <>
       {isAddContent && (
