@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import FormDiv from "../UI/FormDiv";
-import Input from "./Input";
+import Input from "../UI/Input.jsx";
 import Button from "../UI/Button";
 
 const Language = ({ onSelect }) => {

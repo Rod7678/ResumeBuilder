@@ -1,4 +1,4 @@
-import Input from "./Input.jsx";
+import Input from "../UI/Input.jsx";
 import "./Form.css";
 import Button from "../UI/Button.jsx";
 import FormDiv from "../UI/FormDiv.jsx";

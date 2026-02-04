@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import FormDiv from "../UI/FormDiv";
 import { queryClient, saveProjectDetails } from "../../utils/http";
-import Input from "./Input.jsx";
+import Input from "../UI/Input.jsx";
 import Button from "../UI/Button.jsx";
 
 const ProjectForm = ({ onSelect }) => {
