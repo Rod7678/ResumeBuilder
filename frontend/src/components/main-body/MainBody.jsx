@@ -32,7 +32,7 @@ const MainBody = () => {
       <section className="flex gap-4">
         <div className="resumePreview w-2/3 text-black p-2">
           <div className="resume  bg-amber-50 h-dvh rounded-xl">
-            <ResumePreview/>
+            <ResumePreview />
           </div>
         </div>
         <div className="content-body w-1/3">

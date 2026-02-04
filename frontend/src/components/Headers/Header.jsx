@@ -1,6 +1,6 @@
 import siteLogo from "../../assets/Logo.png";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import ResumePDF from "./ResumePDF";
+import ResumePDF from "../ResumePdf";
 import "./Header.css";
 
 // async function fetched() {
