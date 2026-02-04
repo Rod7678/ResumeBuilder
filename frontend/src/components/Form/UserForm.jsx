@@ -25,18 +25,19 @@ export default function UserForm({ onSelect }) {
 
   return (
     <FormDiv title={"Edit personal details"} onSend={handleFormSubmit}>
-      <Input id="fullname" name="full_name" label="Full name" type="text" />
-      <Input id="title" name="title" label="Professional title" type="text" />
-      <Input id="email" name="email" label="Enter your email" type="email" />
+      <Input id="fullname" name="full_name" label="Full name" type="text" placeholder="eg. Rohit Sharma"/>
+      <Input id="title" name="title" label="Professional title" type="text" placeholder="eg. Software Developer"/>
+      <Input id="email" name="email" label="Enter your email" type="email" placeholder="eg. rohit@example.com"/>
       <Input
         id="phone"
         name="phone"
         label="Enter your phone"
         type="phone"
+        placeholder ="eg. 0123456789"
         minLength={10}
         maxLength={10}
       />
-      <Input id="location" name="location" label="Location" type="text" />
+      <Input id="location" name="location" label="Location" type="text" placeholder="eg. A-30, A-block, New York Street, Mumbai-01, India"/>
       {isPending && <p>Form is submitting please wait</p>}
       {!isPending && <Button>Done</Button>}
       {isError && <p> {error.info?.message || "there is error in submitting form"}</p>}

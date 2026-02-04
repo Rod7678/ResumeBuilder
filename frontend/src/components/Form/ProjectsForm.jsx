@@ -28,18 +28,21 @@ const ProjectForm = ({ onSelect }) => {
           name="projectTitle"
           label="Project Title"
           type="text"
-        />
+          placeholder="eg. Resume Builder"
+          />
         <Input
           id="description"
           name="description"
           label="Project Description"
           type="textarea"
-        />
+          placeholder="eg. Build to showcase my skills ..."
+          />
         <Input
           id="technologies"
           name="technologies"
           label="Technologies used"
           type="text"
+          placeholder="eg. React.js, Tailwind"
         />
         <div className="control-row">
           <Input
@@ -47,14 +50,16 @@ const ProjectForm = ({ onSelect }) => {
             name="startDate"
             label="Start Date"
             type="date"
-          />
-          <Input id="endDate" name="endDate" label="End Date" type="date" />
+            placeholder="eg. 01/01/2026"
+            />
+          <Input id="endDate" name="endDate" label="End Date" type="date" placeholder="eg. 02/02/2026"/>
         </div>
         <Input
           id="projectLink"
           name="projectLink"
           label="Add Link of project"
           type="url"
+          placeholder="eg. http://resumeBuilder.com"
         />
 
         {isPending && <p>Form is submitting please wait</p>}

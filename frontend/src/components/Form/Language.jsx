@@ -4,11 +4,36 @@ import Input from "./Input";
 import Button from "../UI/Button";
 
 const Language = ({ onSelect }) => {
-    const navigate = useNavigate();
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationFn: SaveEducationDetails,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["latestResume"] });
+    },
+  });
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const fd = new FormData(event.target);
+    const data = Object.fromEntries(fd.entries());
+    mutate(data);
+    onSelect();
+  };
+  
   return (
-    <FormDiv title="Languages" onSend={onSelect}>
-      <Input id="lan" name="lan" label="Language" type="text" />
-      <textarea name="additionalInfo" id="addInfo"></textarea>
+    <FormDiv title="Languages" onSend={handleFormSubmit}>
+      <Input
+        id="lan"
+        name="lan"
+        label="Language"
+        type="text"
+        placeholder="eg. Marathi"
+      />
+      <Input
+        name="additionalInfo"
+        id="addInfo"
+        type="textarea"
+        placeholder="eg. I have proficient experience in marathi"
+      />
       <label htmlFor="languageLevel"></label>
       <select name="languageLevel" id="languageLevel">
         <option value="basic">Basic</option>
@@ -17,7 +42,11 @@ const Language = ({ onSelect }) => {
         <option value="fluent">Fluent</option>
         <option value="natBil">Native/Bilingual</option>
       </select>
-      <Button>Done</Button>
+      {isPending && <p>Form is submitting please wait</p>}
+      {!isPending && <Button>Done</Button>}
+      {isError && (
+        <p> {error.info?.message || "there is error in submitting form"}</p>
+      )}
     </FormDiv>
   );
 };

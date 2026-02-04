@@ -40,12 +40,13 @@ export default function ProfessionForm({ onSelect }) {
   return (
     <>
       <FormDiv title={"Add Professional Experience"} onSend={handleFormSubmit}>
-        <Input id="jobrole" name="jobrole" label="job role" type="text" />
+        <Input id="jobrole" name="jobrole" label="job role" type="text" placeholder="eg. Frontend Developer"/>
         <Input
           id="joiningDate"
           name="joiningDate"
           label="Enter your joining date"
           type="date"
+          placeholder="eg. 01/01/2024"
         />
         {isCurrentlyWorking === "NO" ? (
           <div className="radio-button text-start">
