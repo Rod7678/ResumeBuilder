@@ -30,12 +30,12 @@ const MainBody = () => {
         </Modal>
       )}
       <section className="flex gap-4">
-        <div className="resumePreview w-2/3 text-black p-2">
+        <div className="resumePreview w-[21cm] text-black">
           <div className="resume  bg-amber-50 h-dvh rounded-xl">
             <ResumePreview />
           </div>
         </div>
-        <div className="content-body w-1/3">
+        <div className="content-body w-full">
           <div className="selected-content p-2">
             <Main data={isContentAdded} addingContent={isAddContent} />
           </div>

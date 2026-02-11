@@ -39,7 +39,7 @@ export default function UserForm({ onSelect }) {
       />
       <Input id="location" name="location" label="Location" type="text" placeholder="eg. A-30, A-block, New York Street, Mumbai-01, India"/>
       {isPending && <p>Form is submitting please wait</p>}
-      {!isPending && <Button>Done</Button>}
+      {!isPending && <Button className="mt-5">Done</Button>}
       {isError && <p> {error.info?.message || "there is error in submitting form"}</p>}
     </FormDiv>
   );

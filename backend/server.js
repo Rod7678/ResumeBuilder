@@ -324,6 +324,7 @@ app.get("/api/resume/latest", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 app.get("/api/resume/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;

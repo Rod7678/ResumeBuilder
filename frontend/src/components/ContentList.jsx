@@ -14,10 +14,9 @@ const ContentList = ({ onEdit, data }) => {
     queryKey: ["users"],
     queryFn: fetchLatestUser,
   });
-
   if (isPending) {
     return <p>Loading user data...</p>;
-  }
+  } 
 
   if (isError) {
     return <p>{error.message}</p>;
