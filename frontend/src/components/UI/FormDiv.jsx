@@ -9,7 +9,7 @@ export default function FormDiv({ children, title, onSend}) {
             focus-within:shadow-[0_0_0_1px_rgba(59,130,246,0.35),0_25px_45px_-15px_rgba(59,130,246,0.4)]
             focus-within:-translate-y-0.5">
       <form onSubmit={onSend}>
-        <h2 className="text-xl text-zinc-900 ">{title}</h2>
+        <h2 className="text-xl font-bold text-zinc-900 ">{title}</h2>
         {children}
       </form>
     </div>
