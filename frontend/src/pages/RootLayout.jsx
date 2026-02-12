@@ -4,13 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchLatestResume } from "../utils/http.js";
 
 export default function RootLayout() {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["latestResume"],
-    queryFn: fetchLatestResume
-  });
+  // const { data, isLoading, isError } = useQuery({
+  //   queryKey: ["latestResume"],
+  //   queryFn: fetchLatestResume
+  // });
   return (
     <>
-      <Header resume={data}/>
+      <Header/>
       <Outlet />
     </>
   );

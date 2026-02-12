@@ -2,22 +2,15 @@ import siteLogo from "../../assets/Logo.png";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ResumePDF from "../ResumePdf";
 import "./Header.css";
+import { useUser } from "../../context/UserContext";
 
-// async function fetched() {
-//   const response = await fetch("http://localhost:3000");
-//   if (!response.ok) {
-//     new Response({ message: "error to fetch" }, { status: 400 });
-//   }
-
-//   console.log(response.json());
-// }
-export default function Header({ resume }) {
-  // fetched();
+export default function Header() {
+  const { user } = useUser();
   return (
     <header>
       <img src={siteLogo} alt="" />
       <PDFDownloadLink
-        document={<ResumePDF resume={resume} />}
+        document={<ResumePDF user={user} />}
         fileName="resume.pdf"
       >
         {({ loading }) => (

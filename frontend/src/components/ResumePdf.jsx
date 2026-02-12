@@ -19,8 +19,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const ResumePDF = ({ resume }) => {
-  const { user, professional, education, projects } = resume;
+const ResumePDF = ({ user }) => {
+  // const { user, professional, education, projects } = resume;
+  if(!user) null;
 
   return (
     <Document>
@@ -32,27 +33,27 @@ const ResumePDF = ({ resume }) => {
 
         <View style={styles.section}>
           <Text style={styles.title}>Professional Experience</Text>
-          {professional.map(p => (
+          {/* {professional.map(p => (
             <Text key={p.id}>
               {p.job_role} ({p.joining_date})
             </Text>
-          ))}
+          ))} */}
         </View>
 
         <View style={styles.section}>
           <Text style={styles.title}>Education</Text>
-          {education.map(e => (
+          {/* {education.map(e => (
             <Text key={e.id}>
               {e.degree} - {e.institute_name}
             </Text>
-          ))}
+          ))} */}
         </View>
 
         <View style={styles.section}>
           <Text style={styles.title}>Projects</Text>
-          {projects.map(pr => (
+          {/* {projects.map(pr => (
             <Text key={pr.id}>{pr.project_title}</Text>
-          ))}
+          ))} */}
         </View>
       </Page>
     </Document>

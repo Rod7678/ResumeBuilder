@@ -1,17 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchLatestResume } from "../../utils/http";
+import { useUser } from "../../context/UserContext";
 
 const ResumePreview = () => {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["latestResume"],
-    queryFn: fetchLatestResume,
-  });
+  // const { data, isLoading, isError, error } = useQuery({
+  //   queryKey: ["latestResume"],
+  //   queryFn: fetchLatestResume,
+  // });
 
-  if (!data) return null;
+  const { user, loading: isLoading } = useUser();
+  if (!user) return null;
   if (isLoading) return <p>Loading Resume Preview...</p>;
-  if (isError) return <p>{error.message}</p>;
+  // if (isError) return <p>{error.message}</p>;
 
-  const { user, professional, education, projects } = data;
+  // const { user, professional, education, projects } = data;
 
   return (
     <div className="resume-preview">
@@ -24,32 +26,38 @@ const ResumePreview = () => {
         </div>
       </div>
 
-      <div className="professional-experience">
-        <h3>Professional Experience</h3>
-        {professional &&
-          professional.map((p) => (
+      
+      {/* {professional && (
+        <div className="professional-experience">
+          <h3>Professional Experience</h3>
+          {professional.map((p) => (
             <div key={p.id}>
               <p>{p.jobrole}</p>
               <p>{p.joiningDate}</p>
             </div>
           ))}
-      </div>
+        </div>
+      )}
 
-      <div className="education">
-        <h3>Education</h3>
-        {education &&
-          education.map((e) => (
+      {education && (
+        <div className="education">
+          <h3>Education</h3>
+          {education.map((e) => (
             <p key={e.id}>
               {e.degree} - {e.instituteName}
             </p>
           ))}
-      </div>
+        </div>
+      )}
 
-      <div className="projects">
-        <h3>Projects</h3>
-        {projects &&
-          projects.map((pr) => <p key={pr.id}>{pr.project_title}</p>)}
-      </div>
+      {projects && (
+        <div className="projects">
+          <h3>Projects</h3>
+          {projects.map((pr) => (
+            <p key={pr.id}>{pr.project_title}</p>
+          ))}
+        </div>
+      )} */}
     </div>
   );
 };
