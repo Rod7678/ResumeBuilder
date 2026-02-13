@@ -28,7 +28,7 @@ export const saveUserDetail = async (data) => {
   }
 
   const user = await response.json();
-
+  
   return user;
 };
 

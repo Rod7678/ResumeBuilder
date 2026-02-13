@@ -8,6 +8,7 @@ import ProjectForm from "./Form/ProjectsForm.jsx";
 import { queryClient, saveUserDetail } from "../utils/http.js";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
+import { useUser } from "../context/UserContext.jsx";
 
 // const extractedForm = (data, updateFormInputState) => {
 //   updateFormInputState((prevData) => ({
@@ -18,13 +19,19 @@ import { useNavigate } from "react-router";
 
 const Main = ({ data, addingContent }) => {
   // const navigate = useNavigate();
+  const {user} = useUser();
+  console.log(`"main content ":${data}`);
+  
   const [selectedType, setSelectedType] = useState(data?.[0]);
   const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
-    setIsEdit(!addingContent);
     setSelectedType(data?.[0]);
-  }, [addingContent, data]);
+    if(!user){
+      setIsEdit(!addingContent);
+    }
+    setIsEdit(false)
+  }, [addingContent, data, user]);
 
   function handleFormSubmit(event) {
     setIsEdit(false);

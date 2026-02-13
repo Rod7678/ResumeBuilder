@@ -22,8 +22,9 @@ const normalizeUser = (data) => {
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState();
-  const [loading, setLoading] = useState(true)
-
+  const [loading, setLoading] = useState(true);
+  const [addedForms, setAddedForms] = useState();
+ 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -38,13 +39,18 @@ export const UserProvider = ({ children }) => {
   }, []);
   const login = (userData) => {};
 
+  const addForm = (formList) => {
+    setAddedForms(formList);
+    localStorage.setItem("forms", JSON.stringify(formList))
+  };
+
   const updateUser = (userData) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
   return (
-    <UserContext.Provider value={{ user, login, updateUser, loading }}>
+    <UserContext.Provider value={{ user, login, updateUser, loading, addedForms, addForm }}>
       {children}
     </UserContext.Provider>
   );

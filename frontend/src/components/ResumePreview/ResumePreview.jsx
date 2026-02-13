@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchLatestResume } from "../../utils/http";
 import { useUser } from "../../context/UserContext";
+import {Mail, MapPin, Phone} from "lucide-react"
 
 const ResumePreview = () => {
   // const { data, isLoading, isError, error } = useQuery({
@@ -11,18 +12,15 @@ const ResumePreview = () => {
   const { user, loading: isLoading } = useUser();
   if (!user) return null;
   if (isLoading) return <p>Loading Resume Preview...</p>;
-  // if (isError) return <p>{error.message}</p>;
-
-  // const { user, professional, education, projects } = data;
 
   return (
     <div className="resume-preview">
       <div className="user-detail flex flex-col text-center justify-center">
-        <h2 className="text-2xl font-bold">{user.full_name}</h2>
+        <h2 className="text-3xl font-semibold capitalize pb-2">{user.full_name}</h2>
         <div className="flex flex-row w-full justify-center max-w-7xl gap-4">
-          <p>{user.email}</p>
-          <p>{user.phone}</p>
-          <p>{user.location}</p>
+          <p className="flex gap-1 items-center"><Mail size={20}/>{user.email}</p>
+          <p className="flex gap-1 items-center"><Phone size={18}/>{user.phone}</p>
+          <p className="flex gap-1 items-center"><MapPin size={18}/>{user.location}</p>
         </div>
       </div>
 
