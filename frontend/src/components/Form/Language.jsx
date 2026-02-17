@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import FormDiv from "../UI/FormDiv";
 import Input from "../UI/Input.jsx";
 import Button from "../UI/Button";
+import { SaveEducationDetails } from "../../utils/http.js";
 
 const Language = ({ onSelect }) => {
   const { mutate, isPending, isError, error } = useMutation({

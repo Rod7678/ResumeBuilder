@@ -1,26 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchLatestUser, fetchUserDetail } from "../utils/http.js";
 import SelectedContent from "./SelectedContent.jsx";
+import { useUser } from "../context/UserContext.jsx";
 
 const ContentList = ({ onEdit, data }) => {
-  console.log(data);
+  // console.log(data);
   // const userId = 1;
-  const {
-    data: userData,
-    isPending,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["users"],
-    queryFn: fetchLatestUser,
-  });
+  // const {
+  //   data: userData,
+  //   isPending,
+  //   isError,
+  //   error,
+  // } = useQuery({
+  //   queryKey: ["users"],
+  //   queryFn: fetchLatestUser,
+  // });
+  const { user: userData, loading: isPending } = useUser();
+
   if (isPending) {
     return <p>Loading user data...</p>;
   } 
 
-  if (isError) {
-    return <p>{error.message}</p>;
-  }
+  // if (isError) {
+  //   return <p>{error.message}</p>;
+  // }
   let addedList = <SelectedContent data={data} onEdit={onEdit} />;
 
   return (

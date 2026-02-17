@@ -17,32 +17,27 @@ import { useUser } from "../context/UserContext.jsx";
 //   }));
 // };
 
-const Main = ({ data, addingContent }) => {
+const Main = ({ addingContent }) => {
   // const navigate = useNavigate();
-  const {user} = useUser();
-  console.log(`"main content ":${data}`);
+  const { activeForm, setActiveForm, addedForms: data , isEditing: isEdit, setIsEditing: setIsEdit } = useUser();
+
+  const selectedType = activeForm || data?.[0] || "User";
+ 
+
   
-  const [selectedType, setSelectedType] = useState(data?.[0]);
-  const [isEdit, setIsEdit] = useState(false);
 
-  useEffect(() => {
-    setSelectedType(data?.[0]);
-    if(!user){
-      setIsEdit(!addingContent);
-    }
-    setIsEdit(false)
-  }, [addingContent, data, user]);
-
-  function handleFormSubmit(event) {
+  function handleFormSubmit() {
     setIsEdit(false);
   }
 
   const handleEdit = (editType) => {
+    setActiveForm(editType);
     setIsEdit(true);
-    setSelectedType(editType);
   };
+
   let content = null;
 
+  console.log("selected type: ", selectedType);
   switch (selectedType) {
     case "Professional Experience":
       content = <ProfessionForm onSelect={handleFormSubmit} />;

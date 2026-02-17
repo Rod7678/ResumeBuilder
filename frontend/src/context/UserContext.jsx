@@ -21,9 +21,11 @@ const normalizeUser = (data) => {
 };
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [addedForms, setAddedForms] = useState();
+  const [addedForms, setAddedForms] = useState([]);
+  const [activeForm, setActiveForm] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
  
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -39,10 +41,16 @@ export const UserProvider = ({ children }) => {
   }, []);
   const login = (userData) => {};
 
-  const addForm = (formList) => {
-    setAddedForms(formList);
-    localStorage.setItem("forms", JSON.stringify(formList))
-  };
+  const addForm = (updater) => {
+  setAddedForms(prev => {
+    const updated =
+      typeof updater === "function" ? updater(prev) : updater;
+
+    localStorage.setItem("forms", JSON.stringify(updated));
+
+    return updated;
+  });
+};
 
   const updateUser = (userData) => {
     setUser(userData);
@@ -50,7 +58,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, updateUser, loading, addedForms, addForm }}>
+    <UserContext.Provider value={{ user, login, updateUser, loading, addedForms, addForm , activeForm, setActiveForm, isEditing, setIsEditing}}>
       {children}
     </UserContext.Provider>
   );
