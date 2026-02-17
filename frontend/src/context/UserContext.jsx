@@ -26,7 +26,7 @@ export const UserProvider = ({ children }) => {
   const [addedForms, setAddedForms] = useState([]);
   const [activeForm, setActiveForm] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
- 
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -37,20 +37,21 @@ export const UserProvider = ({ children }) => {
         localStorage.removeItem("user");
       }
     }
-    setLoading(false)
+    setLoading(false);
   }, []);
   const login = (userData) => {};
 
   const addForm = (updater) => {
-  setAddedForms(prev => {
-    const updated =
-      typeof updater === "function" ? updater(prev) : updater;
+    setAddedForms((prev) => {
+      const updated = typeof updater === "function" ? updater(prev) : updater;
 
-    localStorage.setItem("forms", JSON.stringify(updated));
+      const unique = [...new Set(updated)];
 
-    return updated;
-  });
-};
+      localStorage.setItem("forms", JSON.stringify(unique));
+
+      return unique;
+    });
+  };
 
   const updateUser = (userData) => {
     setUser(userData);
@@ -58,7 +59,20 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, updateUser, loading, addedForms, addForm , activeForm, setActiveForm, isEditing, setIsEditing}}>
+    <UserContext.Provider
+      value={{
+        user,
+        login,
+        updateUser,
+        loading,
+        addedForms,
+        addForm,
+        activeForm,
+        setActiveForm,
+        isEditing,
+        setIsEditing,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

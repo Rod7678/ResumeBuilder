@@ -1,3 +1,5 @@
+import { useUser } from "../context/UserContext";
+
 const SELECTED_FORM = [
   {
     id: 1,
@@ -20,7 +22,8 @@ const SELECTED_FORM = [
     Title: "Certificates",
   },
 ];
-const SelectedContent = ({ data = [], onEdit }) => {
+const SelectedContent = ({ onEdit }) => {
+  const {addedForms: data} = useUser();
   const uniqueSections = [...new Set(data)];
 
   return (

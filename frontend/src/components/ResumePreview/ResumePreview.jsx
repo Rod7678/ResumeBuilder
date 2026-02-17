@@ -9,9 +9,14 @@ const ResumePreview = () => {
   //   queryFn: fetchLatestResume,
   // });
 
-  const { user, loading: isLoading } = useUser();
+  const { user, loading: isLoading, addedForms } = useUser();
   if (!user) return null;
   if (isLoading) return <p>Loading Resume Preview...</p>;
+  console.log("added forms in preview: ", addedForms);
+  const hasSection = (section) => addedForms?.includes(section);
+  const professional = hasSection("Professional Experience") ? user.professional_experience : null;
+  const education = hasSection("Education") ? user.education : null;
+  const projects = hasSection("Projects") ? user.projects : null;
 
   return (
     <div className="resume-preview">
@@ -25,7 +30,7 @@ const ResumePreview = () => {
       </div>
 
       
-      {/* {professional && (
+      {professional && (
         <div className="professional-experience">
           <h3>Professional Experience</h3>
           {professional.map((p) => (
@@ -55,7 +60,7 @@ const ResumePreview = () => {
             <p key={pr.id}>{pr.project_title}</p>
           ))}
         </div>
-      )} */}
+      )}
     </div>
   );
 };
