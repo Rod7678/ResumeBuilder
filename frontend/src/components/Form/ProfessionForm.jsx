@@ -49,7 +49,7 @@ export default function ProfessionForm({ onSelect }) {
         />
         {isCurrentlyWorking === "NO" ? (
           <div className="radio-button text-start">
-            <p className="text-start">currently working</p>
+            <p className="text-zinc-700 text-[16px] text-start font-medium py-2">currently working</p>
             <input
               type="radio"
               value="NO"
@@ -58,7 +58,7 @@ export default function ProfessionForm({ onSelect }) {
               checked={isCurrentlyWorking === "NO"}
               id="wokingYes"
             />
-            <label htmlFor="wokingYes">Yes</label>
+            <label className="text-zinc-700 text-[16px] text-start font-medium py-2" htmlFor="wokingYes">Yes</label>
             <input
               type="radio"
               value="YES"
@@ -67,7 +67,7 @@ export default function ProfessionForm({ onSelect }) {
               checked={isCurrentlyWorking === "YES"}
               id="wokingNo"
             />
-            <label htmlFor="wokingNo">No</label>
+            <label className="text-zinc-700 text-[16px] text-start font-medium py-2" htmlFor="wokingNo">No</label>
           </div>
         ) : (
           <Input
@@ -84,11 +84,11 @@ export default function ProfessionForm({ onSelect }) {
           type="text"
         />
         <div className="radio-button text-start">
-          <p>choose working type</p>
+          <p className="text-zinc-700 text-[16px] text-start font-medium py-2">choose working type</p>
           <input type="radio" value="WFH" name="typeOfWork" id="wfh" />
-          <label htmlFor="wfh">Work from home</label>
+          <label className="text-zinc-700 text-[16px] text-start font-medium py-2" htmlFor="wfh">Work from home</label>
           <input type="radio" value="WFO" name="typeOfWork" id="wfo" />
-          <label htmlFor="wfo">Work from office</label>
+          <label className="text-zinc-700 text-[16px] text-start font-medium py-2" htmlFor="wfo">Work from office</label>
         </div>
         {isPending && <p>Form is submitting please wait</p>}
         {!isPending && <Button>Done</Button>}

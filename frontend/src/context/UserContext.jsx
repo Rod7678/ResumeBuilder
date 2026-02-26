@@ -39,6 +39,7 @@ export const UserProvider = ({ children }) => {
     }
     setLoading(false);
   }, []);
+  
   const login = (userData) => {};
 
   const addForm = (updater) => {

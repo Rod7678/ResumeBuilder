@@ -4,31 +4,31 @@ import { useUser } from "../../context/UserContext";
 import {Mail, MapPin, Phone} from "lucide-react"
 
 const ResumePreview = () => {
-  // const { data, isLoading, isError, error } = useQuery({
-  //   queryKey: ["latestResume"],
-  //   queryFn: fetchLatestResume,
-  // });
+  const { data: resumeData } = useQuery({
+    queryKey: ["latestResume"],
+    queryFn: fetchLatestResume,
+  });
 
   const { user, loading: isLoading, addedForms } = useUser();
   if (!user) return null;
   if (isLoading) return <p>Loading Resume Preview...</p>;
   console.log("added forms in preview: ", addedForms);
   const hasSection = (section) => addedForms?.includes(section);
-  const professional = hasSection("Professional Experience") ? user.professional_experience : null;
-  const education = hasSection("Education") ? user.education : null;
-  const projects = hasSection("Projects") ? user.projects : null;
-
+  const professional = hasSection("Professional Experience") ? resumeData?.professional : null;
+  const education = hasSection("Education") ? resumeData?.education : null;
+  const projects = hasSection("Projects") ? resumeData?.projects : null;
+  console.log(professional)
   return (
     <div className="resume-preview">
       <div className="user-detail flex flex-col text-center justify-center">
-        <h2 className="text-3xl font-semibold capitalize pb-2">{user.full_name}</h2>
+        <h2 className="text-3xl font-semibold capitalize pb-2">{user.fullName}</h2>
         <div className="flex flex-row w-full justify-center max-w-7xl gap-4">
           <p className="flex gap-1 items-center"><Mail size={20}/>{user.email}</p>
           <p className="flex gap-1 items-center"><Phone size={18}/>{user.phone}</p>
           <p className="flex gap-1 items-center"><MapPin size={18}/>{user.location}</p>
         </div>
       </div>
-
+      <hr className="my-4"></hr>
       
       {professional && (
         <div className="professional-experience">

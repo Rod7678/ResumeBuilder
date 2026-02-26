@@ -6,11 +6,11 @@ let url = "http://localhost:3000/api";
 
 export const saveUserDetail = async (data) => {
   const formData = {
-    full_name: data.full_name,
+    full_name: data.fullName,
     email: data.email,
     location: data.location,
     phone: data.phone,
-    pro_title: data.title,
+    pro_title: data.proTitle,
   };
   const response = await fetch(`${url}/users`, {
     method: "POST",

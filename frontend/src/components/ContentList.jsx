@@ -30,8 +30,8 @@ const ContentList = ({ onEdit, data }) => {
     <>
       <div className="user-detail bg-white p-8 rounded-xl text-start">
         <div className="content-title flex justify-between">
-          <h4 className="text-zinc-950 font-bold text-2xl">
-            {userData.full_name}
+          <h4 className="text-zinc-950 font-bold text-2xl capitalize">
+            {userData.fullName}
           </h4>
           <button
             className="bg-gray-950 rounded-full h-10 w-10 m-0"
@@ -55,7 +55,7 @@ const ContentList = ({ onEdit, data }) => {
         </p>
         <p className="text-gray-700 pb-2">
           <i className="fa-solid fa-briefcase pr-8 text-blue-400 text-xl align-middle"></i>
-          {userData.pro_title}
+          {userData.proTitle}
         </p>
       </div>
       {addedList}
