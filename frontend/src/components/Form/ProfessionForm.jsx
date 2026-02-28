@@ -39,44 +39,64 @@ export default function ProfessionForm({ onSelect }) {
   return (
     <>
       <FormDiv title={"Add Professional Experience"} onSend={handleFormSubmit}>
-        <Input id="jobrole" name="jobrole" label="job role" type="text" placeholder="eg. Frontend Developer"/>
         <Input
-          id="joiningDate"
-          name="joiningDate"
-          label="Enter your joining date"
-          type="date"
-          placeholder="eg. 01/01/2024"
+          id="jobrole"
+          name="jobrole"
+          label="Job Role"
+          type="text"
+          placeholder="eg. Frontend Developer"
         />
-        {isCurrentlyWorking === "NO" ? (
-          <div className="radio-button text-start">
-            <p className="text-zinc-700 text-[16px] text-start font-medium py-2">currently working</p>
-            <input
-              type="radio"
-              value="NO"
-              onChange={handleCurrentlyWorking}
-              name="currentlyWorking"
-              checked={isCurrentlyWorking === "NO"}
-              id="wokingYes"
-            />
-            <label className="text-zinc-700 text-[16px] text-start font-medium py-2" htmlFor="wokingYes">Yes</label>
-            <input
-              type="radio"
-              value="YES"
-              onChange={handleCurrentlyWorking}
-              name="currentlyWorking"
-              checked={isCurrentlyWorking === "YES"}
-              id="wokingNo"
-            />
-            <label className="text-zinc-700 text-[16px] text-start font-medium py-2" htmlFor="wokingNo">No</label>
-          </div>
-        ) : (
+        <div className="grid grid-cols-2 gap-4">
           <Input
-            id="leavingDate"
-            name="leavingDate"
-            label="Enter your last day of working"
+            id="joiningDate"
+            name="joiningDate"
+            label="Enter your joining date"
             type="date"
+            placeholder="eg. 01/01/2024"
           />
-        )}
+          {isCurrentlyWorking === "NO" ? (
+            <div className="radio-button text-start">
+              <p className="text-zinc-700 text-[16px] text-start font-medium py-2">
+                currently working
+              </p>
+              <input
+                type="radio"
+                value="NO"
+                onChange={handleCurrentlyWorking}
+                name="currentlyWorking"
+                checked={isCurrentlyWorking === "NO"}
+                id="wokingYes"
+              />
+              <label
+                className="text-zinc-700 text-[16px] text-start font-medium py-2"
+                htmlFor="wokingYes"
+              >
+                Yes
+              </label>
+              <input
+                type="radio"
+                value="YES"
+                onChange={handleCurrentlyWorking}
+                name="currentlyWorking"
+                checked={isCurrentlyWorking === "YES"}
+                id="wokingNo"
+              />
+              <label
+                className="text-zinc-700 text-[16px] text-start font-medium py-2"
+                htmlFor="wokingNo"
+              >
+                No
+              </label>
+            </div>
+          ) : (
+            <Input
+              id="leavingDate"
+              name="leavingDate"
+              label="Enter your last day of working"
+              type="date"
+            />
+          )}
+        </div>
         <Input
           id="jobLocation"
           name="jobLocation"
@@ -84,12 +104,31 @@ export default function ProfessionForm({ onSelect }) {
           type="text"
         />
         <div className="radio-button text-start">
-          <p className="text-zinc-700 text-[16px] text-start font-medium py-2">choose working type</p>
+          <p className="text-zinc-700 text-[16px] text-start font-medium py-2">
+            choose working type
+          </p>
           <input type="radio" value="WFH" name="typeOfWork" id="wfh" />
-          <label className="text-zinc-700 text-[16px] text-start font-medium py-2" htmlFor="wfh">Work from home</label>
+          <label
+            className="text-zinc-700 text-[16px] text-start font-medium py-2"
+            htmlFor="wfh"
+          >
+            Work from home
+          </label>
           <input type="radio" value="WFO" name="typeOfWork" id="wfo" />
-          <label className="text-zinc-700 text-[16px] text-start font-medium py-2" htmlFor="wfo">Work from office</label>
+          <label
+            className="text-zinc-700 text-[16px] text-start font-medium py-2"
+            htmlFor="wfo"
+          >
+            Work from office
+          </label>
         </div>
+        <Input
+          id="workingExp"
+          name="workingExp"
+          label="What did you do in this job? Describe your working experience in brief"
+          type="textarea"
+          rows={8}
+        />
         {isPending && <p>Form is submitting please wait</p>}
         {!isPending && <Button>Done</Button>}
         {isError && (

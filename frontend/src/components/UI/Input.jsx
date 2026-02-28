@@ -1,4 +1,4 @@
-export default function Input({ id, label, type, ...props }) {
+export default function Input({ id, label, type,rows = 4, ...props }) {
   let content;
   switch (type) {
     case "text":
@@ -22,7 +22,8 @@ export default function Input({ id, label, type, ...props }) {
           id={id}
           type={type}
           {...props}
-          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+          rows= {rows}
+          className="flex w-full rounded-md border text-zinc-600 font-semibold placeholder-zinc-400 border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
         />
       );
       break;

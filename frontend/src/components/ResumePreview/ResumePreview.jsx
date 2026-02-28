@@ -9,6 +9,8 @@ const ResumePreview = () => {
     queryFn: fetchLatestResume,
   });
 
+  console.log("resume data in preview: ", resumeData);
+
   const { user, loading: isLoading, addedForms } = useUser();
   if (!user) return null;
   if (isLoading) return <p>Loading Resume Preview...</p>;
@@ -35,8 +37,10 @@ const ResumePreview = () => {
           <h3>Professional Experience</h3>
           {professional.map((p) => (
             <div key={p.id}>
-              <p>{p.jobrole}</p>
-              <p>{p.joiningDate}</p>
+              <p>{p.job_role}</p>
+              <p>{p.joining_date}</p>
+              <p>{p.currently_working ? "Present" : (p.leaving_date)}</p>
+              {}
             </div>
           ))}
         </div>
