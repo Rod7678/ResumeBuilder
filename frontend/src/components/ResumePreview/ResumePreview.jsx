@@ -68,6 +68,7 @@ const ResumePreview = () => {
 
       {education && (
         <div className="education">
+          <h3 className="text-start font-semibold text-xl underline">
             Education
           </h3>
           {education.map((e) => (
