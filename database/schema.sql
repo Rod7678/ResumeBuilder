@@ -21,6 +21,7 @@ CREATE TABLE users (
 CREATE TABLE professional_experience (
  id INT auto_increment PRIMARY KEY,
  user_id INT NOT NULL,
+ company_name VARCHAR(100) NOT NULL,
  job_role VARCHAR(100),
  joining_date DATE,
  leaving_date DATE,

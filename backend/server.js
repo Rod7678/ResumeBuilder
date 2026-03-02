@@ -73,11 +73,13 @@ app.post("/api/users", async (req, res) => {
 app.post("/api/professional/latest", async (req, res) => {
   try {
     const {
+      companyName,
       jobrole,
       joiningDate,
       leavingDate,
       currentlyWorking,
       jobLocation,
+      workings,
       typeOfWork,
     } = req.body;
 
@@ -90,15 +92,17 @@ app.post("/api/professional/latest", async (req, res) => {
     }
     const userId = users[0].id;
     await db.query(
-      "INSERT INTO professional_experience (user_id, job_role, joining_date, leaving_date, job_location, work_type , currently_working ) VALUES (?,?,?,?,?,?,?)",
+      "INSERT INTO professional_experience (user_id, job_role, company_name, joining_date, leaving_date, job_location, work_type , currently_working, workings) VALUES (?,?,?,?,?,?,?,?,?)",
       [
         userId,
         jobrole,
+        companyName,
         joiningDate,
         leavingDate || null,
         jobLocation,
         typeOfWork,
         currentlyWorking,
+        workings,
       ],
     );
 
@@ -111,24 +115,28 @@ app.post("/api/professional/latest", async (req, res) => {
 app.post("/api/professional/:id", async (req, res) => {
   try {
     const {
+      companyName,
       jobrole,
       joiningDate,
       leavingDate,
       currentlyWorking,
+      workings,
       jobLocation,
       typeOfWork,
     } = req.body;
     const userId = req.params.id;
     await db.query(
-      "INSERT INTO professional_experience (user_id, job_role, joining_date, leaving_date, job_location, work_type , currently_working ) VALUES (?,?,?,?,?,?,?)",
+      "INSERT INTO professional_experience (user_id, job_role,company_name, joining_date, leaving_date, job_location, work_type , currently_working, workings) VALUES (?,?,?,?,?,?,?,?,?)",
       [
         userId,
         jobrole,
+        companyName,
         joiningDate,
         leavingDate || null,
         jobLocation,
         typeOfWork,
         currentlyWorking,
+        workings,
       ],
     );
 

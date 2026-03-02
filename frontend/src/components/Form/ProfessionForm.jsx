@@ -2,19 +2,24 @@ import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import FormDiv from "../UI/FormDiv.jsx";
 import { useEffect, useState } from "react";
-import { queryClient, SaveUserProfessionalData } from "../../utils/http.js";
-import { useMutation } from "@tanstack/react-query";
+import {
+  fetchLatestResume,
+  queryClient,
+  SaveUserProfessionalData,
+} from "../../utils/http.js";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export default function ProfessionForm({ onSelect }) {
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState("NO");
   const [formData, setFormData] = useState({
+    companyName: "",
     jobrole: "",
     joiningDate: "",
     leavingDate: "",
     jobLocation: "",
     workType: "",
-    workings: ""
-  })
+    workings: "",
+  });
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: SaveUserProfessionalData,
     onSuccess: () => {
@@ -23,35 +28,36 @@ export default function ProfessionForm({ onSelect }) {
   });
 
   const { data: professionalData } = useQuery({
-      queryKey: ["latestResume"],
-      queryFn: fetchLatestResume,
-    });
+    queryKey: ["latestResume"],
+    queryFn: fetchLatestResume,
+  });
 
-  const professional = professionalData?.professional || {};
+  const professional = professionalData?.professional || [];
 
-  useEffect(()=> {
-    if(professional) {
+  useEffect(() => {
+    if (professional) {
       setFormData({
-        jobrole: professional.jobrole || "",
-        joiningDate: professional.joiningDate || "",
-        leavingDate: professional.leavingDate || "",
-        jobLocation: professional.jobLocation || "",
-        workType: professional.workType || "",
-        workings: professional.workings || ""
-      })
+        companyName: professional[0].company_name || "",
+        jobrole: professional[0].job_role || "",
+        joiningDate: professional[0].joining_date || "",
+        leavingDate: professional[0].leaving_date || "",
+        jobLocation: professional[0].job_location || "",
+        workType: professional[0].work_type || "",
+        workings: professional[0].workings || "",
+      });
+      return;
     }
-  }, [professional])
-
-
+  }, [professional]);
 
   function handleFormSubmit(event) {
     const fd = new FormData();
-    fd.append("jobrole", professional.jobrole);
-    fd.append("joiningDate", professional.joiningDate);
-    fd.append("leavingDate", professional.leavingDate);
-    fd.append("jobLocation", professional.jobLocation);
-    fd.append("workType", professional.workType);
-    fd.append("workings", professional.workings);
+    fd.append("companyName", formData.companyName);
+    fd.append("job_role", formData.jobrole);
+    fd.append("joining_date", formData.joiningDate);
+    fd.append("leaving_date", formData.leavingDate);
+    fd.append("job_location", formData.jobLocation);
+    fd.append("work_type", formData.workType);
+    fd.append("workings", formData.workings);
     event.preventDefault();
     mutate(fd);
     onSelect();
@@ -62,16 +68,25 @@ export default function ProfessionForm({ onSelect }) {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prevData) => ({...prevData, [name]: value }));
-  }
- 
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
   return (
     <>
       <FormDiv title={"Add Professional Experience"} onSend={handleFormSubmit}>
         <Input
+          id="companyName"
+          name="companyName"
+          value={formData.companyName}
+          onChange={handleInputChange}
+          label="Company Name"
+          type="text"
+          placeholder="eg. Google"
+        />
+        <Input
           id="jobrole"
           name="jobrole"
-          value={professional.jobrole}
+          value={formData.jobrole}
           onChange={handleInputChange}
           label="Job Role"
           type="text"
@@ -81,6 +96,8 @@ export default function ProfessionForm({ onSelect }) {
           <Input
             id="joiningDate"
             name="joiningDate"
+            value={formData.joiningDate}
+            onChange={handleInputChange}
             label="Enter your joining date"
             type="date"
             placeholder="eg. 01/01/2024"
@@ -123,6 +140,8 @@ export default function ProfessionForm({ onSelect }) {
             <Input
               id="leavingDate"
               name="leavingDate"
+              value={formData.leavingDate}
+              onChange={handleInputChange}
               label="Enter your last day of working"
               type="date"
             />
@@ -131,6 +150,8 @@ export default function ProfessionForm({ onSelect }) {
         <Input
           id="jobLocation"
           name="jobLocation"
+          value={formData.jobLocation}
+          onChange={handleInputChange}
           label="Company Location"
           type="text"
         />
@@ -156,6 +177,8 @@ export default function ProfessionForm({ onSelect }) {
         <Input
           id="workingExp"
           name="workingExp"
+          value={formData.workings}
+          onChange={handleInputChange}
           label="What did you do in this job? Describe your working experience in brief"
           placeholder="Type here"
           type="textarea"
