@@ -40,7 +40,7 @@ const ResumePreview = () => {
               <p>{p.job_role}</p>
               <p>{p.joining_date}</p>
               <p>{p.currently_working ? "Present" : (p.leaving_date)}</p>
-              {}
+              {p.workings && <p>{p.workings}</p>}
             </div>
           ))}
         </div>

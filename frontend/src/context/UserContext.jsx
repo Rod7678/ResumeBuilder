@@ -29,10 +29,15 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    const storedForms = localStorage.getItem("forms");
     if (storedUser) {
       try {
-        const parsed = JSON.parse(storedUser);
-        setUser(parsed);
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        console.log("selected Forms : ", storedForms);
+        if (storedForms) {
+          setAddedForms(JSON.parse(storedForms));
+        }
       } catch (err) {
         localStorage.removeItem("user");
       }

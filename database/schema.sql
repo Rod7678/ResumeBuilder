@@ -27,6 +27,7 @@ CREATE TABLE professional_experience (
  job_location VARCHAR(100),
  work_type ENUM('WFH','WFO'),
  currently_working ENUM('YES','NO'),
+ workings TEXT,
  FOREIGN KEY (user_id) REFERENCES users(id)
  ON DELETE CASCADE
 );

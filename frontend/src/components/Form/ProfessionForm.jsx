@@ -1,47 +1,78 @@
 import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import FormDiv from "../UI/FormDiv.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { queryClient, SaveUserProfessionalData } from "../../utils/http.js";
 import { useMutation } from "@tanstack/react-query";
 
 export default function ProfessionForm({ onSelect }) {
   const [isCurrentlyWorking, setIsCurrentlyWorking] = useState("NO");
+  const [formData, setFormData] = useState({
+    jobrole: "",
+    joiningDate: "",
+    leavingDate: "",
+    jobLocation: "",
+    workType: "",
+    workings: ""
+  })
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: SaveUserProfessionalData,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["latestResume"] });
     },
   });
+
+  const { data: professionalData } = useQuery({
+      queryKey: ["latestResume"],
+      queryFn: fetchLatestResume,
+    });
+
+  const professional = professionalData?.professional || {};
+
+  useEffect(()=> {
+    if(professional) {
+      setFormData({
+        jobrole: professional.jobrole || "",
+        joiningDate: professional.joiningDate || "",
+        leavingDate: professional.leavingDate || "",
+        jobLocation: professional.jobLocation || "",
+        workType: professional.workType || "",
+        workings: professional.workings || ""
+      })
+    }
+  }, [professional])
+
+
+
   function handleFormSubmit(event) {
-    const fd = new FormData(event.target);
-    const data = Object.fromEntries(fd.entries());
+    const fd = new FormData();
+    fd.append("jobrole", professional.jobrole);
+    fd.append("joiningDate", professional.joiningDate);
+    fd.append("leavingDate", professional.leavingDate);
+    fd.append("jobLocation", professional.jobLocation);
+    fd.append("workType", professional.workType);
+    fd.append("workings", professional.workings);
     event.preventDefault();
-    mutate(data);
+    mutate(fd);
     onSelect();
   }
   const handleCurrentlyWorking = (event) => {
     setIsCurrentlyWorking(event.target.value);
   };
 
-  // let content;
-
-  // if(isPending){
-  //   content = <p>Form submitting</p>
-  // }
-  // if(isError){
-  //   content = <p>{error.info}</p>
-  // }
-  // if(data){
-  //   content =
-  // }
-
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({...prevData, [name]: value }));
+  }
+ 
   return (
     <>
       <FormDiv title={"Add Professional Experience"} onSend={handleFormSubmit}>
         <Input
           id="jobrole"
           name="jobrole"
+          value={professional.jobrole}
+          onChange={handleInputChange}
           label="Job Role"
           type="text"
           placeholder="eg. Frontend Developer"
@@ -126,6 +157,7 @@ export default function ProfessionForm({ onSelect }) {
           id="workingExp"
           name="workingExp"
           label="What did you do in this job? Describe your working experience in brief"
+          placeholder="Type here"
           type="textarea"
           rows={8}
         />
