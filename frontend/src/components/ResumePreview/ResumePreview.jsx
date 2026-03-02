@@ -48,13 +48,14 @@ const ResumePreview = () => {
           </h3>
           {professional.map((p) => (
             <div key={p.id}>
-              <div className="companyHeader flex flex-row justify-between py-2">
-                <div className="companyInfo text-start flex flex-col">
-                  <p className="font-semibold">{p.company_name}</p>
-                  <p>{p.job_role}</p>
+              <div className="flex flex-row justify-between py-2">
+                <div className="text-start flex flex-col">
+                  <p className="font-semibold">{p.job_role}</p>
+                  <p>{p.company_name}</p>
                 </div>
-                <div className="companyTenure flex flex-row">
+                <div className="flex flex-col items-end">
                   <p>{`${p.joining_date} - ${p.currently_working ? "Present" : p.leaving_date}`}</p>
+                  <p>{p.job_location}</p>
                 </div>
               </div>
               {p.workings && <p>{p.workings}</p>}
@@ -63,20 +64,36 @@ const ResumePreview = () => {
         </div>
       )}
 
+      <hr className="my-4"></hr>
+
       {education && (
         <div className="education">
-          <h3>Education</h3>
+            Education
+          </h3>
           {education.map((e) => (
-            <p key={e.id}>
-              {e.degree} - {e.instituteName}
-            </p>
+            <div key={e.id}>
+              <div className="flex flex-row justify-between py-2">
+                <div className="text-start flex flex-col">
+                  <p className="font-semibold">{e.degree}</p>
+                  <p>{e.institute_name}</p>
+                </div>
+                <div className="flex flex-col items-end">
+                  <p>{`${e.start_date} - ${e.currently_working ? "pursuing" : e.end_date}`}</p>
+                  <p>{e.location}</p>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       )}
 
+      <hr className="my-4"></hr>
+
       {projects && (
         <div className="projects">
-          <h3>Projects</h3>
+          <h3 className="text-start font-semibold text-xl underline">
+            Projects
+          </h3>
           {projects.map((pr) => (
             <p key={pr.id}>{pr.project_title}</p>
           ))}
