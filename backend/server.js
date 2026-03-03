@@ -222,6 +222,46 @@ app.post("/api/education/:id", async (req, res) => {
   }
 });
 
+app.put("api/education/latest", async (req, res) => {
+  try {
+    const {
+      instituteName,
+      degree,
+      fieldOfStudy,
+      startDate,
+      endDate,
+      grade,
+      schlocation,
+    } = req.body;
+
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+
+    if (!users.length) {
+      return res.status(400).json({ message: "No User Exist" });
+    }
+
+    const userId = users[0].id;
+
+    await db.query(
+      "UPDATE education_details AS e SET institute_name=?, degree=?, field_of_study=?, start_date=?, end_date=?, grade=?, location=? WHERE e.user_id = ?",
+      [
+        instituteName,
+        degree,
+        fieldOfStudy,
+        startDate,
+        endDate,
+        grade,
+        schlocation,
+        userId,
+      ],
+    );
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.post("/api/projects/latest", async (req, res) => {
   try {
     const {
@@ -299,7 +339,7 @@ app.get("/api/resume/latest", async (req, res) => {
     const [users] = await db.query(
       "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
-    
+
     if (!users.length) {
       return res.status(400).json({ message: "No user Exist" });
     }

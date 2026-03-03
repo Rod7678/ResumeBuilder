@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import Button from "../UI/Button.jsx";
 import FormDiv from "../UI/FormDiv.jsx";
 import Input from "../UI/Input.jsx";
-import { fetchLatestResume, queryClient, SaveEducationDetails } from "../../utils/http.js";
+import { fetchLatestResume, queryClient, SaveEducationDetails, UpdateEducationDetails } from "../../utils/http.js";
 import { useEffect, useState } from "react";
 
 const EducationForm = ({ onSelect }) => {
@@ -18,6 +18,12 @@ const EducationForm = ({ onSelect }) => {
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: SaveEducationDetails,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["latestResume"] });
+    },
+  });
+  const { mutate: updateData, isPending: updateIsPending, isError: updateIsError, error:updateError } = useMutation({
+    mutationFn: UpdateEducationDetails,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["latestResume"] });
     },
@@ -60,6 +66,11 @@ const EducationForm = ({ onSelect }) => {
     fd.append("endDate", formData.endDate);
     fd.append("schlocation", formData.schlocation);
     fd.append("grade", formData.grade);
+    if(education.length > 0){
+      updateData(fd);
+      onSelect();
+      return;
+    }
     mutate(fd);
     onSelect();
   };
