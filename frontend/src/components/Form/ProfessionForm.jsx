@@ -103,7 +103,7 @@ export default function ProfessionForm({ onSelect }) {
           <Input
             id="joiningDate"
             name="joiningDate"
-            value={formData.joiningDate}
+            value={normalizeDate(formData.joiningDate)}
             onChange={handleInputChange}
             label="Enter your joining date"
             type="date"
@@ -147,7 +147,7 @@ export default function ProfessionForm({ onSelect }) {
             <Input
               id="leavingDate"
               name="leavingDate"
-              value={formData.leavingDate}
+              value={normalizeDate(formData.leavingDate)}
               onChange={handleInputChange}
               label="Enter your last day of working"
               type="date"

@@ -359,7 +359,7 @@ app.get("/api/resume/latest", async (req, res) => {
       "SELECT * FROM education_details WHERE user_id = ?",
       [userId],
     );
-    const [proects] = await db.query(
+    const [projects] = await db.query(
       "SELECT * FROM projects WHERE user_id = ?",
       [userId],
     );
@@ -368,7 +368,7 @@ app.get("/api/resume/latest", async (req, res) => {
       user,
       professional,
       education,
-      proects,
+      projects,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
