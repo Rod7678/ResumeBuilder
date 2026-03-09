@@ -18,6 +18,10 @@ const ResumePreview = () => {
     : null;
   const education = hasSection("Education") ? resumeData?.education : null;
   const projects = hasSection("Projects") ? resumeData?.projects : null;
+
+  
+  const formatedDate = (date) => new Date(date).toLocaleDateString("en-IN");
+
   return (
     <div className="resume-preview">
       <div className="user-detail flex flex-col text-center justify-center">
@@ -40,6 +44,29 @@ const ResumePreview = () => {
         </div>
       </div>
       <hr className="my-4"></hr>
+      {education && (
+        <div className="education">
+          <h3 className="text-start font-semibold text-xl underline">
+            Education
+          </h3>
+          {education.map((e) => (
+            <div key={e.id}>
+              <div className="flex flex-row justify-between py-2">
+                <div className="text-start flex flex-col">
+                  <p className="font-semibold">{e.degree}</p>
+                  <p>{e.institute_name}</p>
+                </div>
+                <div className="flex flex-col items-end">
+                  <p>{`${formatedDate(e.start_date)} - ${e.currently_working ? "pursuing" : formatedDate(e.end_date)}`}</p>
+                  <p>{e.location}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <hr className="my-4"></hr>
 
       {professional && (
         <div className="professional-experience">
@@ -54,35 +81,11 @@ const ResumePreview = () => {
                   <p>{p.company_name}</p>
                 </div>
                 <div className="flex flex-col items-end">
-                  <p>{`${p.joining_date} - ${p.currently_working ? "Present" : p.leaving_date}`}</p>
+                  <p>{`${formatedDate(p.joining_date)} - ${p.currently_working ? "Present" : formatedDate(p.leaving_date)}`}</p>
                   <p>{p.job_location}</p>
                 </div>
               </div>
               {p.workings && <p>{p.workings}</p>}
-            </div>
-          ))}
-        </div>
-      )}
-
-      <hr className="my-4"></hr>
-
-      {education && (
-        <div className="education">
-          <h3 className="text-start font-semibold text-xl underline">
-            Education
-          </h3>
-          {education.map((e) => (
-            <div key={e.id}>
-              <div className="flex flex-row justify-between py-2">
-                <div className="text-start flex flex-col">
-                  <p className="font-semibold">{e.degree}</p>
-                  <p>{e.institute_name}</p>
-                </div>
-                <div className="flex flex-col items-end">
-                  <p>{`${e.start_date} - ${e.currently_working ? "pursuing" : e.end_date}`}</p>
-                  <p>{e.location}</p>
-                </div>
-              </div>
             </div>
           ))}
         </div>

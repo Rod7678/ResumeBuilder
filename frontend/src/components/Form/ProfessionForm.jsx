@@ -51,12 +51,17 @@ export default function ProfessionForm({ onSelect }) {
     }
   }, [professional]);
 
+  const normalizeDate = (date) => {
+    if (!date) return null;
+    return new Date(date).toISOString().split("T")[0];
+  };
+
   function handleFormSubmit(event) {
     const fd = new FormData();
     fd.append("companyName", formData.companyName);
     fd.append("job_role", formData.jobrole);
-    fd.append("joining_date", formData.joiningDate);
-    fd.append("leaving_date", formData.leavingDate);
+    fd.append("joining_date", normalizeDate(formData.joiningDate));
+    fd.append("leaving_date", normalizeDate(formData.leavingDate));
     fd.append("job_location", formData.jobLocation);
     fd.append("work_type", formData.workType);
     fd.append("workings", formData.workings);

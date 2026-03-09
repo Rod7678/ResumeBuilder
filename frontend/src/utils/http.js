@@ -135,6 +135,8 @@ export const UpdateEducationDetails = async (data) => {
     body: JSON.stringify(data),
   });
 
+  console.log("data: " , data)
+
   if (!response.ok) {
     const error = new Error(
       "An error occured during sending education details",
