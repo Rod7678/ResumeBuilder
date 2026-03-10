@@ -53,8 +53,8 @@ const ResumePreview = () => {
             <div key={e.id}>
               <div className="flex flex-row justify-between py-2">
                 <div className="text-start flex flex-col">
-                  <p className="font-semibold">{e.degree}</p>
-                  <p>{e.institute_name}</p>
+                  <p className="font-semibold capitalize">{e.degree}</p>
+                  <p className="capitalize">{e.institute_name}</p>
                 </div>
                 <div className="flex flex-col items-end">
                   <p>{`${formatedDate(e.start_date)} - ${e.currently_working ? "pursuing" : formatedDate(e.end_date)}`}</p>

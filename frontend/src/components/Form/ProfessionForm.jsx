@@ -192,7 +192,7 @@ export default function ProfessionForm({ onSelect }) {
           rows={8}
         />
         {isPending && <p>Form is submitting please wait</p>}
-        {!isPending && <Button>Done</Button>}
+        {!isPending && <Button className="mt-4">Done</Button>}
         {isError && (
           <p> {error.info?.message || "there is error in submitting form"}</p>
         )}

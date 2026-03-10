@@ -118,7 +118,7 @@ const EducationForm = ({ onSelect }) => {
           type="text"
           placeholder="eg. Oxford University"
         />
-        <div className="control-row">
+        <div className="grid grid-cols-2 gap-4">
           <Input
             id="startDate"
             name="startDate"
@@ -157,7 +157,7 @@ const EducationForm = ({ onSelect }) => {
           placeholder="eg. A"
         />
         {isPending && <p>Form is submitting please wait</p>}
-        {!isPending && <Button>Done</Button>}
+        {!isPending && <Button className="mt-4">Done</Button>}
         {isError && (
           <p> {error.info?.message || "there is error in submitting form"}</p>
         )}
