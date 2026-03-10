@@ -4,6 +4,7 @@ import {
   fetchLatestResume,
   queryClient,
   saveProjectDetails,
+  UpdateEducationDetails,
 } from "../../utils/http";
 import Input from "../UI/Input.jsx";
 import Button from "../UI/Button.jsx";
@@ -27,15 +28,17 @@ const ProjectForm = ({ onSelect }) => {
     },
   });
 
+  const { mutate: updateProject } = useMutation({
+    mutationFn: UpdateEducationDetails,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["latestProjects"] });
+    },
+  });
+
   const { data: projectsData } = useQuery({
     queryKey: ["latestProjects"],
     queryFn: fetchLatestResume,
   });
-
-  const normalizeDate = (date) => {
-    if (!date) return null;
-    return new Date(date).toISOString().split("T")[0];
-  };
 
   const projects = projectsData?.projects?.[0] || [];
   useEffect(() => {
@@ -52,6 +55,11 @@ const ProjectForm = ({ onSelect }) => {
     }
   }, [projects]);
 
+  const normalizeDate = (date) => {
+    if (!date) return null;
+    return new Date(date).toISOString().split("T")[0];
+  };
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -59,9 +67,16 @@ const ProjectForm = ({ onSelect }) => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    const fd = new FormData(event.target);
-    const data = Object.fromEntries(fd.entries());
-    mutate(data);
+    const payload = {
+      ...formData,
+      startDate: normalizeDate(formData.startDate),
+      endDate: normalizeDate(formData.endDate),
+    };
+    if (projects.length > 0) {
+      updateProject(payload);
+    } else {
+      mutate(data);
+    }
     onSelect();
   };
 
