@@ -151,6 +151,31 @@ export const UpdateEducationDetails = async (data) => {
   return res;
 };
 
+export const UpdateProjectDetails = async (data) => {
+  const response = await fetch(`${url}/projects/latest`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  console.log("data: " , data)
+
+  if (!response.ok) {
+    const error = new Error(
+      "An error occured during sending project details",
+    );
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const res = await response.json();
+
+  return res;
+};
+
 
 
 export const fetchLatestResume = async () => {

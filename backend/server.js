@@ -234,7 +234,7 @@ app.put("/api/education/latest", async (req, res) => {
       schlocation,
     } = req.body;
 
-    console.log(instituteName,degree)
+    console.log(instituteName, degree);
 
     const [users] = await db.query(
       "SELECT id FROM users ORDER BY id DESC LIMIT 1",
@@ -331,6 +331,43 @@ app.post("/api/projects/:id", async (req, res) => {
     );
 
     res.status(201).json({ message: "Project added" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put("/api/projects/latest", async (req, res) => {
+  try {
+    const {
+      projectTitle,
+      description,
+      technologies,
+      projectLink,
+      startDate,
+      endDate,
+    } = req.body;
+
+    const [users] = await db.query(
+      "SELECT id FROM users ORDERS BY id DESC LIMIT 1",
+    );
+    if (!users.length) {
+      res.status(400).json({ message: "No User Exist" });
+    }
+
+    const userId = users[0].id;
+
+    await db.query(
+      "UPDATE projects AS p SET project_title = ?, description = ?, technologies = ?, project_link = ?, start_date = ?, end_date = ? WHERE p.user_id = ?",
+      [
+        projectTitle,
+        description,
+        technologies,
+        projectLink,
+        startDate,
+        endDate,
+        userId,
+      ],
+    );
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

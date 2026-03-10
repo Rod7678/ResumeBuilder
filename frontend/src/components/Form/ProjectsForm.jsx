@@ -1,17 +1,62 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import FormDiv from "../UI/FormDiv";
-import { queryClient, saveProjectDetails } from "../../utils/http";
+import {
+  fetchLatestResume,
+  queryClient,
+  saveProjectDetails,
+} from "../../utils/http";
 import Input from "../UI/Input.jsx";
 import Button from "../UI/Button.jsx";
+import { useEffect, useState } from "react";
 
 const ProjectForm = ({ onSelect }) => {
+  const [formData, setFormData] = useState({
+    projectTitle: "",
+    description: "",
+    technologies: "",
+    projectLink: "",
+    startDate: "",
+    endDate: "",
+  });
+
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: saveProjectDetails,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["latestResume"] });
+      queryClient.invalidateQueries({ queryKey: ["latestProjects"] });
       // navigate('/users');
     },
   });
+
+  const { data: projectsData } = useQuery({
+    queryKey: ["latestProjects"],
+    queryFn: fetchLatestResume,
+  });
+
+  const normalizeDate = (date) => {
+    if (!date) return null;
+    return new Date(date).toISOString().split("T")[0];
+  };
+
+  const projects = projectsData?.projects?.[0] || [];
+  useEffect(() => {
+    if (projects.length > 0) {
+      setFormData({
+        projectTitle: projects.project_title,
+        description: projects.description,
+        technologies: projects.technologies,
+        projectLink: projects.project_link,
+        startDate: normalizeDate(projects.start_date),
+        endDate: normalizeDate(projects.end_date),
+      });
+      return;
+    }
+  }, [projects]);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
     const fd = new FormData(event.target);
@@ -28,20 +73,26 @@ const ProjectForm = ({ onSelect }) => {
           name="projectTitle"
           label="Project Title"
           type="text"
+          value={formData.projectTitle}
+          onChange={handleInputChange}
           placeholder="eg. Resume Builder"
-          />
+        />
         <Input
           id="description"
           name="description"
           label="Project Description"
           type="textarea"
+          value={formData.description}
+          onChange={handleInputChange}
           placeholder="eg. Build to showcase my skills ..."
-          />
+        />
         <Input
           id="technologies"
           name="technologies"
           label="Technologies used"
           type="text"
+          value={formData.technologies}
+          onChange={handleInputChange}
           placeholder="eg. React.js, Tailwind"
         />
         <div className="grid grid-cols-2 gap-4">
@@ -50,15 +101,26 @@ const ProjectForm = ({ onSelect }) => {
             name="startDate"
             label="Start Date"
             type="date"
+            value={formData.startDate}
+            onChange={handleInputChange}
             placeholder="eg. 01/01/2026"
-            />
-          <Input id="endDate" name="endDate" label="End Date" type="date" placeholder="eg. 02/02/2026"/>
+          />
+          <Input
+            id="endDate"
+            name="endDate"
+            label="End Date"
+            type="date"
+            value={formData.endDate}
+            onChange={handleInputChange}
+            placeholder="eg. 02/02/2026"
+          />
         </div>
         <Input
           id="projectLink"
           name="projectLink"
           label="Add Link of project"
           type="url"
+          onChange={handleInputChange}
           placeholder="eg. http://resumeBuilder.com"
         />
 
