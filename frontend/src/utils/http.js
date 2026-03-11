@@ -68,6 +68,7 @@ export const SaveUserProfessionalData = async (data) => {
     },
     body: JSON.stringify(data),
   });
+  
 
   if (!response.ok) {
     const error = new Error(
@@ -178,6 +179,7 @@ export const UpdateProfessionalDetails = async (data) => {
     },
     body: JSON.stringify(data),
   });
+
   if (!response.ok) {
     const error = new Error("An error occured during sending project details");
     error.code = response.status;

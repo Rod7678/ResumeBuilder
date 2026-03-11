@@ -275,7 +275,6 @@ app.put("/api/education/latest", async (req, res) => {
       schlocation,
     } = req.body;
 
-    console.log(instituteName, degree);
 
     const [users] = await db.query(
       "SELECT id FROM users ORDER BY id DESC LIMIT 1",
