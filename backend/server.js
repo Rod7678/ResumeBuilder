@@ -126,7 +126,7 @@ app.post("/api/professional/:id", async (req, res) => {
     } = req.body;
     const userId = req.params.id;
     await db.query(
-      "INSERT INTO professional_experience (user_id, job_role,company_name, joining_date, leaving_date, job_location, work_type , currently_working, workings) VALUES (?,?,?,?,?,?,?,?,?)",
+      "INSERT INTO professional_experience (user_id, job_role, company_name, joining_date, leaving_date, job_location, work_type , currently_working, workings) VALUES (?,?,?,?,?,?,?,?,?)",
       [
         userId,
         jobrole,
@@ -141,6 +141,47 @@ app.post("/api/professional/:id", async (req, res) => {
     );
 
     res.status(201).json("professional experience added");
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put("/api/professional/latest", async (req, res) => {
+  try {
+    const {
+      companyName,
+      jobrole,
+      joiningDate,
+      leavingDate,
+      currentlyWorking,
+      jobLocation,
+      workings,
+      typeOfWork,
+    } = req.body;
+
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+
+    if (!users.length) {
+      res.status(400).json({ message: "User not exist" });
+    }
+    const userId = users[0].id;
+
+    await db.query(
+      "UPDATE professional_experience AS p SET job_role = ?, company_name = ?, joining_date = ?, leaving_date = ?, job_location = ?, work_type = ? , currently_working = ?, workings = ?  WHERE p.user_id = ?",
+      [
+        jobrole,
+        companyName,
+        joiningDate,
+        leavingDate,
+        jobLocation,
+        typeOfWork,
+        currentlyWorking,
+        workings,
+        userId,
+      ],
+    );
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

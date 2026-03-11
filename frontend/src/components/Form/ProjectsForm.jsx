@@ -23,7 +23,7 @@ const ProjectForm = ({ onSelect }) => {
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: saveProjectDetails,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["latestProjects"] });
+      queryClient.invalidateQueries({ queryKey: ["latestResume"] });
       // navigate('/users');
     },
   });
@@ -31,12 +31,12 @@ const ProjectForm = ({ onSelect }) => {
   const { mutate: updateProject } = useMutation({
     mutationFn: UpdateEducationDetails,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["latestProjects"] });
+      queryClient.invalidateQueries({ queryKey: ["latestResume"] });
     },
   });
 
   const { data: projectsData } = useQuery({
-    queryKey: ["latestProjects"],
+    queryKey: ["latestResume"],
     queryFn: fetchLatestResume,
   });
 

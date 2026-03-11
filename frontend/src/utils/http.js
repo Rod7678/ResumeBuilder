@@ -28,7 +28,7 @@ export const saveUserDetail = async (data) => {
   }
 
   const user = await response.json();
-  
+
   return user;
 };
 
@@ -135,8 +135,6 @@ export const UpdateEducationDetails = async (data) => {
     body: JSON.stringify(data),
   });
 
-  console.log("data: " , data)
-
   if (!response.ok) {
     const error = new Error(
       "An error occured during sending education details",
@@ -160,12 +158,8 @@ export const UpdateProjectDetails = async (data) => {
     body: JSON.stringify(data),
   });
 
-  console.log("data: " , data)
-
   if (!response.ok) {
-    const error = new Error(
-      "An error occured during sending project details",
-    );
+    const error = new Error("An error occured during sending project details");
     error.code = response.status;
     error.info = await response.json();
     throw error;
@@ -176,7 +170,25 @@ export const UpdateProjectDetails = async (data) => {
   return res;
 };
 
+export const UpdateProfessionalDetails = async (data) => {
+  const response = await fetch(`${url}/professional/latest`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    const error = new Error("An error occured during sending project details");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
 
+  const res = await response.json();
+
+  return res;
+};
 
 export const fetchLatestResume = async () => {
   const res = await fetch(`${url}/resume/latest`);

@@ -6,6 +6,7 @@ import {
   fetchLatestResume,
   queryClient,
   SaveUserProfessionalData,
+  UpdateProfessionalDetails,
 } from "../../utils/http.js";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -28,24 +29,31 @@ export default function ProfessionForm({ onSelect }) {
     },
   });
 
+  const {mutate: updateProf} = useMutation({
+    mutationFn: UpdateProfessionalDetails,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["latestResume"] });
+    },
+  });
+
   const { data: professionalData } = useQuery({
     queryKey: ["latestResume"],
     queryFn: fetchLatestResume,
   });
 
-  const professional = professionalData?.professional || [];
+  const professional = professionalData?.professional?.[0] || [];
 
   useEffect(() => {
     if (professional) {
       setFormData({
-        companyName: professional[0].company_name || "",
-        jobrole: professional[0].job_role || "",
-        joiningDate: professional[0].joining_date || "",
-        leavingDate: professional[0].leaving_date || null,
-        currently_working: professional[0].currently_working || "NO",
-        jobLocation: professional[0].job_location || "",
-        workType: professional[0].work_type || "",
-        workings: professional[0].workings || "",
+        companyName: professional.company_name || "",
+        jobrole: professional.job_role || "",
+        joiningDate: professional.joining_date || "",
+        leavingDate: professional.leaving_date || null,
+        currently_working: professional.currently_working || "NO",
+        jobLocation: professional.job_location || "",
+        workType: professional.work_type || "",
+        workings: professional.workings || "",
       });
       return;
     }
@@ -57,16 +65,17 @@ export default function ProfessionForm({ onSelect }) {
   };
 
   function handleFormSubmit(event) {
-    const fd = new FormData();
-    fd.append("companyName", formData.companyName);
-    fd.append("job_role", formData.jobrole);
-    fd.append("joining_date", normalizeDate(formData.joiningDate));
-    fd.append("leaving_date", normalizeDate(formData.leavingDate));
-    fd.append("job_location", formData.jobLocation);
-    fd.append("work_type", formData.workType);
-    fd.append("workings", formData.workings);
+    const payload = {
+      ...formData,
+      joiningDate: normalizeDate(formData.joiningDate),
+      leavingDate: normalizeDate(formData.leavingDate)
+    };
     event.preventDefault();
-    mutate(fd);
+    if(professional.length > 0) {
+      updateProf(payload);
+    }else {
+      mutate(payload);
+    }
     onSelect();
   }
   const handleCurrentlyWorking = (event) => {
