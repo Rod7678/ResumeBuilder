@@ -48,7 +48,7 @@ const EducationForm = ({ onSelect }) => {
   const education = educationData?.education?.[0] || [];
 
   useEffect(() => {
-    if (education.length > 0) {
+    if (education) {
       setFormData({
         degree: education.degree || "",
         fieldOfStudy: education.field_of_study || "",
