@@ -9,22 +9,22 @@ import {
 import Input from "../UI/Input.jsx";
 import Button from "../UI/Button.jsx";
 import { useEffect, useState } from "react";
+import { useFormData } from "../../hooks/useFormData.js";
 
 const ProjectForm = ({ onSelect }) => {
-  const [formData, setFormData] = useState({
+  const initialState={
     projectTitle: "",
     description: "",
     technologies: "",
     projectLink: "",
     startDate: "",
     endDate: "",
-  });
+  };
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: saveProjectDetails,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["latestResume"] });
-      // navigate('/users');
     },
   });
 
@@ -41,9 +41,17 @@ const ProjectForm = ({ onSelect }) => {
   });
 
   const projects = projectsData?.projects?.[0] || [];
+  const {formData, handleSubmit: handleFormSubmit, handleChange: handleInputChange, setFormValues} = useFormData({ initialState, onSubmit: (payload) => {
+    if (projects.length > 0) {
+      updateProject(payload);
+    } else {
+      mutate(data);
+    }
+    onSelect();
+  } })
   useEffect(() => {
     if (projects.length > 0) {
-      setFormData({
+      setFormValues({
         projectTitle: projects.project_title,
         description: projects.description,
         technologies: projects.technologies,
@@ -54,31 +62,6 @@ const ProjectForm = ({ onSelect }) => {
       return;
     }
   }, [projects]);
-
-  const normalizeDate = (date) => {
-    if (!date) return null;
-    return new Date(date).toISOString().split("T")[0];
-  };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    const payload = {
-      ...formData,
-      startDate: normalizeDate(formData.startDate),
-      endDate: normalizeDate(formData.endDate),
-    };
-    if (projects.length > 0) {
-      updateProject(payload);
-    } else {
-      mutate(data);
-    }
-    onSelect();
-  };
 
   return (
     <>

@@ -1,7 +1,7 @@
 import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import FormDiv from "../UI/FormDiv.jsx";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import {
   fetchLatestResume,
   queryClient,
@@ -9,9 +9,10 @@ import {
   UpdateProfessionalDetails,
 } from "../../utils/http.js";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useFormData } from "../../hooks/useFormData.js";
 
 export default function ProfessionForm({ onSelect }) {
-  const [formData, setFormData] = useState({
+  const initialState = {
     companyName: "",
     jobrole: "",
     joiningDate: "",
@@ -20,7 +21,8 @@ export default function ProfessionForm({ onSelect }) {
     jobLocation: "",
     workType: "",
     workings: "",
-  });
+  };
+
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: SaveUserProfessionalData,
     onSuccess: () => {
@@ -42,12 +44,26 @@ export default function ProfessionForm({ onSelect }) {
 
   const professional = professionalData?.professional?.[0] || [];
 
+  const {
+    formData,
+    setFormValues,
+    handleChange: handleInputChange,
+    handleSubmit: handleFormSubmit,
+  } = useFormData({ initialState, onSubmit: (payload) => {
+     if (professional.length > 0) {
+      updateProf(payload);
+    } else {
+      mutate(payload);
+    }
+    onSelect();
+  } });
+
   useEffect(() => {
     if (professional) {
-      setFormData({
+      setFormValues({
         companyName: professional.company_name || "",
         jobrole: professional.job_role || "",
-        joiningDate: professional.joining_date || "",
+        joiningDate: professional.joining_date || null,
         leavingDate: professional.leaving_date || null,
         currentlyWorking: professional.currently_working || "NO",
         jobLocation: professional.job_location || "",
@@ -59,39 +75,6 @@ export default function ProfessionForm({ onSelect }) {
     }
   }, [professional]);
 
-  const normalizeDate = (date) => {
-    if (!date) return null;
-    return new Date(date).toISOString().split("T")[0];
-  };
-
-  function handleFormSubmit(event) {
-    const payload = {
-      ...formData,
-      joiningDate: normalizeDate(formData.joiningDate),
-      leavingDate: normalizeDate(formData.leavingDate),
-    };
-    event.preventDefault();
-    if (professional) {
-      updateProf(payload);
-    } else {
-      mutate(payload);
-    }
-    onSelect();
-  }
- 
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => {
-      if(name === "currentlyWorking" && value === "YES"){
-        return {
-          ...prevData,
-          currentlyWorking: value,
-          leavingDate: null
-        };
-      }
-      return{ ...prevData, [name]: value }});
-  };
 
   return (
     <>
@@ -114,27 +97,31 @@ export default function ProfessionForm({ onSelect }) {
           type="text"
           placeholder="eg. Frontend Developer"
         />
-          <p className="text-zinc-700 text-[16px] font-medium py-2">
-            Currently working?
-          </p>
+        <p className="text-zinc-700 text-[16px] font-medium py-2">
+          Currently working?
+        </p>
 
-          <input
-            type="radio"
-            value="YES"
-            name="currentlyWorking"
-            checked={formData.currentlyWorking === "YES"}
-            onChange={handleInputChange}
-          />
-          <label className="text-zinc-700 text-[16px] text-start font-medium py-2 mr-2">Yes</label>
+        <input
+          type="radio"
+          value="YES"
+          name="currentlyWorking"
+          checked={formData.currentlyWorking === "YES"}
+          onChange={handleInputChange}
+        />
+        <label className="text-zinc-700 text-[16px] text-start font-medium py-2 mr-2">
+          Yes
+        </label>
 
-          <input
-            type="radio"
-            value="NO"
-            name="currentlyWorking"
-            checked={formData.currentlyWorking === "NO"}
-            onChange={handleInputChange}
-          />
-          <label className="text-zinc-700 text-[16px] text-start font-medium py-2">No</label>
+        <input
+          type="radio"
+          value="NO"
+          name="currentlyWorking"
+          checked={formData.currentlyWorking === "NO"}
+          onChange={handleInputChange}
+        />
+        <label className="text-zinc-700 text-[16px] text-start font-medium py-2">
+          No
+        </label>
         <div className="grid grid-cols-2 gap-4">
           <Input
             id="joiningDate"
@@ -168,14 +155,28 @@ export default function ProfessionForm({ onSelect }) {
           <p className="text-zinc-700 text-[16px] text-start font-medium py-2">
             choose working type
           </p>
-          <input type="radio" value="WFH" checked={formData.workType === "WFH"} onChange={handleInputChange} name="typeOfWork" id="wfh" />
+          <input
+            type="radio"
+            value="WFH"
+            checked={formData.workType === "WFH"}
+            onChange={handleInputChange}
+            name="typeOfWork"
+            id="wfh"
+          />
           <label
             className="text-zinc-700 text-[16px] text-start font-medium py-2 mr-2"
             htmlFor="wfh"
           >
             Work from home
           </label>
-          <input type="radio" value="WFO" checked={formData.workType === "WFO"} onChange={handleInputChange} name="typeOfWork" id="wfo" />
+          <input
+            type="radio"
+            value="WFO"
+            checked={formData.workType === "WFO"}
+            onChange={handleInputChange}
+            name="typeOfWork"
+            id="wfo"
+          />
           <label
             className="text-zinc-700 text-[16px] text-start font-medium py-2"
             htmlFor="wfo"

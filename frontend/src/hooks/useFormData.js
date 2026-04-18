@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useForm = (initialState, onSubmit, transform = (data) => data) => {
+export const useFormData = ({initialState, onSubmit, transform = (data) => data}) => {
   const [formData, setFormData] = useState(initialState);
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -42,5 +42,5 @@ export const useForm = (initialState, onSubmit, transform = (data) => data) => {
   const resetForm = () => {
     setFormData(initialState);
   }
-  return { formData, updateFormData, handleChange, handleSubmit, setFormValues, resetForm };
+  return { formData, handleChange, handleSubmit, setFormValues, resetForm };
 };

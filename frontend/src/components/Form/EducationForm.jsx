@@ -9,9 +9,10 @@ import {
   UpdateEducationDetails,
 } from "../../utils/http.js";
 import { useEffect, useState } from "react";
+import { useFormData } from "../../hooks/useFormData.js";
 
 const EducationForm = ({ onSelect }) => {
-  const [formData, setFormData] = useState({
+  const initialState = {
     degree: "",
     fieldOfStudy: "",
     instituteName: "",
@@ -19,7 +20,7 @@ const EducationForm = ({ onSelect }) => {
     endDate: "",
     schlocation: "",
     grade: "",
-  });
+  };
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: SaveEducationDetails,
@@ -44,12 +45,28 @@ const EducationForm = ({ onSelect }) => {
     queryFn: fetchLatestResume,
   });
 
-
   const education = educationData?.education?.[0] || [];
+
+  const {
+    formData,
+    handleSubmit: handleFormSubmit,
+    setFormValues,
+    handleChange: handleInputChange,
+  } = useFormData({
+    initialState,
+    onSubmit: (payload) => {
+      if (education.length > 0) {
+        updateData(payload);
+      } else {
+        mutate(payload);
+      }
+      onSelect();
+    },
+  });
 
   useEffect(() => {
     if (education) {
-      setFormData({
+      setFormValues({
         degree: education.degree || "",
         fieldOfStudy: education.field_of_study || "",
         instituteName: education.institute_name || "",
@@ -62,32 +79,6 @@ const EducationForm = ({ onSelect }) => {
     }
   }, [education]);
 
-  const normalizeDate = (date) => {
-    if (!date) return null;
-    return new Date(date).toISOString().split("T")[0];
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleFormSubmit = (event) => {
-    
-    event.preventDefault();
-    const payload = {
-      ...formData,
-      startDate: normalizeDate(formData.startDate),
-      endDate: normalizeDate(formData.endDate)
-    }
-    if (education.length > 0) {
-      // updateData({id: education.id, ...payload});
-      updateData(payload);
-    } else {
-      mutate(payload);
-    }
-    onSelect();
-  };
   return (
     <>
       <FormDiv title="Education" onSend={handleFormSubmit}>
@@ -162,7 +153,7 @@ const EducationForm = ({ onSelect }) => {
           <p> {error.info?.message || "there is error in submitting form"}</p>
         )}
       </FormDiv>
-    </> 
+    </>
   );
 };
 
