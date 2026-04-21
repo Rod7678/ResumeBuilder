@@ -25,7 +25,19 @@ const SELECTED_FORM = [
     Title: "Certificates",
   },
 ];
-const formArray = (type) => {
+
+const SelectedContent = ({ onEdit }) => {
+  const { addedForms: data } = useUser();
+  const uniqueSections = [...new Set(data)];
+
+  const { data: addedFormsArray } = useQuery({
+    queryKey: ["Forms"],
+    queryFn: fetchLatestResume,
+  });
+
+  const addedForms = addedFormsArray || {};
+  
+  const formArray = (type) => {
     let aryData;
     switch (type) {
       case "Professional Experience":
@@ -46,18 +58,7 @@ const formArray = (type) => {
     }
     return aryData;
   }; 
-const SelectedContent = ({ onEdit }) => {
-  const { addedForms: data } = useUser();
-  const uniqueSections = [...new Set(data)];
-
-  const { data: addedFormsArray } = useQuery({
-    queryKey: ["Forms"],
-    queryFn: fetchLatestResume,
-  });
-
-  const addedForms = addedFormsArray || {};
-  
-  console.log("added forms: ", addedForms);
+  // console.log("added forms: ", addedForms);
   return (
     <ul>
       {uniqueSections.map((section) => {
