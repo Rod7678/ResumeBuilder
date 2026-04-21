@@ -34,7 +34,6 @@ export const UserProvider = ({ children }) => {
       try {
         const parsedUser = JSON.parse(storedUser);
         setUser(parsedUser);
-        console.log("selected Forms : ", storedForms);
         if (storedForms) {
           setAddedForms(JSON.parse(storedForms));
         }

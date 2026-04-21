@@ -37,7 +37,7 @@ const Main = ({ addingContent }) => {
 
   let content = null;
 
-  console.log("selected type: ", selectedType);
+  // console.log("selected type: ", selectedType);
   switch (selectedType) {
     case "Professional Experience":
       content = <ProfessionForm onSelect={handleFormSubmit} />;
