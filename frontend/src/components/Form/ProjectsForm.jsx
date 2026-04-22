@@ -45,7 +45,7 @@ const ProjectForm = ({ onSelect }) => {
     if (projects.length > 0) {
       updateProject(payload);
     } else {
-      mutate(data);
+      mutate(payload);
     }
     onSelect();
   } })

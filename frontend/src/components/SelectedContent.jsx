@@ -37,26 +37,26 @@ const SelectedContent = ({ onEdit }) => {
 
   const addedForms = addedFormsArray || {};
   
-  const formArray = (type) => {
-    let aryData;
+  const entriesArray = (type) => {
+    let dataEntry;
     switch (type) {
       case "Professional Experience":
-        aryData = addedForms.professional = addedForms.professional || [];
+        dataEntry = addedForms.professional = addedForms.professional || [];
         break;
       case "Education":
-        aryData = addedForms.education = addedForms.education || [];
+        dataEntry = addedForms.education = addedForms.education || [];
         break;
       case "Languages":
-        aryData = addedForms.language = addedForms.language || [];
+        dataEntry = addedForms.language = addedForms.language || [];
         break;
       case "Projects":
-        aryData = addedForms.projects = addedForms.projects || [];
+        dataEntry = addedForms.projects = addedForms.projects || [];
         break;
       default:
-        aryData = [];
+        dataEntry = [];
         break;
     }
-    return aryData;
+    return dataEntry;
   }; 
   // console.log("added forms: ", addedForms);
   return (
@@ -70,8 +70,8 @@ const SelectedContent = ({ onEdit }) => {
               <div className="content-title flex justify-between items-center">
                 <h3 className="text-zinc-950 font-bold text-2xl">
                   {type.Title} -{console.log(addedForms.professional)}
-                  {/* {console.log(formArray(type.Title).length)} */}
-                  {formArray(type.Title).length}
+                  {/* {console.log(entriesArray(type.Title).length)} */}
+                  {entriesArray(type.Title).length}
                 </h3>
                 <button
                   className="bg-gray-950 rounded-full h-10 w-10 m-0"
@@ -80,10 +80,10 @@ const SelectedContent = ({ onEdit }) => {
                   <i className="fa-solid fa-pen-to-square"></i>
                 </button>
               </div>
-            {/* <h5>{formArray(type.Title)}</h5> */}
+            {/* <h5>{entriesArray(type.Title)}</h5> */}
             </div>
-            {formArray(type.Title).length > 0 &&
-            <AccordianContent arry={formArray(type.Title)} />}
+            {entriesArray(type.Title).length > 0 &&
+            <AccordianContent enteries={entriesArray(type.Title)} />}
           </li>
         );
       })}
