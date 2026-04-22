@@ -34,8 +34,14 @@ const AccordianContent = ({ title, enteries = [] }) => {
       </button>
 
       {hasEntries && !hasMultipleEntries && (
-        <div className="px-5 py-4 border-t border-zinc-200">
+        <div className="px-5 py-4 border-t border-zinc-200 flex justify-between items-center">
           <p className="text-zinc-700">{arrayOfContent[0].job_role}</p>
+          <button
+            className="bg-gray-950 rounded-full h-10 w-10 m-0"
+            onClick={() => onEdit(type.Title)}
+          >
+            <i className="fa-solid fa-pen-to-square"></i>
+          </button>
         </div>
       )}
       {hasMultipleEntries && isOpen && (
