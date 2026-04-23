@@ -39,6 +39,7 @@ const SelectedContent = ({ onEdit }) => {
   
   const entriesArray = (type) => {
     let dataEntry;
+    
     switch (type) {
       case "Professional Experience":
         dataEntry = addedForms.professional = addedForms.professional || [];
@@ -66,11 +67,9 @@ const SelectedContent = ({ onEdit }) => {
         if (!type) return null;
         return (
           <li key={type.id} className="py-4">
-            <div className="user-detail bg-white p-8 rounded-xl text-start">
+            {/* <div className="user-detail bg-white p-8 rounded-xl text-start">
               <div className="content-title flex justify-between items-center">
                 <h3 className="text-zinc-950 font-bold text-2xl">
-                  {type.Title} -{console.log(addedForms.professional)}
-                  {/* {console.log(entriesArray(type.Title).length)} */}
                   {entriesArray(type.Title).length}
                 </h3>
                 <button
@@ -80,10 +79,10 @@ const SelectedContent = ({ onEdit }) => {
                   <i className="fa-solid fa-pen-to-square"></i>
                 </button>
               </div>
-            {/* <h5>{entriesArray(type.Title)}</h5> */}
-            </div>
-            {entriesArray(type.Title).length > 0 &&
-            <AccordianContent enteries={entriesArray(type.Title)} />}
+            </div> */}
+            {/* {entriesArray(type.Title).length > 0 &&
+            <AccordianContent enteries={entriesArray(type.Title)} />} */}
+            <AccordianContent enteries={entriesArray(type.Title)} title={type.Title} onEdit={onEdit} />
           </li>
         );
       })}

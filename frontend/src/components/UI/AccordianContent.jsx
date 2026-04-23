@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const AccordianContent = ({ title, enteries = [] }) => {
+const AccordianContent = ({ title, enteries = [], onEdit }) => {
   const arrayOfContent = [...enteries];
   const [isOpen, setIsOpen] = useState(false);
   const hasEntries = arrayOfContent.length > 0;
@@ -12,6 +12,7 @@ const AccordianContent = ({ title, enteries = [] }) => {
     }
   };
 
+  console.log("accordian content: ", arrayOfContent);
   return (
     <div className="w-full rounded-2xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
       <button
@@ -35,10 +36,11 @@ const AccordianContent = ({ title, enteries = [] }) => {
 
       {hasEntries && !hasMultipleEntries && (
         <div className="px-5 py-4 border-t border-zinc-200 flex justify-between items-center">
+          <h3 className="text-zinc-950 font-bold text-2xl">{title}</h3>
           <p className="text-zinc-700">{arrayOfContent[0].job_role}</p>
           <button
             className="bg-gray-950 rounded-full h-10 w-10 m-0"
-            onClick={() => onEdit(type.Title)}
+            onClick={() => onEdit(title)}
           >
             <i className="fa-solid fa-pen-to-square"></i>
           </button>
