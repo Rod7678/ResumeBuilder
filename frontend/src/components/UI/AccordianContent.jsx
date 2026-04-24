@@ -6,6 +6,32 @@ const AccordianContent = ({ title, enteries = [], onEdit }) => {
   const hasEntries = arrayOfContent.length > 0;
   const hasMultipleEntries = arrayOfContent.length > 1;
 
+  let entryTitle;
+  let entrySubtitle;
+
+  switch (title) {
+    case "Professional Experience":
+      entryTitle = "job_role";
+      entrySubtitle = "company_name";
+      break;
+    case "Education":
+      entryTitle = "degree";
+      entrySubtitle = "institute_name";
+      break;
+    case "Languages":
+      entryTitle = "language_name";
+      entrySubtitle = "proficiency_level";
+      break;
+    case "Projects":
+      entryTitle = "project_name";
+      entrySubtitle = "description";
+      break;
+    default:
+      entryTitle = "";
+      entrySubtitle = "";
+      break;
+  }
+
   const toggleAccordian = () => {
     if (hasMultipleEntries) {
       setIsOpen((prev) => !prev);
@@ -37,7 +63,7 @@ const AccordianContent = ({ title, enteries = [], onEdit }) => {
       {hasEntries && !hasMultipleEntries && (
         <div className="px-5 py-4 border-t border-zinc-200 flex justify-between items-center">
           <h3 className="text-zinc-950 font-bold text-2xl">{title}</h3>
-          <p className="text-zinc-700">{arrayOfContent[0].job_role}</p>
+          <p className="text-zinc-700">{arrayOfContent[0][entryTitle]}</p>
           <button
             className="bg-gray-950 rounded-full h-10 w-10 m-0"
             onClick={() => onEdit(title)}
@@ -46,15 +72,27 @@ const AccordianContent = ({ title, enteries = [], onEdit }) => {
           </button>
         </div>
       )}
+
       {hasMultipleEntries && isOpen && (
         <ul>
-          <h1>hii</h1>
           {arrayOfContent.map((section, index) => {
             return (
-              <li className="py-4 z-10">
-                <h3 className="text-zinc-950 font-bold text-2xl">
-                  {section.degree}
-                </h3>
+              <li className="py-4 z-10 border-t border-zinc-200">
+                <div className="px-5 py-4  flex justify-between items-center">
+                  <div className="flex-col justify-start items-center text-left">
+                    <h3 className="text-zinc-950 font-bold text-2xl ">
+                      {section[entryTitle]}
+                    </h3>
+                    <p className="text-zinc-700">{section[entrySubtitle]}</p>
+                  </div>
+                  <button
+                    className="bg-gray-950 rounded-full h-10 w-10 m-0"
+                    onClick={() => onEdit(title)}
+                    // onClick={() => onEdit(title, section.id)}
+                  >
+                    <i className="fa-solid fa-pen-to-square"></i>
+                  </button>
+                </div>
               </li>
             );
           })}
