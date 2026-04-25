@@ -19,7 +19,7 @@ import { useUser } from "../context/UserContext.jsx";
 
 const Main = ({ addingContent }) => {
   // const navigate = useNavigate();
-  const { activeForm, setActiveForm, addedForms: data , isEditing: isEdit, setIsEditing: setIsEdit } = useUser();
+  const { activeForm, setActiveForm, addedForms: data , isEditing: isEdit, setIsEditing: setIsEdit, setEntryId } = useUser();
 
   const selectedType = activeForm || data?.[0] || "User";
  
@@ -30,8 +30,9 @@ const Main = ({ addingContent }) => {
     setIsEdit(false);
   }
 
-  const handleEdit = (editType) => {
+  const handleEdit = (editType, id) => {
     setActiveForm(editType);
+    setEntryId(id);
     setIsEdit(true);
   };
 

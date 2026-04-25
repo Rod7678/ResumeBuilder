@@ -304,6 +304,51 @@ app.put("/api/education/latest", async (req, res) => {
   }
 });
 
+app.put("/api/education/entry/:id", async (req, res) => {
+  try {
+    const {
+      instituteName,
+      degree,
+      fieldOfStudy,
+      startDate,
+      endDate,
+      grade,
+      schlocation,
+    } = req.body;
+
+
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+
+    if (!users.length) {
+      return res.status(400).json({ message: "No User Exist" });
+    }
+
+    const userId = users[0].id;
+    const entryId = req.params.id;
+
+    await db.query(
+      "UPDATE education_details AS e SET institute_name=?, degree=?, field_of_study=?, start_date=?, end_date=?, grade=?, location=? WHERE e.user_id = ? AND e.id = ?",
+      [
+        instituteName,
+        degree,
+        fieldOfStudy,
+        startDate,
+        endDate,
+        grade,
+        schlocation,
+        userId,
+        entryId,
+      ],
+    );
+    console.log("entry Updates :" , entryId)
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 app.post("/api/projects/latest", async (req, res) => {
   try {
     const {

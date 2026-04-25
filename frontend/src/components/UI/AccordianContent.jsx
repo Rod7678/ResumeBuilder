@@ -38,7 +38,7 @@ const AccordianContent = ({ title, enteries = [], onEdit }) => {
     }
   };
 
-  console.log("accordian content: ", arrayOfContent);
+  // console.log("accordian content: ", arrayOfContent);
   return (
     <div className="w-full rounded-2xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
       <button
@@ -87,8 +87,8 @@ const AccordianContent = ({ title, enteries = [], onEdit }) => {
                   </div>
                   <button
                     className="bg-gray-950 rounded-full h-10 w-10 m-0"
-                    onClick={() => onEdit(title)}
-                    // onClick={() => onEdit(title, section.id)}
+                    // onClick={() => onEdit(title)}
+                    onClick={() => onEdit(title, section.id)}
                   >
                     <i className="fa-solid fa-pen-to-square"></i>
                   </button>

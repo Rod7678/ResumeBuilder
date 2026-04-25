@@ -127,8 +127,11 @@ export const SaveEducationDetails = async (data) => {
 
   return res;
 };
-export const UpdateEducationDetails = async (data) => {
-  const response = await fetch(`${url}/education/latest`, {
+
+export const UpdateEducationDetails = async ({data, id}) => {
+  console.log("entry id: ", id);
+  const fetchUrl = id ? `${url}/education/entry/${id}` : `${url}/education/latest`;
+  const response = await fetch(fetchUrl, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

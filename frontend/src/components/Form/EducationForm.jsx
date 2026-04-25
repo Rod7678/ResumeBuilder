@@ -10,6 +10,7 @@ import {
 } from "../../utils/http.js";
 import { useEffect, useState } from "react";
 import { useFormData } from "../../hooks/useFormData.js";
+import { useUser } from "../../context/UserContext.jsx";
 
 const EducationForm = ({ onSelect }) => {
   const initialState = {
@@ -21,11 +22,12 @@ const EducationForm = ({ onSelect }) => {
     schlocation: "",
     grade: "",
   };
-
+  const { entryId } = useUser();
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: SaveEducationDetails,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["latestResume"] });
+       onSelect();
     },
   });
   const {
@@ -34,9 +36,10 @@ const EducationForm = ({ onSelect }) => {
     isError: updateIsError,
     error: updateError,
   } = useMutation({
-    mutationFn: UpdateEducationDetails,
+    mutationFn: ({data, entryId}) => UpdateEducationDetails({data, id: entryId}),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["latestResume"] });
+       onSelect();
     },
   });
 
@@ -45,8 +48,13 @@ const EducationForm = ({ onSelect }) => {
     queryFn: fetchLatestResume,
   });
 
-  const education = educationData?.education?.[0] || [];
-
+  let education = null;
+  if (entryId != null) {
+    education =
+      educationData?.education?.find((edu) => edu.id === entryId) || null;
+  } else {
+    education = educationData?.education?.[0] || null;
+  }
   const {
     formData,
     handleSubmit: handleFormSubmit,
@@ -55,12 +63,13 @@ const EducationForm = ({ onSelect }) => {
   } = useFormData({
     initialState,
     onSubmit: (payload) => {
-      if (education.length > 0) {
-        updateData(payload);
+      if (education?.id) {
+        console.log("updating")
+        updateData({data: payload, entryId: education.id});
       } else {
+        console.log("saving")
         mutate(payload);
       }
-      onSelect();
     },
   });
 
@@ -74,9 +83,9 @@ const EducationForm = ({ onSelect }) => {
         endDate: education.end_date || "",
         schlocation: education.school_location || "",
         grade: education.grade || "",
-      });
+      });}
       return;
-    }
+    
   }, [education]);
 
   return (
