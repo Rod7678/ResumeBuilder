@@ -197,6 +197,27 @@ export const UpdateProfessionalDetails = async ({data, id}) => {
   return res;
 };
 
+export const DeleteEducationDetails = async (id) => {
+  const fetchUrl = id ? `${url}/education/entryDelete/${id}` : `${url}/education/latest`;
+  const response = await fetch(fetchUrl, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const error = new Error(
+      "An error occured during deleting education details",
+    );
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const res = await response.json();
+
+  return res;
+};
+
+
 export const fetchLatestResume = async () => {
   const res = await fetch(`${url}/resume/latest`);
 

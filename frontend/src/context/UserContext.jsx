@@ -64,6 +64,10 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
+  const handleDelete = (id) => {
+    setEntryId(id)
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -79,6 +83,7 @@ export const UserProvider = ({ children }) => {
         setIsEditing,
         entryId,
         setEntryId,
+        handleDelete,
       }}
     >
       {children}

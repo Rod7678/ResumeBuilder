@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const AccordianContent = ({ title, enteries = [], onEdit }) => {
+const AccordianContent = ({ title, enteries = [], onEdit , onDelete}) => {
   const arrayOfContent = [...enteries];
   const [isOpen, setIsOpen] = useState(false);
   const hasEntries = arrayOfContent.length > 0;
@@ -91,6 +91,12 @@ const AccordianContent = ({ title, enteries = [], onEdit }) => {
                     onClick={() => onEdit(title, section.id)}
                   >
                     <i className="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button
+                    className="bg-red-500 rounded-full h-10 w-10 m-0"
+                    onClick={() => onDelete(section.id)}
+                  >
+                    <i className="fa-solid fa-trash"></i>
                   </button>
                 </div>
               </li>

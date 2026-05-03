@@ -187,6 +187,77 @@ app.put("/api/professional/latest", async (req, res) => {
   }
 });
 
+
+app.put("/api/professional/entry/:id", async (req, res) => {
+  try {
+    const {
+      companyName,
+      jobrole,
+      joiningDate,
+      leavingDate,
+      currentlyWorking,
+      jobLocation,
+      workings,
+      typeOfWork,
+    } = req.body;
+
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+
+    if (!users.length) {
+      res.status(400).json({ message: "User not exist" });
+    }
+    const userId = users[0].id;
+    const entryId = req.params.id;
+
+    await db.query(
+      "UPDATE professional_experience AS p SET job_role = ?, company_name = ?, joining_date = ?, leaving_date = ?, job_location = ?, work_type = ? , currently_working = ?, workings = ?  WHERE p.user_id = ? AND p.id = ?",
+      [
+        jobrole,
+        companyName,
+        joiningDate,
+        leavingDate,
+        jobLocation,
+        typeOfWork,
+        currentlyWorking,
+        workings,
+        userId,
+        entryId,
+      ],
+    );
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete("/api/professional/entry/:id", async (req, res) => {
+  try {
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+
+    if(!users.length) {
+      return res.status(400).json({message: "No User Exist"});
+    }
+
+    const userId = users[0].id;
+    const entryId = req.params.id;
+
+    await db.query(
+      "DELETE FROM professional_experience WHERE user_id = ? AND id = ?",
+      [userId, entryId],
+    );
+
+    res.status(201).json({message: "Professional entry deleted"});
+  }
+    catch (err) {
+      res.status(500).json({error: err.message});
+    }
+});
+
+
+
 app.post("/api/education/latest", async (req, res) => {
   try {
     const {
@@ -346,6 +417,31 @@ app.put("/api/education/entry/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+app.delete("/api/education/entryDelete/:id", async (req, res) => {
+  try {
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+
+    if(!users.length) {
+      return res.status(400).json({message: "No User Exist"});
+    }
+
+    const userId = users[0].id;
+    const entryId = req.params.id;
+
+    await db.query(
+      "DELETE FROM education_details WHERE user_id = ? AND id = ?",
+      [userId, entryId],
+    );
+
+    res.status(201).json({message: "Education entry deleted"});
+  }
+    catch (err) {
+      res.status(500).json({error: err.message});
+    }
 });
 
 

@@ -36,6 +36,8 @@ const Main = ({ addingContent }) => {
     setIsEdit(true);
   };
 
+  
+
   let content = null;
 
   // console.log("selected type: ", selectedType);
