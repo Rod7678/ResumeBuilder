@@ -1,7 +1,7 @@
 import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import FormDiv from "../UI/FormDiv.jsx";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import {
   fetchLatestResume,
   queryClient,
@@ -10,6 +10,7 @@ import {
 } from "../../utils/http.js";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFormData } from "../../hooks/useFormData.js";
+import { useUser } from "../../context/UserContext.jsx";
 
 export default function ProfessionForm({ onSelect }) {
   const initialState = {
@@ -22,18 +23,27 @@ export default function ProfessionForm({ onSelect }) {
     workType: "",
     workings: "",
   };
+  
+  const {entryId} = useUser();
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: SaveUserProfessionalData,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["latestResume"] });
+      onSelect();
     },
   });
 
-  const { mutate: updateProf } = useMutation({
-    mutationFn: UpdateProfessionalDetails,
+  const {
+    mutate: updateProf,
+    isPending: updateIsPending,
+    isError: updateIsError,
+    error: updateError,
+  } = useMutation({
+    mutationFn: ({data, entryId}) => UpdateProfessionalDetails({data, id: entryId}),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["latestResume"] });
+      onSelect();
     },
   });
 
@@ -42,21 +52,29 @@ export default function ProfessionForm({ onSelect }) {
     queryFn: fetchLatestResume,
   });
 
-  const professional = professionalData?.professional?.[0] || [];
+  let professional = null;
+  if(entryId != null){
+    professional = professionalData?.professional?.find((prof) => prof.id === entryId) || null;
+  }else {
+    professional = professionalData?.professional?.[0] || null;
+  }
+  // const professional = professionalData?.professional?.[0] || [];
 
   const {
     formData,
     setFormValues,
     handleChange: handleInputChange,
     handleSubmit: handleFormSubmit,
-  } = useFormData({ initialState, onSubmit: (payload) => {
-     if (professional.length > 0) {
-      updateProf(payload);
-    } else {
-      mutate(payload);
-    }
-    onSelect();
-  } });
+  } = useFormData({
+    initialState,
+    onSubmit: (payload) => {
+      if (professional) {
+        updateProf({data: payload, entryId: professional.id});
+      } else {
+        mutate(payload);
+      }
+    },
+  });
 
   useEffect(() => {
     if (professional) {
@@ -74,7 +92,6 @@ export default function ProfessionForm({ onSelect }) {
       return;
     }
   }, [professional]);
-
 
   return (
     <>

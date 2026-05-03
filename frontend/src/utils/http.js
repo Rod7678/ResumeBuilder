@@ -129,7 +129,6 @@ export const SaveEducationDetails = async (data) => {
 };
 
 export const UpdateEducationDetails = async ({data, id}) => {
-  console.log("entry id: ", id);
   const fetchUrl = id ? `${url}/education/entry/${id}` : `${url}/education/latest`;
   const response = await fetch(fetchUrl, {
     method: "PUT",
@@ -153,8 +152,9 @@ export const UpdateEducationDetails = async ({data, id}) => {
   return res;
 };
 
-export const UpdateProjectDetails = async (data) => {
-  const response = await fetch(`${url}/projects/latest`, {
+export const UpdateProjectDetails = async ({data, id}) => {
+  const fetchUrl = id ? `${url}/projects/entry/${id}` : `${url}/projects/latest`;
+  const response = await fetch(fetchUrl, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -174,8 +174,10 @@ export const UpdateProjectDetails = async (data) => {
   return res;
 };
 
-export const UpdateProfessionalDetails = async (data) => {
-  const response = await fetch(`${url}/professional/latest`, {
+export const UpdateProfessionalDetails = async ({data, id}) => {
+  console.log("Updating professional details with id:", id);
+  const fetchUrl = id ? `${url}/professional/entry/${id}` : `${url}/professional/latest`;
+  const response = await fetch(fetchUrl, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

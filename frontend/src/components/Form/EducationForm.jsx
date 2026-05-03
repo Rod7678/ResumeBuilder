@@ -30,6 +30,7 @@ const EducationForm = ({ onSelect }) => {
        onSelect();
     },
   });
+  
   const {
     mutate: updateData,
     isPending: updateIsPending,
@@ -64,10 +65,8 @@ const EducationForm = ({ onSelect }) => {
     initialState,
     onSubmit: (payload) => {
       if (education?.id) {
-        console.log("updating")
         updateData({data: payload, entryId: education.id});
       } else {
-        console.log("saving")
         mutate(payload);
       }
     },
