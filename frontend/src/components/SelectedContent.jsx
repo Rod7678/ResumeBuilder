@@ -27,7 +27,7 @@ const SELECTED_FORM = [
 ];
 
 const SelectedContent = ({ onEdit }) => {
-  const { addedForms: data , handleDelete} = useUser();
+  const { addedForms: data , setIsDeleting} = useUser();
   const uniqueSections = [...new Set(data)];
 
   const { data: addedFormsArray } = useQuery({
@@ -82,7 +82,7 @@ const SelectedContent = ({ onEdit }) => {
             </div> */}
             {/* {entriesArray(type.Title).length > 0 &&
             <AccordianContent enteries={entriesArray(type.Title)} />} */}
-            <AccordianContent enteries={entriesArray(type.Title)} title={type.Title} onEdit={onEdit} onDelete={handleDelete} />
+            <AccordianContent enteries={entriesArray(type.Title)} title={type.Title} onEdit={onEdit} onDelete={() => setIsDeleting(true)} />
           </li>
         );
       })}

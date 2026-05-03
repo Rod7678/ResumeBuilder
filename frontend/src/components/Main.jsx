@@ -19,7 +19,7 @@ import { useUser } from "../context/UserContext.jsx";
 
 const Main = ({ addingContent }) => {
   // const navigate = useNavigate();
-  const { activeForm, setActiveForm, addedForms: data , isEditing: isEdit, setIsEditing: setIsEdit, setEntryId } = useUser();
+  const { activeForm, setActiveForm, addedForms: data , isEditing: isEdit, setIsEditing: setIsEdit, setEntryId, isDeleting, setIsDeleting } = useUser();
 
   const selectedType = activeForm || data?.[0] || "User";
  
@@ -35,6 +35,15 @@ const Main = ({ addingContent }) => {
     setEntryId(id);
     setIsEdit(true);
   };
+
+  if(isDeleting){
+    const handleDelete = (id) => {
+      if(window.confirm("Are you sure you want to delete this entry?")) {
+        setEntryId(id);
+        setIsDeleting(false);
+      }
+    }
+  }
 
   
 

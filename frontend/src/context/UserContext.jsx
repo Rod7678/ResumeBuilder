@@ -27,6 +27,7 @@ export const UserProvider = ({ children }) => {
   const [activeForm, setActiveForm] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [entryId, setEntryId] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -84,6 +85,8 @@ export const UserProvider = ({ children }) => {
         entryId,
         setEntryId,
         handleDelete,
+        isDeleting,
+        setIsDeleting,
       }}
     >
       {children}
