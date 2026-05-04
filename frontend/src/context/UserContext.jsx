@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { DeleteEducationDetails } from "../utils/http";
 
 const UserContext = createContext();
 

@@ -12,18 +12,15 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
 
   let entryTitle;
   let entrySubtitle;
-  let deleteFunction;
 
   switch (title) {
     case "Professional Experience":
       entryTitle = "job_role";
       entrySubtitle = "company_name";
-      // deleteFunction = DeleteEducationDetails;
       break;
     case "Education":
       entryTitle = "degree";
       entrySubtitle = "institute_name";
-      // deleteFunction = DeleteEducationDetails;
       break;
     case "Languages":
       entryTitle = "language_name";
@@ -42,7 +39,8 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
   const { mutate: deleteMutation } = useMutation({
     mutationFn: ({title, id}) => handleDelete({title, id}),
     onSuccess: () => {
-      onDelete();
+      console.log("Deleted entry successfully");
+      // onDelete();
     },
   });
   const toggleAccordian = () => {
@@ -90,7 +88,7 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
         <ul>
           {arrayOfContent.map((section, index) => {
             return (
-              <li className="py-4 z-10 border-t border-zinc-200">
+              <li key={section.id} className="py-4 z-10 border-t border-zinc-200">
                 <div className="px-5 py-4  flex justify-between items-center">
                   <div className="flex-col justify-start items-center text-left">
                     <h3 className="text-zinc-950 font-bold text-2xl ">
@@ -107,7 +105,7 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
                       <i className="fa-solid fa-pen-to-square"></i>
                     </button>
                     <button
-                      className="bg-red-500 rounded-full h-10 w-10 m-0"
+                      className="bg-red-500 rounded-full h-10 w-10 m-0 hover:bg-red-600 transition hover:text-white"
                       onClick={() => deleteMutation({title, id: section.id})}
                     >
                       <i className="fa-solid fa-trash"></i>
