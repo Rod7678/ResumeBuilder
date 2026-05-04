@@ -45,7 +45,7 @@ export const UserProvider = ({ children }) => {
     }
     setLoading(false);
   }, []);
-  
+
   const login = (userData) => {};
 
   const addForm = (updater) => {
@@ -65,9 +65,15 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
-  const handleDelete = (id) => {
-    setEntryId(id)
-  }
+  const handleDelete = ({ title, id }) => {
+    let deleteFunction;
+    switch (title) {
+      case "Education":
+        deleteFunction = DeleteEducationDetails;
+        break;
+    }
+    return deleteFunction(id);
+  };
 
   return (
     <UserContext.Provider

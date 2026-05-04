@@ -1,22 +1,29 @@
 import { useState } from "react";
+import { DeleteEducationDetails } from "../../utils/http";
+import { useMutation } from "@tanstack/react-query";
+import { useUser } from "../../context/UserContext";
 
-const AccordianContent = ({ title, enteries = [], onEdit , onDelete}) => {
+const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
   const arrayOfContent = [...enteries];
   const [isOpen, setIsOpen] = useState(false);
   const hasEntries = arrayOfContent.length > 0;
   const hasMultipleEntries = arrayOfContent.length > 1;
+  const { handleDelete } = useUser();
 
   let entryTitle;
   let entrySubtitle;
+  let deleteFunction;
 
   switch (title) {
     case "Professional Experience":
       entryTitle = "job_role";
       entrySubtitle = "company_name";
+      // deleteFunction = DeleteEducationDetails;
       break;
     case "Education":
       entryTitle = "degree";
       entrySubtitle = "institute_name";
+      // deleteFunction = DeleteEducationDetails;
       break;
     case "Languages":
       entryTitle = "language_name";
@@ -32,6 +39,12 @@ const AccordianContent = ({ title, enteries = [], onEdit , onDelete}) => {
       break;
   }
 
+  const { mutate: deleteMutation } = useMutation({
+    mutationFn: ({title, id}) => handleDelete({title, id}),
+    onSuccess: () => {
+      onDelete();
+    },
+  });
   const toggleAccordian = () => {
     if (hasMultipleEntries) {
       setIsOpen((prev) => !prev);
@@ -85,19 +98,21 @@ const AccordianContent = ({ title, enteries = [], onEdit , onDelete}) => {
                     </h3>
                     <p className="text-zinc-700">{section[entrySubtitle]}</p>
                   </div>
-                  <button
-                    className="bg-gray-950 rounded-full h-10 w-10 m-0"
-                    // onClick={() => onEdit(title)}
-                    onClick={() => onEdit(title, section.id)}
-                  >
-                    <i className="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button
-                    className="bg-red-500 rounded-full h-10 w-10 m-0"
-                    onClick={() => onDelete(section.id)}
-                  >
-                    <i className="fa-solid fa-trash"></i>
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      className="bg-gray-950 rounded-full h-10 w-10 m-0"
+                      // onClick={() => onEdit(title)}
+                      onClick={() => onEdit(title, section.id)}
+                    >
+                      <i className="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button
+                      className="bg-red-500 rounded-full h-10 w-10 m-0"
+                      onClick={() => deleteMutation({title, id: section.id})}
+                    >
+                      <i className="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
                 </div>
               </li>
             );
