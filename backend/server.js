@@ -554,6 +554,71 @@ app.put("/api/projects/latest", async (req, res) => {
   }
 });
 
+app.put("/api/projects/:id", async (req, res) => {
+  try {
+    const {
+      projectTitle,
+      description,
+      technologies,
+      projectLink,
+      startDate,
+      endDate,
+    } = req.body;
+
+    const [users] = await db.query(
+      "SELECT id FROM users ORDERS BY id DESC LIMIT 1",
+    );
+    if (!users.length) {
+      res.status(400).json({ message: "No User Exist" });
+    }
+
+    const userId = users[0].id;
+    const entryId = req.params.id;
+
+    await db.query(
+      "UPDATE projects AS p SET project_title = ?, description = ?, technologies = ?, project_link = ?, start_date = ?, end_date = ? WHERE p.user_id = ? AND p.id = ?",
+      [
+        projectTitle,
+        description,
+        technologies,
+        projectLink,
+        startDate,
+        endDate,
+        userId,
+        entryId,
+      ],
+    );
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete("/api/projects/entryDelete/:id", async (req, res) => {
+  try {
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+
+    if(!users.length) {
+      return res.status(400).json({message: "No User Exist"});
+    }
+
+    const userId = users[0].id;
+    const entryId = req.params.id;
+
+    await db.query(
+      "DELETE FROM projects WHERE user_id = ? AND id = ?",
+      [userId, entryId],
+    );
+
+    res.status(201).json({message: "project entry deleted"});
+  }
+    catch (err) {
+      res.status(500).json({error: err.message});
+    }
+});
+
+
 app.get("/api/resume/latest", async (req, res) => {
   try {
     const [users] = await db.query(
@@ -608,7 +673,7 @@ app.get("/api/resume/:userId", async (req, res) => {
       "SELECT * FROM education_details WHERE user_id = ?",
       [userId],
     );
-    const [proects] = await db.query(
+    const [projects] = await db.query(
       "SELECT * FROM projects WHERE user_id = ?",
       [userId],
     );
@@ -617,7 +682,7 @@ app.get("/api/resume/:userId", async (req, res) => {
       user,
       professional,
       education,
-      proects,
+      projects,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
