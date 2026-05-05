@@ -202,6 +202,8 @@ export const UpdateProfessionalDetails = async ({data, id}) => {
 };
 
 // Delete Functions
+// If id is provided, delete the specific entry, otherwise delete the latest entry
+// Education details deletion
 export const DeleteEducationDetails = async (id) => {
   const fetchUrl = id ? `${url}/education/entryDelete/${id}` : `${url}/education/latest`;
   const response = await fetch(fetchUrl, {
@@ -222,7 +224,49 @@ export const DeleteEducationDetails = async (id) => {
   return res;
 };
 
+// Project details deletion
+export const DeleteProfessionalDetails = async (id) => {
+  const fetchUrl = id ? `${url}/professional/entry/${id}` : `${url}/professional/latest`;
+  const response = await fetch(fetchUrl, {
+    method: "DELETE",
+  })
+  if(!response.ok){
+    const error = new Error(
+      "An error occured during deleting professional details"
+    )
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
 
+  const res = await response.json();
+  
+  return res;
+}
+
+// Professional details deletion
+export const DeleteProjectDetails = async (id) => {
+  const fetchUrl = id ? `${url}/projects/entry/${id}` : `${url}/projects/latest`;
+  const response = await fetch(fetchUrl, {
+    method: "DELETE",
+  })
+
+  if(!response.ok){
+    const error = new Error(
+      "An error occured during deleting project details"
+    )
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const res = await response.json();
+
+  return res;
+}
+
+
+// Resume Functions
 export const fetchLatestResume = async () => {
   const res = await fetch(`${url}/resume/latest`);
 
