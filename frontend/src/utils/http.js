@@ -4,6 +4,7 @@ export const queryClient = new QueryClient();
 
 let url = "http://localhost:3000/api";
 
+// User Functions
 export const saveUserDetail = async (data) => {
   const formData = {
     full_name: data.fullName,
@@ -60,6 +61,7 @@ export const fetchUserDetail = async ({ queryKey, signal }) => {
   return data;
 };
 
+// Create Functions
 export const SaveUserProfessionalData = async (data) => {
   const response = await fetch(`${url}/professional/latest`, {
     method: "POST",
@@ -128,6 +130,8 @@ export const SaveEducationDetails = async (data) => {
   return res;
 };
 
+
+// Update Functions
 export const UpdateEducationDetails = async ({data, id}) => {
   const fetchUrl = id ? `${url}/education/entry/${id}` : `${url}/education/latest`;
   const response = await fetch(fetchUrl, {
@@ -197,6 +201,7 @@ export const UpdateProfessionalDetails = async ({data, id}) => {
   return res;
 };
 
+// Delete Functions
 export const DeleteEducationDetails = async (id) => {
   const fetchUrl = id ? `${url}/education/entryDelete/${id}` : `${url}/education/latest`;
   const response = await fetch(fetchUrl, {

@@ -70,6 +70,8 @@ app.post("/api/users", async (req, res) => {
   }
 });
 
+// Other API endpoints for professional experience, education details, projects, and resume fetching will go here
+// Professional Experience Endpoints
 app.post("/api/professional/latest", async (req, res) => {
   try {
     const {
@@ -257,7 +259,7 @@ app.delete("/api/professional/entry/:id", async (req, res) => {
 });
 
 
-
+// Education Details Endpoints
 app.post("/api/education/latest", async (req, res) => {
   try {
     const {
@@ -445,6 +447,7 @@ app.delete("/api/education/entryDelete/:id", async (req, res) => {
 });
 
 
+// Projects Endpoints
 app.post("/api/projects/latest", async (req, res) => {
   try {
     const {
@@ -619,6 +622,7 @@ app.delete("/api/projects/entryDelete/:id", async (req, res) => {
 });
 
 
+// Resume Endpoints
 app.get("/api/resume/latest", async (req, res) => {
   try {
     const [users] = await db.query(
