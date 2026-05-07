@@ -699,6 +699,25 @@ app.put("/api/languages/entry/:id", async (req, res) => {
   }
 });
 
+app.delete("/api/languages/entryDelete/:id", async (req, res) => {
+  try {
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+
+    if(!users.length) {
+      return res.status(400).json({ message: "No User Exist" });
+    }
+    const userId = users[0].id;
+    const entryId = req.params.id;
+
+    await db.query("DELETE FROM languages WHERE user_id = ? AND id = ?", [userId, entryId]);
+
+    res.status(201).json({ message: "Language entrty deleted"});
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 
 // Resume Endpoints
