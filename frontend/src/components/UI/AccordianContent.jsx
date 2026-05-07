@@ -37,7 +37,7 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
   }
 
   const { mutate: deleteMutation } = useMutation({
-    mutationFn: ({title, id}) => handleDelete({title, id}),
+    mutationFn: ({ title, id }) => handleDelete({ title, id }),
     onSuccess: () => {
       console.log("Deleted entry successfully");
       // onDelete();
@@ -75,12 +75,20 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
         <div className="px-5 py-4 border-t border-zinc-200 flex justify-between items-center">
           <h3 className="text-zinc-950 font-bold text-2xl">{title}</h3>
           <p className="text-zinc-700">{arrayOfContent[0][entryTitle]}</p>
-          <button
-            className="bg-gray-950 rounded-full h-10 w-10 m-0"
-            onClick={() => onEdit(title)}
-          >
-            <i className="fa-solid fa-pen-to-square"></i>
-          </button>
+          <div className="flex gap-2">
+            <button
+              className="bg-gray-950 rounded-full h-10 w-10 m-0"
+              onClick={() => onEdit(title, arrayOfContent[0].id)}
+            >
+              <i className="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button
+              className="bg-red-500 rounded-full h-10 w-10 m-0 hover:bg-red-600 transition hover:text-white"
+              onClick={() => deleteMutation({ title, id: section.id })}
+            >
+              <i className="fa-solid fa-trash"></i>
+            </button>
+          </div>
         </div>
       )}
 
@@ -88,7 +96,10 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
         <ul>
           {arrayOfContent.map((section, index) => {
             return (
-              <li key={section.id} className="py-4 z-10 border-t border-zinc-200">
+              <li
+                key={section.id}
+                className="py-4 z-10 border-t border-zinc-200"
+              >
                 <div className="px-5 py-4  flex justify-between items-center">
                   <div className="flex-col justify-start items-center text-left">
                     <h3 className="text-zinc-950 font-bold text-2xl ">
@@ -106,7 +117,7 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
                     </button>
                     <button
                       className="bg-red-500 rounded-full h-10 w-10 m-0 hover:bg-red-600 transition hover:text-white"
-                      onClick={() => deleteMutation({title, id: section.id})}
+                      onClick={() => deleteMutation({ title, id: section.id })}
                     >
                       <i className="fa-solid fa-trash"></i>
                     </button>
