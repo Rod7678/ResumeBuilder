@@ -4,15 +4,16 @@ import {
   fetchLatestResume,
   queryClient,
   saveProjectDetails,
-  UpdateEducationDetails,
+  UpdateProjectDetails,
 } from "../../utils/http";
 import Input from "../UI/Input.jsx";
 import Button from "../UI/Button.jsx";
 import { useEffect, useState } from "react";
 import { useFormData } from "../../hooks/useFormData.js";
+import { useUser } from "../../context/UserContext.jsx";
 
 const ProjectForm = ({ onSelect }) => {
-  const initialState={
+  const initialState = {
     projectTitle: "",
     description: "",
     technologies: "",
@@ -21,17 +22,21 @@ const ProjectForm = ({ onSelect }) => {
     endDate: "",
   };
 
+  const { entryId } = useUser();
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: saveProjectDetails,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["latestResume"] });
+      onSelect();
     },
   });
 
   const { mutate: updateProject } = useMutation({
-    mutationFn: UpdateEducationDetails,
+    mutationFn: ({ data, entryId }) =>
+      UpdateProjectDetails({ data, id: entryId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["latestResume"] });
+      onSelect();
     },
   });
 
@@ -40,24 +45,39 @@ const ProjectForm = ({ onSelect }) => {
     queryFn: fetchLatestResume,
   });
 
-  const projects = projectsData?.projects?.[0] || [];
-  const {formData, handleSubmit: handleFormSubmit, handleChange: handleInputChange, setFormValues} = useFormData({ initialState, onSubmit: (payload) => {
-    if (projects.length > 0) {
-      updateProject(payload);
-    } else {
-      mutate(payload);
-    }
-    onSelect();
-  } })
+  let projects = null;
+  if (entryId != null) {
+    projects = projectsData?.projects?.find((p) => p.id === entryId) || null;
+  } else {
+    projects = projectsData?.projects?.[0] || null;
+  }
+
+  const {
+    formData,
+    handleSubmit: handleFormSubmit,
+    handleChange: handleInputChange,
+    setFormValues,
+  } = useFormData({
+    initialState,
+    onSubmit: (payload) => {
+      if (projects?.id) {
+        updateProject({data: payload, entryId: projects.id});
+      } else {
+        mutate(payload);
+      }
+      onSelect();
+    },
+  });
+
   useEffect(() => {
-    if (projects.length > 0) {
+    if (projects) {
       setFormValues({
-        projectTitle: projects.project_title,
-        description: projects.description,
-        technologies: projects.technologies,
-        projectLink: projects.project_link,
-        startDate: normalizeDate(projects.start_date),
-        endDate: normalizeDate(projects.end_date),
+        projectTitle: projects.project_title || "",
+        description: projects.description || "",
+        technologies: projects.technologies || "",
+        projectLink: projects.project_link || "",
+        startDate: projects.start_date || "",
+        endDate: projects.end_date || "",
       });
       return;
     }
@@ -118,6 +138,7 @@ const ProjectForm = ({ onSelect }) => {
           name="projectLink"
           label="Add Link of project"
           type="url"
+          value={formData.projectLink}
           onChange={handleInputChange}
           placeholder="eg. http://resumeBuilder.com"
         />

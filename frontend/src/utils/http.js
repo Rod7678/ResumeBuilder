@@ -224,7 +224,8 @@ export const DeleteEducationDetails = async (id) => {
   return res;
 };
 
-// Project details deletion
+
+// Professional details deletion
 export const DeleteProfessionalDetails = async (id) => {
   const fetchUrl = id ? `${url}/professional/entry/${id}` : `${url}/professional/latest`;
   const response = await fetch(fetchUrl, {
@@ -244,7 +245,8 @@ export const DeleteProfessionalDetails = async (id) => {
   return res;
 }
 
-// Professional details deletion
+
+// Project details deletion
 export const DeleteProjectDetails = async (id) => {
   const fetchUrl = id ? `${url}/projects/entry/${id}` : `${url}/projects/latest`;
   const response = await fetch(fetchUrl, {
