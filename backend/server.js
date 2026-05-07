@@ -189,7 +189,6 @@ app.put("/api/professional/latest", async (req, res) => {
   }
 });
 
-
 app.put("/api/professional/entry/:id", async (req, res) => {
   try {
     const {
@@ -239,8 +238,8 @@ app.delete("/api/professional/entry/:id", async (req, res) => {
       "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
 
-    if(!users.length) {
-      return res.status(400).json({message: "No User Exist"});
+    if (!users.length) {
+      return res.status(400).json({ message: "No User Exist" });
     }
 
     const userId = users[0].id;
@@ -251,13 +250,11 @@ app.delete("/api/professional/entry/:id", async (req, res) => {
       [userId, entryId],
     );
 
-    res.status(201).json({message: "Professional entry deleted"});
+    res.status(201).json({ message: "Professional entry deleted" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-    catch (err) {
-      res.status(500).json({error: err.message});
-    }
 });
-
 
 // Education Details Endpoints
 app.post("/api/education/latest", async (req, res) => {
@@ -348,7 +345,6 @@ app.put("/api/education/latest", async (req, res) => {
       schlocation,
     } = req.body;
 
-
     const [users] = await db.query(
       "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
@@ -389,7 +385,6 @@ app.put("/api/education/entry/:id", async (req, res) => {
       schlocation,
     } = req.body;
 
-
     const [users] = await db.query(
       "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
@@ -415,7 +410,7 @@ app.put("/api/education/entry/:id", async (req, res) => {
         entryId,
       ],
     );
-    console.log("entry Updates :" , entryId)
+    console.log("entry Updates :", entryId);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -427,8 +422,8 @@ app.delete("/api/education/entryDelete/:id", async (req, res) => {
       "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
 
-    if(!users.length) {
-      return res.status(400).json({message: "No User Exist"});
+    if (!users.length) {
+      return res.status(400).json({ message: "No User Exist" });
     }
 
     const userId = users[0].id;
@@ -439,13 +434,11 @@ app.delete("/api/education/entryDelete/:id", async (req, res) => {
       [userId, entryId],
     );
 
-    res.status(201).json({message: "Education entry deleted"});
+    res.status(201).json({ message: "Education entry deleted" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-    catch (err) {
-      res.status(500).json({error: err.message});
-    }
 });
-
 
 // Projects Endpoints
 app.post("/api/projects/latest", async (req, res) => {
@@ -602,24 +595,63 @@ app.delete("/api/projects/entryDelete/:id", async (req, res) => {
       "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
 
-    if(!users.length) {
-      return res.status(400).json({message: "No User Exist"});
+    if (!users.length) {
+      return res.status(400).json({ message: "No User Exist" });
     }
 
     const userId = users[0].id;
     const entryId = req.params.id;
 
-    await db.query(
-      "DELETE FROM projects WHERE user_id = ? AND id = ?",
-      [userId, entryId],
+    await db.query("DELETE FROM projects WHERE user_id = ? AND id = ?", [
+      userId,
+      entryId,
+    ]);
+
+    res.status(201).json({ message: "project entry deleted" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// language Endpoints
+app.post("/api/languages/latest", async (req, res) => {
+  try {
+    const { lan, addInfo, languageLevel } = req.body;
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
 
-    res.status(201).json({message: "project entry deleted"});
-  }
-    catch (err) {
-      res.status(500).json({error: err.message});
+    if (!users.length) {
+      return res.status(400).json({ message: "No User Exist" });
     }
+
+    const userId = users[0].id;
+    await db.query(
+      "INSERT INTO languages (user_id, language_name, description, proficiency) VALUES (?, ?, ?, ?)",
+      [userId, lan, addInfo, languageLevel],
+    );
+
+    res.status(201).json({ message: "Language added" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
+
+app.post("/api/languages/:id", async (req, res) => {
+  try {
+    const { lan, addInfo, languageLevel } = req.body;
+    const userId = req.params.id;
+    await db.query(
+      "INSERT INTO languages (user_id, language_name, description, proficiency) VALUES (?, ?, ?, ?)",
+      [userId, lan, addInfo, languageLevel],
+    );
+
+    res.status(201).json({ message: "Language added" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 
 // Resume Endpoints

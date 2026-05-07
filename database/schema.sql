@@ -70,6 +70,7 @@ CREATE TABLE languages (
     id INT auto_increment PRIMARY KEY,
     user_id INT NOT NULL,
     language_name VARCHAR(100) NOT NULL,
+    description TEXT,
     proficiency ENUM('Basic', 'Conversational', 'Fluent', 'Native') DEFAULT 'Basic',
     FOREIGN KEY (user_id) REFERENCES users(id)
     ON DELETE CASCADE
