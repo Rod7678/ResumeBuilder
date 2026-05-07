@@ -652,6 +652,53 @@ app.post("/api/languages/:id", async (req, res) => {
   }
 });
 
+app.put("/api/languages/latest", async (req, res) => {
+  try {
+    const { lan, addInfo, languageLevel } = req.body;
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+
+    if (!users.length) {
+      return res.status(400).json({ message: "No User Exist" });
+    }
+
+    const userId = users[0].id;
+    await db.query(
+      "UPDATE languages AS l SET language_name = ?, description = ?, proficiency = ? WHERE l.user_id = ? ",
+      [lan, addInfo, languageLevel, userId],
+    );
+
+    res.status(201).json({ message: "Language Update" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put("/api/languages/entry/:id", async (req, res) => {
+  try {
+    const { lan, addInfo, languageLevel } = req.body;
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+
+    if (!users.length) {
+      return res.status(400).json({ message: "No User Exist" });
+    }
+
+    const userId = users[0].id;
+    const entryId = req.params.id;
+    await db.query(
+      "UPDATE languages AS l SET language_name = ?, description = ?, proficiency = ? WHERE l.user_id = ? AND l.id = ? ",
+      [lan, addInfo, languageLevel, userId, entryId],
+    );
+
+    res.status(201).json({ message: "Language Update" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 
 // Resume Endpoints
