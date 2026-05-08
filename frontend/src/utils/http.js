@@ -130,6 +130,29 @@ export const SaveEducationDetails = async (data) => {
   return res;
 };
 
+export const SaveLanguageDetails = async (data) => {
+  const response = await fetch(`${url}/languages/latest`, {
+    method: "POST",
+    headers: {
+      "Content-Type" : "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if(!response.ok){
+    const error = new Error(
+      "An error occured during sending language details"
+    );
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const res = await response.json();
+
+  return res;
+}
+
 
 // Update Functions
 export const UpdateEducationDetails = async ({data, id}) => {
