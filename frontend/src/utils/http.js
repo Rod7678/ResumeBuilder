@@ -312,6 +312,28 @@ export const DeleteProjectDetails = async (id) => {
   return res;
 }
 
+// Language details deletion
+export const DeleteLanguageDetails = async (id) => {
+  const fetchUrl = id ? `${url}/languages/entry/${id}` : `${url}/languages/latest`;
+  const response = await fetch(fetchUrl, {
+    method: "DELETE",
+  });
+
+  if(!response.ok){
+    const error = new Error(
+      "An error occured during deleting language details"
+    );
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const res = await response.json();
+
+  return res;
+}
+
+
 
 // Resume Functions
 export const fetchLatestResume = async () => {
