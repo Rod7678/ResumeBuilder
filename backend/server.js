@@ -525,7 +525,7 @@ app.put("/api/projects/latest", async (req, res) => {
     } = req.body;
 
     const [users] = await db.query(
-      "SELECT id FROM users ORDERS BY id DESC LIMIT 1",
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
     if (!users.length) {
       res.status(400).json({ message: "No User Exist" });
@@ -550,7 +550,7 @@ app.put("/api/projects/latest", async (req, res) => {
   }
 });
 
-app.put("/api/projects/:id", async (req, res) => {
+app.put("/api/projects/entry/:id", async (req, res) => {
   try {
     const {
       projectTitle,
@@ -562,7 +562,7 @@ app.put("/api/projects/:id", async (req, res) => {
     } = req.body;
 
     const [users] = await db.query(
-      "SELECT id FROM users ORDERS BY id DESC LIMIT 1",
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
     if (!users.length) {
       res.status(400).json({ message: "No User Exist" });

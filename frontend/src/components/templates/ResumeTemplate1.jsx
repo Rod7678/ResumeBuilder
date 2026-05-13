@@ -3,7 +3,7 @@ import { fetchLatestResume } from "../../utils/http";
 import { useUser } from "../../context/UserContext";
 import { Mail, MapPin, Phone } from "lucide-react";
 
-const ResumePreview = () => {
+const ResumeTemplate1 = () => {
   const { data: resumeData } = useQuery({
     queryKey: ["latestResume"],
     queryFn: fetchLatestResume,
@@ -99,18 +99,7 @@ const ResumePreview = () => {
             Projects
           </h3>
           {projects.map((pr) => (
-            <div key={pr.id}>
-              <div className="flex flex-row justify-between py-2">
-                <div className="text-start flex flex-col">
-                  <p className="font-semibold text-2xl text-zinc-900">{pr.project_title}</p>
-                  <div className="flex">
-                    {pr.start_date && pr.end_date && (
-                      <p className="text-zinc-500">{`${formatedDate(pr.start_date)} - ${formatedDate(pr.end_date)}`}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <p key={pr.id}>{pr.project_title}</p>
           ))}
         </div>
       )}
@@ -118,4 +107,4 @@ const ResumePreview = () => {
   );
 };
 
-export default ResumePreview;
+export default ResumeTemplate1;
