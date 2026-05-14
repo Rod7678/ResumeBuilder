@@ -8,7 +8,16 @@ const ResumePreview = () => {
     queryKey: ["latestResume"],
     queryFn: fetchLatestResume,
   });
+  const formatedLines = (description) => {
+    const lines = description.split("\n");
+    console.log(lines);
 
+    for (let i = 0; i < lines.length; i++) {
+      <ul>
+        <li className="list-disc">{lines[i]}</li>
+      </ul>;
+    }
+  };
   const { user, loading: isLoading, addedForms } = useUser();
   if (!user) return null;
   if (isLoading) return <p>Loading Resume Preview...</p>;
@@ -19,7 +28,6 @@ const ResumePreview = () => {
   const education = hasSection("Education") ? resumeData?.education : null;
   const projects = hasSection("Projects") ? resumeData?.projects : null;
 
-  
   const formatedDate = (date) => new Date(date).toLocaleDateString("en-IN");
 
   return (
@@ -101,12 +109,29 @@ const ResumePreview = () => {
           {projects.map((pr) => (
             <div key={pr.id}>
               <div className="flex flex-row justify-between py-2">
-                <div className="text-start flex flex-col">
-                  <p className="font-semibold text-2xl text-zinc-900">{pr.project_title}</p>
+                <div className="text-start flex flex-col w-full">
+                  <div className="flex justify-between w-full">
+                    <p className="font-semibold text-2xl text-zinc-900 flex flex-col gap-1">
+                      <span>{pr.project_title}</span>
+                      {pr.technologies && (
+                        <span className="text-zinc-700 text-sm">{`Tech Stack : ${pr.technologies}`}</span>
+                      )}
+                    </p>
+                    <p>
+                      {pr.start_date && pr.end_date && (
+                        <span className="text-zinc-500">{`${formatedDate(pr.start_date)} - ${formatedDate(pr.end_date)}`}</span>
+                      )}
+                    </p>
+                  </div>
                   <div className="flex">
-                    {pr.start_date && pr.end_date && (
-                      <p className="text-zinc-500">{`${formatedDate(pr.start_date)} - ${formatedDate(pr.end_date)}`}</p>
-                    )}
+                    <ul className="pl-5">
+                      {pr.description &&
+                        pr.description.split("\n").map((line, index) => (
+                          <li key={index} className="list-disc">
+                            {line}
+                          </li>
+                        ))}
+                    </ul>
                   </div>
                 </div>
               </div>
