@@ -27,7 +27,8 @@ const ResumePreview = () => {
     : null;
   const education = hasSection("Education") ? resumeData?.education : null;
   const projects = hasSection("Projects") ? resumeData?.projects : null;
-
+  const languages = hasSection("languages") ? resumeData?.languages : null;
+  
   const formatedDate = (date) => new Date(date).toLocaleDateString("en-IN");
 
   return (
@@ -136,6 +137,21 @@ const ResumePreview = () => {
                 </div>
               </div>
             </div>
+          ))}
+        </div>
+      )}
+
+      <hr className="my-4"></hr>
+
+      {languages && (
+        <div className="languages">
+          <h3 className="text-start text-underline font-semibold text-xl">
+            Languages
+          </h3>
+          {languages.map((l) => (
+            <p key={l.id} className="text-start">
+              {l.name} - {l.proficiency}
+            </p>
           ))}
         </div>
       )}
