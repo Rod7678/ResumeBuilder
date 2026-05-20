@@ -75,3 +75,24 @@ CREATE TABLE languages (
     FOREIGN KEY (user_id) REFERENCES users(id)
     ON DELETE CASCADE
 )
+
+CREATE TABLE certificates (
+    id INT auto_increment PRIMARY KEY,
+    user_id INT NOT NULL,
+    certificate_name VARCHAR(150) NOT NULL,
+    issuing_organization VARCHAR(150),
+    issue_date DATE,
+    expiration_date DATE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE
+)
+
+CREATE TABLE skills (
+    id INT auto_increment PRIMARY KEY,
+    user_id INT NOT NULL,
+    skill_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    proficiency ENUM('Beginner', 'Intermediate', 'Advanced', 'Expert') DEFAULT 'Beginner',
+    FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE
+)

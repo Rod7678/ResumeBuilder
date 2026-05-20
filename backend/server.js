@@ -749,11 +749,18 @@ app.get("/api/resume/latest", async (req, res) => {
       [userId],
     );
 
+    const [languages] = await db.query(
+      "SELECT * FROM languages WHERE user_id = ?",
+      [userId],
+    );
+
+
     res.json({
       user,
       professional,
       education,
       projects,
+      languages,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

@@ -21,8 +21,12 @@ const SELECTED_FORM = [
     Title: "Projects",
   },
   {
-    id: 3,
+    id: 5,
     Title: "Certificates",
+  },
+  {
+    id: 6,
+    Title: "Skills",
   },
 ];
 
@@ -52,6 +56,12 @@ const SelectedContent = ({ onEdit }) => {
         break;
       case "Projects":
         dataEntry = addedForms.projects = addedForms.projects || [];
+        break;
+      case "Certificates":
+        dataEntry = addedForms.certificates = addedForms.certificates || [];
+        break;
+      case "Skills":
+        dataEntry = addedForms.skills = addedForms.skills || [];
         break;
       default:
         dataEntry = [];
