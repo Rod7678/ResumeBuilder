@@ -754,6 +754,10 @@ app.get("/api/resume/latest", async (req, res) => {
       [userId],
     );
 
+    const [skills] = await db.query(
+      "SELECT * FROM skills WHERE user_id = ?",
+      [userId]
+    )
 
     res.json({
       user,
@@ -761,6 +765,7 @@ app.get("/api/resume/latest", async (req, res) => {
       education,
       projects,
       languages,
+      skills
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -787,11 +792,17 @@ app.get("/api/resume/:userId", async (req, res) => {
       [userId],
     );
 
+    const [skills] = await db.query(
+      "SELECT * FROM skills WHERE user_id = ?",
+      [userId]
+    )
+
     res.json({
       user,
       professional,
       education,
       projects,
+      skills,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
