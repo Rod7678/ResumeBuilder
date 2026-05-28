@@ -5,6 +5,7 @@ import EducationForm from "./Form/EducationForm.jsx";
 import Language from "./Form/Language.jsx";
 import ContentList from "./ContentList.jsx";
 import ProjectForm from "./Form/ProjectsForm.jsx";
+import Skills from "./Form/Skills.jsx";
 import { queryClient, saveUserDetail } from "../utils/http.js";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";

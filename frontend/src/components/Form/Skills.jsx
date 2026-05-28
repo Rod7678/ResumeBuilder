@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import FormDiv from "../UI/FormDiv";
 import Input from "../UI/Input";
 
-export const Skills = () => {
+const Skills = () => {
   
   // useEffect(()=>{
 
@@ -34,3 +34,6 @@ export const Skills = () => {
     </FormDiv>
   );
 };
+
+
+export default Skills;
