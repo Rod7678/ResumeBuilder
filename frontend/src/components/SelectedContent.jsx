@@ -69,7 +69,7 @@ const SelectedContent = ({ onEdit }) => {
     }
     return dataEntry;
   }; 
-  // console.log("added forms: ", addedForms);
+  console.log("added forms: ", addedForms);
   return (
     <ul>
       {uniqueSections.map((section) => {

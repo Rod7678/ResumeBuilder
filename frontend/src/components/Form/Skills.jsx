@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import FormDiv from "../UI/FormDiv";
 import Input from "../UI/Input";
 
-const Skills = () => {
+export const Skills = () => {
+  
+  // useEffect(()=>{
+
+  // }, [])
   return (
     <FormDiv title={"Add Your skills"} onSend={}>
       <Input

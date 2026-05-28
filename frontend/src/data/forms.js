@@ -35,4 +35,9 @@ export const FORMS = [
       "Drivers licenses and other industry-specific certificates you have belong here.",
     icon: "fa-solid fa-file-certificate",
   },
+  {
+    title: "Skills",
+    description: "Showcase what you got here",
+    icon: "fa-solid fa-folder-open",
+  },
 ];
