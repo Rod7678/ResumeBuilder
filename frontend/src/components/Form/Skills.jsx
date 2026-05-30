@@ -12,6 +12,7 @@ const Skills = ({onSelect}) => {
     skillInfo: "",
     proficiencyLevel: "basic",
   };
+  
   const {entryId} = useUser();
   
   const {data: skillData} = useQuery({
@@ -25,7 +26,9 @@ const Skills = ({onSelect}) => {
     skill = skillData?.skills?.[0] || null;
   }
   const {formData, handleSubmit: handleFprmSubmit} = useFormData({initialState, onSubmit: (payload) => {
+    if(skill){
 
+    }
   }})
   // useEffect(()=>{
 

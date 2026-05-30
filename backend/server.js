@@ -1,4 +1,4 @@
-import express from "express";
+import express, { json } from "express";
 import cors from "cors";
 const app = express();
 const PORT = 3000;
@@ -705,20 +705,139 @@ app.delete("/api/languages/entryDelete/:id", async (req, res) => {
       "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
 
-    if(!users.length) {
+    if (!users.length) {
       return res.status(400).json({ message: "No User Exist" });
     }
     const userId = users[0].id;
     const entryId = req.params.id;
 
-    await db.query("DELETE FROM languages WHERE user_id = ? AND id = ?", [userId, entryId]);
+    await db.query("DELETE FROM languages WHERE user_id = ? AND id = ?", [
+      userId,
+      entryId,
+    ]);
 
-    res.status(201).json({ message: "Language entrty deleted"});
+    res.status(201).json({ message: "Language entrty deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
+// Skill Endpoints
+app.post("/api/skills/latest", async (req, res) => {
+  try {
+    const { skill, skillInfo, proficiencyLevel } = req.body;
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+    if (!users.length) {
+      return res.status(400).json({ message: "No user Exist" });
+    }
+
+    const userId = users[0];
+
+    await db.query(
+      "INSERT INTO skills (user_id, skill_name, description, proficiency) VALUES (?, ?, ?, ?)",
+      [userId, skill, skillInfo, proficiencyLevel],
+    );
+
+    return res.status(201).json({ message: "skill added" });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/skills/:id", async (req, res) => {
+  try {
+    const { skill, skillInfo, proficiencyLevel } = req.body;
+
+    const userId = req.params.id;
+
+    await db.query(
+      "INSERT INTO skills (user_id, skill_name, description, proficiency) VALUES (?, ?, ?, ?)",
+      [userId, skill, skillInfo, proficiencyLevel],
+    );
+
+    return res.status(201).json({ message: "skill added" });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.put("/api/skills/latest", async (req, res) => {
+  try {
+    const { skill, skillInfo, proficiencyLevel } = req.body;
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+    if (!users.length) {
+      return res.status(400).json({ message: "No user Exist" });
+    }
+
+    const userId = users[0];
+
+    await db.query(
+      "UPDATE skills AS s SET skill_name = ?, description = ?, proficiency = ? WHERE s.user_id = ?",
+      [skill, skillInfo, proficiencyLevel, userId],
+    );
+
+    return res.status(201).json({ message: "skill added" });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.put("/api/skills/entry/:id", async (req, res) => {
+  try {
+    const { skill, skillInfo, proficiencyLevel } = req.body;
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+    if (!users.length) {
+      return res.status(400).json({ message: "No user Exist" });
+    }
+
+    const userId = users[0];
+    const entryId = req.params.id;
+
+    await db.query(
+      "UPDATE skills AS s SET skill_name = ?, description = ?, proficiency = ? WHERE s.user_id = ? AND s.id",
+      [skill, skillInfo, proficiencyLevel, userId, entryId],
+    );
+
+    return res.status(201).json({ message: "skill added" });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete("/api/skills/entryDelete/:id", async (req, res) => {
+  try {
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY DESC LIMIT 1",
+    );
+    if (!users.length) {
+      return res.status(400).json({ message: "NO user exist" });
+    }
+    const userId = users[0];
+    const entryId = req.params.id;
+    await db.query("DELETE FROM skills AS s WHERE s.user_id = ? AND s.id = ?", [
+      userId,
+      entryId,
+    ]);
+    return res.status(201).json({ message: "Skill deleted" });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// Certificate Endpoints
+app.post("/api/certificates/latest", async (req, res) => {
+  try {
+    const {certicateName, issuingDate, organizationName, expiringDate} = req.body;
+  } catch (err) {
+    
+  }
+});
 
 // Resume Endpoints
 app.get("/api/resume/latest", async (req, res) => {
@@ -754,10 +873,9 @@ app.get("/api/resume/latest", async (req, res) => {
       [userId],
     );
 
-    const [skills] = await db.query(
-      "SELECT * FROM skills WHERE user_id = ?",
-      [userId]
-    )
+    const [skills] = await db.query("SELECT * FROM skills WHERE user_id = ?", [
+      userId,
+    ]);
 
     res.json({
       user,
@@ -765,7 +883,7 @@ app.get("/api/resume/latest", async (req, res) => {
       education,
       projects,
       languages,
-      skills
+      skills,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -792,10 +910,9 @@ app.get("/api/resume/:userId", async (req, res) => {
       [userId],
     );
 
-    const [skills] = await db.query(
-      "SELECT * FROM skills WHERE user_id = ?",
-      [userId]
-    )
+    const [skills] = await db.query("SELECT * FROM skills WHERE user_id = ?", [
+      userId,
+    ]);
 
     res.json({
       user,
