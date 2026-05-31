@@ -1,4 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
+import { json } from "express";
 
 export const queryClient = new QueryClient();
 
@@ -130,6 +131,28 @@ export const SaveEducationDetails = async (data) => {
   return res;
 };
 
+
+export const SaveSkillsDetails = async () => {
+  const response = await fetch(`${url}/skills/latest`,{
+    method: "POST",
+    headers: {
+      "Content-Type" : "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if(!response.ok){
+    const error = new Error("An error occured during sending skills details");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const res = await response.json();
+  return res;  
+};
+
+
 export const SaveLanguageDetails = async (data) => {
   const response = await fetch(`${url}/languages/latest`, {
     method: "POST",
@@ -201,6 +224,27 @@ export const UpdateProjectDetails = async ({data, id}) => {
   return res;
 };
 
+export const UpdateSkillsDetails = async ({data, id}) => {
+  const fetchUrl = id ? `${url}/skills/entry/${id}` : `${url}/skills/latest`;
+  const response = await fetch(fetchUrl, {
+    method: "PUT",
+    headers: {
+      "Content-Type" : "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if(!response.ok){
+    const error = new Error("An error occured during sending project details");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const res = await response.json();
+  return res;
+};
+
+
 export const UpdateProfessionalDetails = async ({data, id}) => {
   const fetchUrl = id ? `${url}/professional/entry/${id}` : `${url}/professional/latest`;
   const response = await fetch(fetchUrl, {
@@ -259,6 +303,26 @@ export const DeleteEducationDetails = async (id) => {
     const error = new Error(
       "An error occured during deleting education details",
     );
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const res = await response.json();
+
+  return res;
+};
+
+
+// Skill details deletion 
+export const DeleteSkillDetails = async (id) => {
+  const fetchUrl = id ?  `${url}/skills/entryDelete/${id}` : `${url}/skills/latest`;
+  const response = await fetch(fetchUrl, {
+    method: "DELETE",
+  });
+
+  if(!response.ok){
+    const error = new Error("An error occured during deleting skill");
     error.code = response.status;
     error.info = await response.json();
     throw error;
