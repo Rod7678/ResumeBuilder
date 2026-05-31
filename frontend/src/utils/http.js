@@ -1,5 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
-import { json } from "express";
+// import { json } from "express";
 
 export const queryClient = new QueryClient();
 
@@ -132,7 +132,7 @@ export const SaveEducationDetails = async (data) => {
 };
 
 
-export const SaveSkillsDetails = async () => {
+export const SaveSkillsDetails = async (data) => {
   const response = await fetch(`${url}/skills/latest`,{
     method: "POST",
     headers: {

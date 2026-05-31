@@ -13,7 +13,6 @@
     "@react-pdf/renderer": "^4.3.2",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-query": "^5.90.16",
-    "express": "^5.2.1",
     "lucide-react": "^0.563.0",
     "react": "^19.1.1",
     "react-dom": "^19.2.3",

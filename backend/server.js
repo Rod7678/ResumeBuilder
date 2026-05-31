@@ -725,7 +725,7 @@ app.delete("/api/languages/entryDelete/:id", async (req, res) => {
 // Skill Endpoints
 app.post("/api/skills/latest", async (req, res) => {
   try {
-    const { skill, skillInfo, proficiencyLevel } = req.body;
+    const { skills, skillInfo, proficiencyLevel } = req.body;
     const [users] = await db.query(
       "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
@@ -733,11 +733,11 @@ app.post("/api/skills/latest", async (req, res) => {
       return res.status(400).json({ message: "No user Exist" });
     }
 
-    const userId = users[0];
+    const userId = users[0].id;
 
     await db.query(
       "INSERT INTO skills (user_id, skill_name, description, proficiency) VALUES (?, ?, ?, ?)",
-      [userId, skill, skillInfo, proficiencyLevel],
+      [userId, skills, skillInfo, proficiencyLevel],
     );
 
     return res.status(201).json({ message: "skill added" });
@@ -748,13 +748,13 @@ app.post("/api/skills/latest", async (req, res) => {
 
 app.post("/api/skills/:id", async (req, res) => {
   try {
-    const { skill, skillInfo, proficiencyLevel } = req.body;
+    const { skills, skillInfo, proficiencyLevel } = req.body;
 
     const userId = req.params.id;
 
     await db.query(
       "INSERT INTO skills (user_id, skill_name, description, proficiency) VALUES (?, ?, ?, ?)",
-      [userId, skill, skillInfo, proficiencyLevel],
+      [userId, skills, skillInfo, proficiencyLevel],
     );
 
     return res.status(201).json({ message: "skill added" });
@@ -765,7 +765,7 @@ app.post("/api/skills/:id", async (req, res) => {
 
 app.put("/api/skills/latest", async (req, res) => {
   try {
-    const { skill, skillInfo, proficiencyLevel } = req.body;
+    const { skills, skillInfo, proficiencyLevel } = req.body;
     const [users] = await db.query(
       "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
@@ -773,11 +773,11 @@ app.put("/api/skills/latest", async (req, res) => {
       return res.status(400).json({ message: "No user Exist" });
     }
 
-    const userId = users[0];
+    const userId = users[0].id;
 
     await db.query(
       "UPDATE skills AS s SET skill_name = ?, description = ?, proficiency = ? WHERE s.user_id = ?",
-      [skill, skillInfo, proficiencyLevel, userId],
+      [skills, skillInfo, proficiencyLevel, userId],
     );
 
     return res.status(201).json({ message: "skill added" });
@@ -788,7 +788,7 @@ app.put("/api/skills/latest", async (req, res) => {
 
 app.put("/api/skills/entry/:id", async (req, res) => {
   try {
-    const { skill, skillInfo, proficiencyLevel } = req.body;
+    const { skills, skillInfo, proficiencyLevel } = req.body;
     const [users] = await db.query(
       "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
@@ -796,12 +796,12 @@ app.put("/api/skills/entry/:id", async (req, res) => {
       return res.status(400).json({ message: "No user Exist" });
     }
 
-    const userId = users[0];
+    const userId = users[0].id;
     const entryId = req.params.id;
 
     await db.query(
       "UPDATE skills AS s SET skill_name = ?, description = ?, proficiency = ? WHERE s.user_id = ? AND s.id",
-      [skill, skillInfo, proficiencyLevel, userId, entryId],
+      [skills, skillInfo, proficiencyLevel, userId, entryId],
     );
 
     return res.status(201).json({ message: "skill added" });
@@ -818,7 +818,7 @@ app.delete("/api/skills/entryDelete/:id", async (req, res) => {
     if (!users.length) {
       return res.status(400).json({ message: "NO user exist" });
     }
-    const userId = users[0];
+    const userId = users[0].id;
     const entryId = req.params.id;
     await db.query("DELETE FROM skills AS s WHERE s.user_id = ? AND s.id = ?", [
       userId,
