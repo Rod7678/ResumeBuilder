@@ -813,7 +813,7 @@ app.put("/api/skills/entry/:id", async (req, res) => {
 app.delete("/api/skills/entryDelete/:id", async (req, res) => {
   try {
     const [users] = await db.query(
-      "SELECT id FROM users ORDER BY DESC LIMIT 1",
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
     );
     if (!users.length) {
       return res.status(400).json({ message: "NO user exist" });

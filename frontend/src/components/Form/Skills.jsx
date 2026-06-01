@@ -73,15 +73,16 @@ const Skills = ({ onSelect }) => {
   useEffect(() => {
     if (skill) {
       setFormValues({
-        skills: skill.skills || "",
-        skillInfo: skill.skillInfo || "",
-        proficiencyLevel: skill.proficiencyLevel || "Beginner",
+        skills: skill.skill_name || "",
+        skillInfo: skill.description || "",
+        proficiencyLevel: skill.proficiency || "Beginner",
       });
 
       return;
     }
   }, [skill]);
 
+  console.log("formData :", formData.skills);
   return (
     <>
       <FormDiv title={"Add Your skills"} onSend={handleFormSubmit}>
@@ -108,9 +109,6 @@ const Skills = ({ onSelect }) => {
           defaultValue={formData.proficiencyLevel}
           onChange={handleInputChange}
         >
-          <option value="basic" >
-            Basic
-          </option>
           <option value="Beginner">Beginner</option>
           <option value="Intermediate">Intermediate</option>
           <option value="Advanced">Advanced</option>

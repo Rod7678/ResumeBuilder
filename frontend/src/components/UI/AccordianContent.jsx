@@ -12,6 +12,7 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
 
   let entryTitle;
   let entrySubtitle;
+  console.log("Array of content :" , arrayOfContent)
 
   switch (title) {
     case "Professional Experience":
@@ -28,6 +29,10 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
       break;
     case "Projects":
       entryTitle = "project_name";
+      entrySubtitle = "description";
+      break;
+    case "Skills":
+      entryTitle = "skill_name";
       entrySubtitle = "description";
       break;
     default:
@@ -84,7 +89,7 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
             </button>
             <button
               className="bg-red-500 rounded-full h-10 w-10 m-0 hover:bg-red-600 transition hover:text-white"
-              onClick={() => deleteMutation({ title, id: section.id })}
+              onClick={() => deleteMutation({ title, id: arrayOfContent[0].id })}
             >
               <i className="fa-solid fa-trash"></i>
             </button>

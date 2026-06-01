@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { DeleteEducationDetails, DeleteProfessionalDetails, DeleteProjectDetails } from "../utils/http";
+import { DeleteEducationDetails, DeleteLanguageDetails, DeleteProfessionalDetails, DeleteProjectDetails, DeleteSkillDetails } from "../utils/http";
 
 const UserContext = createContext();
 
@@ -77,10 +77,16 @@ export const UserProvider = ({ children }) => {
         break;
       case "Projects":
         deleteFunction = DeleteProjectDetails;
-        return;
+        break;
+      case "Language":
+        deleteFunction = DeleteLanguageDetails;
+        break;
+      case "Skills":
+        deleteFunction = DeleteSkillDetails;
+        break;
       default:
         console.error("Invalid title for deletion");
-        return;
+        break;
     }
     return deleteFunction(id);
   };
