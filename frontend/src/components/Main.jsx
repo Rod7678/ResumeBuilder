@@ -5,12 +5,12 @@ import EducationForm from "./Form/EducationForm.jsx";
 import Language from "./Form/Language.jsx";
 import ContentList from "./ContentList.jsx";
 import ProjectForm from "./Form/ProjectsForm.jsx";
-import Skills from "./Form/Skills.jsx";
+import SkillsForm from "./Form/SkillsForm.jsx";
 import { queryClient, saveUserDetail } from "../utils/http.js";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { useUser } from "../context/UserContext.jsx";
-import Certificates from "./Form/Certificate.jsx";
+import CertificatesForm from "./Form/Certificate.jsx";
 
 // const extractedForm = (data, updateFormInputState) => {
 //   updateFormInputState((prevData) => ({
@@ -69,10 +69,10 @@ const Main = ({ addingContent }) => {
       content = <UserForm onSelect={handleFormSubmit} />;
       break;
     case "Skills":
-      content = <Skills onSelect={handleFormSubmit}/>;
+      content = <SkillsForm onSelect={handleFormSubmit}/>;
       break;
-    case "Certificates":
-      content = <Certificates onSelect={handleFormSubmit}/>;
+    case "Certificate":
+      content = <CertificatesForm onSelect={handleFormSubmit}/>;
       break;
     default:
       content = <UserForm onSelect={handleFormSubmit} />;

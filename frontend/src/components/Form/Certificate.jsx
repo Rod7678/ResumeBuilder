@@ -12,7 +12,7 @@ import { useFormData } from "../../hooks/useFormData";
 import { useEffect } from "react";
 import Button from "../UI/Button";
 
-const Certificates = ({ onSelect }) => {
+const CertificatesForm = ({ onSelect }) => {
   const initialState = {
     certificateName: "",
     organizationName: "",
@@ -22,8 +22,8 @@ const Certificates = ({ onSelect }) => {
 
   const { entryId } = useUser();
   const { data: certificatesData } = useQuery({
-    queryFn: fetchLatestResume,
     queryKey: ["latestResume"],
+    queryFn: fetchLatestResume,
   });
 
   const {
@@ -58,7 +58,7 @@ const Certificates = ({ onSelect }) => {
     certificatesArr =
       certificatesData?.certificate?.find((c) => c.id === entryId) || null;
   } else {
-    certificatesArr = certificatesData?.certificate?.[0] || null;
+    certificatesArr = null;
   }
 
   const {
@@ -69,7 +69,7 @@ const Certificates = ({ onSelect }) => {
   } = useFormData({
     initialState,
     onSubmit: (payload) => {
-      if (certificatesArr) {
+      if (certificatesArr?.id) {
         updateData({ data: payload, entryId: certificatesArr.id });
       } else {
         saveData(payload);
@@ -85,8 +85,9 @@ const Certificates = ({ onSelect }) => {
         issuingDate: certificatesArr.issue_date || "",
         expiringDate: certificatesArr.expiration_date || "",
       });
+    } else {
+      setFormValues(initialState);
     }
-    return;
   }, [certificatesArr]);
   return (
     <>
@@ -139,4 +140,4 @@ const Certificates = ({ onSelect }) => {
   );
 };
 
-export default Certificates;
+export default CertificatesForm;

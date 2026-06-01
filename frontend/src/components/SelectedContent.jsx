@@ -22,7 +22,7 @@ const SELECTED_FORM = [
   },
   {
     id: 5,
-    Title: "Certificates",
+    Title: "Certificate",
   },
   {
     id: 6,
@@ -57,7 +57,7 @@ const SelectedContent = ({ onEdit }) => {
       case "Projects":
         dataEntry = addedForms.projects = addedForms.projects || [];
         break;
-      case "Certificates":
+      case "Certificate":
         dataEntry = addedForms.certificate = addedForms.certificate || [];
         break;
       case "Skills":
@@ -69,7 +69,7 @@ const SelectedContent = ({ onEdit }) => {
     }
     return dataEntry;
   }; 
-  console.log("added forms: ", addedForms);
+  // console.log("added forms: ", addedForms);
   return (
     <ul>
       {uniqueSections.map((section) => {
@@ -92,7 +92,7 @@ const SelectedContent = ({ onEdit }) => {
             </div> */}
             {/* {entriesArray(type.Title).length > 0 &&
             <AccordianContent enteries={entriesArray(type.Title)} />} */}
-            <AccordianContent enteries={entriesArray(type.Title)} title={type.Title} onEdit={onEdit} onDelete={() => setIsDeleting(true)} />
+            <AccordianContent entries={entriesArray(type.Title)} title={type.Title} onEdit={onEdit} onDelete={() => setIsDeleting(true)} />
           </li>
         );
       })}

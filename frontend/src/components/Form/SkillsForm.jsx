@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import FormDiv from "../UI/FormDiv";
-import Input from "../UI/Input";
-import { useFormData } from "../../hooks/useFormData";
+import FormDiv from "../UI/FormDiv.jsx";
+import Input from "../UI/Input.jsx";
+import { useFormData } from "../../hooks/useFormData.js";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   fetchLatestResume,
@@ -9,10 +9,10 @@ import {
   SaveSkillsDetails,
   UpdateSkillsDetails,
 } from "../../utils/http.js";
-import { useUser } from "../../context/UserContext";
-import Button from "../UI/Button";
+import { useUser } from "../../context/UserContext.jsx";
+import Button from "../UI/Button.jsx";
 
-const Skills = ({ onSelect }) => {
+const SkillsForm = ({ onSelect }) => {
   const initialState = {
     skills: "",
     skillInfo: "",
@@ -126,4 +126,4 @@ const Skills = ({ onSelect }) => {
   );
 };
 
-export default Skills;
+export default SkillsForm;

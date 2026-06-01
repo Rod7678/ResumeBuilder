@@ -3,8 +3,8 @@ import { DeleteEducationDetails, queryClient } from "../../utils/http";
 import { useMutation } from "@tanstack/react-query";
 import { useUser } from "../../context/UserContext";
 
-const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
-  const arrayOfContent = [...enteries];
+const AccordianContent = ({ title, entries = [], onEdit, onDelete }) => {
+  const arrayOfContent = [...entries];
   const [isOpen, setIsOpen] = useState(false);
   const hasEntries = arrayOfContent.length > 0;
   const hasMultipleEntries = arrayOfContent.length > 1;
@@ -34,7 +34,7 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
       entryTitle = "skill_name";
       entrySubtitle = "description";
       break;
-    case "Certificates":
+    case "Certificate":
       entryTitle = "certificate_name";
       entrySubtitle = "";
       break;
@@ -59,7 +59,7 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
   };
 
   // console.log("accordian content: ", arrayOfContent);
-  return (
+  return hasEntries && ( 
     <div className="w-full rounded-2xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
       <button
         onClick={toggleAccordian}

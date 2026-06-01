@@ -84,7 +84,7 @@ export const UserProvider = ({ children }) => {
       case "Skills":
         deleteFunction = DeleteSkillDetails;
         break;
-      case "Certificates":
+      case "Certificate":
         deleteFunction = DeleteCertificateDetails;
         break;
       default:
