@@ -71,7 +71,7 @@ const Main = ({ addingContent }) => {
     case "Skills":
       content = <Skills onSelect={handleFormSubmit}/>;
       break;
-    case "Certificate":
+    case "Certificates":
       content = <Certificates onSelect={handleFormSubmit}/>;
       break;
     default:

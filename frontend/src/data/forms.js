@@ -30,7 +30,7 @@ export const FORMS = [
     icon: "fa-solid fa-folder-open",
   },
   {
-    title: "Certificate",
+    title: "Certificates",
     description:
       "Drivers licenses and other industry-specific certificates you have belong here.",
     icon: "fa-solid fa-file-certificate",

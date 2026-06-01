@@ -10,6 +10,7 @@ import {
 } from "../../utils/http";
 import { useFormData } from "../../hooks/useFormData";
 import { useEffect } from "react";
+import Button from "../UI/Button";
 
 const Certificates = ({ onSelect }) => {
   const initialState = {
@@ -68,7 +69,7 @@ const Certificates = ({ onSelect }) => {
   } = useFormData({
     initialState,
     onSubmit: (payload) => {
-      if (certificatesArr?.id) {
+      if (certificatesArr) {
         updateData({ data: payload, entryId: certificatesArr.id });
       } else {
         saveData(payload);
@@ -77,7 +78,7 @@ const Certificates = ({ onSelect }) => {
   });
 
   useEffect(() => {
-    if (certificatesArr.length) {
+    if (certificatesArr) {
       setFormValues({
         certificateName: certificatesArr.certificate_name || "",
         organizationName: certificatesArr.issuing_organization || "",
@@ -85,7 +86,8 @@ const Certificates = ({ onSelect }) => {
         expiringDate: certificatesArr.expiration_date || "",
       });
     }
-  }, [certificates]);
+    return;
+  }, [certificatesArr]);
   return (
     <>
       <FormDiv title="Add your Certificates" onSend={handleFormSubmit}>
@@ -127,6 +129,11 @@ const Certificates = ({ onSelect }) => {
             label="Expire Date"
           />
         </div>
+        {isPending && <p>Form is submitting please wait</p>}
+        {!isPending && <Button className="mt-4">Done</Button>}
+        {isError && (
+          <p> {error.info?.message || "there is error in submitting form"}</p>
+        )}
       </FormDiv>
     </>
   );

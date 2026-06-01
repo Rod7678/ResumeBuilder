@@ -77,9 +77,8 @@ const Skills = ({ onSelect }) => {
         skillInfo: skill.description || "",
         proficiencyLevel: skill.proficiency || "Beginner",
       });
-
-      return;
     }
+    return;
   }, [skill]);
 
   return (

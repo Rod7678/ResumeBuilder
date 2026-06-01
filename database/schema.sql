@@ -85,7 +85,7 @@ CREATE TABLE certificates (
     expiration_date DATE,
     FOREIGN KEY (user_id) REFERENCES users(id)
     ON DELETE CASCADE
-)
+);
 
 CREATE TABLE skills (
     id INT auto_increment PRIMARY KEY,
@@ -95,4 +95,4 @@ CREATE TABLE skills (
     proficiency ENUM('Beginner', 'Intermediate', 'Advanced', 'Expert') DEFAULT 'Beginner',
     FOREIGN KEY (user_id) REFERENCES users(id)
     ON DELETE CASCADE
-)
+);

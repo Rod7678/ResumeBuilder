@@ -844,7 +844,7 @@ app.post("/api/certificates/latest", async (req, res) => {
     const userId = users[0].id;
 
     await db.query(
-      "INSERT INTO certificates (user_id, certificate_name, issuing_organization, issue_date, expiration_date) VALUES (?,?,?,?)",
+      "INSERT INTO certificates (user_id, certificate_name, issuing_organization, issue_date, expiration_date) VALUES (?,?,?,?,?)",
       [userId, certificateName, organizationName, issuingDate, expiringDate],
     );
 
@@ -862,7 +862,7 @@ app.post("/api/certificates/:id", async (req, res) => {
     const userId = req.params.id;
     
     await db.query(
-      "INSERT INTO certificates (user_id, certificate_name, issuing_organization, issue_date, expiration_date) VALUES (?,?,?,?)",
+      "INSERT INTO certificates (user_id, certificate_name, issuing_organization, issue_date, expiration_date) VALUES (?,?,?,?,?)",
       [userId, certificateName, organizationName, issuingDate, expiringDate],
     );
     

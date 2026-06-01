@@ -29,7 +29,9 @@ export const useFormData = ({initialState, onSubmit, transform = (data) => data}
         leavingDate: normalizeDate(formData.leavingDate),
         joiningDate: normalizeDate(formData.joiningDate),
         startDate: normalizeDate(formData.startDate),
-        endDate: normalizeDate(formData.endDate)
+        endDate: normalizeDate(formData.endDate),
+        issuingDate: normalizeDate(formData.issuingDate),
+        expiringDate: normalizeDate(formData.expiringDate),
     });
     onSubmit(payload);
   }

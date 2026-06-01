@@ -58,7 +58,7 @@ const SelectedContent = ({ onEdit }) => {
         dataEntry = addedForms.projects = addedForms.projects || [];
         break;
       case "Certificates":
-        dataEntry = addedForms.certificates = addedForms.certificates || [];
+        dataEntry = addedForms.certificate = addedForms.certificate || [];
         break;
       case "Skills":
         dataEntry = addedForms.skills = addedForms.skills || [];

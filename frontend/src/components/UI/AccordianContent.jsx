@@ -34,6 +34,10 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
       entryTitle = "skill_name";
       entrySubtitle = "description";
       break;
+    case "Certificates":
+      entryTitle = "certificate_name";
+      entrySubtitle = "";
+      break;
     default:
       entryTitle = "";
       entrySubtitle = "";
