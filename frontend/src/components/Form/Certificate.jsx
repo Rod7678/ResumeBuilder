@@ -2,7 +2,12 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useUser } from "../../context/UserContext";
 import FormDiv from "../UI/FormDiv";
 import Input from "../UI/Input";
-import { fetchLatestResume } from "../../utils/http";
+import {
+  fetchLatestResume,
+  queryClient,
+  SaveCertificateDetails,
+  UpdateCertificateDetails,
+} from "../../utils/http";
 import { useFormData } from "../../hooks/useFormData";
 import { useEffect } from "react";
 
@@ -20,15 +25,39 @@ const Certificates = ({ onSelect }) => {
     queryKey: ["latestResume"],
   });
 
-//   const {mutate: updateData, isError: updateIsError, isPending: updateIsPending, error: updateError} = useMutation({
-//     mutationFn: 
-//   });
-  let certificates = null;
+  const {
+    mutate: saveData,
+    isError,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: SaveCertificateDetails,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["latestResume"] });
+      onSelect();
+    },
+  });
+
+  const {
+    mutate: updateData,
+    isError: updateIsError,
+    isPending: updateIsPending,
+    error: updateError,
+  } = useMutation({
+    mutationFn: ({ data, entryId }) =>
+      UpdateCertificateDetails({ data, id: entryId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["latestResume"] });
+      onSelect();
+    },
+  });
+
+  let certificatesArr = null;
   if (entryId != null) {
-    certificates =
+    certificatesArr =
       certificatesData?.certificate?.find((c) => c.id === entryId) || null;
   } else {
-    certificates = certificatesData?.certificate?.[0] || null;
+    certificatesArr = certificatesData?.certificate?.[0] || null;
   }
 
   const {
@@ -36,15 +65,24 @@ const Certificates = ({ onSelect }) => {
     setFormValues,
     handleChange: handleInputChange,
     handleSubmit: handleFormSubmit,
-  } = useFormData();
+  } = useFormData({
+    initialState,
+    onSubmit: (payload) => {
+      if (certificatesArr?.id) {
+        updateData({ data: payload, entryId: certificatesArr.id });
+      } else {
+        saveData(payload);
+      }
+    },
+  });
 
   useEffect(() => {
-    if (certificates.length) {
+    if (certificatesArr.length) {
       setFormValues({
-        certificateName: certificates.certificate_name || "",
-        organizationName: certificates.issuing_organization || "",
-        issuingDate: certificates.issue_date || "",
-        expiringDate: certificates.expiration_date || "",
+        certificateName: certificatesArr.certificate_name || "",
+        organizationName: certificatesArr.issuing_organization || "",
+        issuingDate: certificatesArr.issue_date || "",
+        expiringDate: certificatesArr.expiration_date || "",
       });
     }
   }, [certificates]);
