@@ -82,12 +82,12 @@ const Skills = ({ onSelect }) => {
     }
   }, [skill]);
 
-  console.log("formData :", formData.skills);
   return (
     <>
       <FormDiv title={"Add Your skills"} onSend={handleFormSubmit}>
         <Input
-          placeholder="Enter your skill"
+          label="Enter your skill"
+          placeholder="Frontend"
           id={"skills"}
           name={"skills"}
           value={formData.skills}
@@ -95,7 +95,8 @@ const Skills = ({ onSelect }) => {
           type={"text"}
         />
         <Input
-          placeholder="Information about your skill"
+        label="More info about skill"
+          placeholder="Type here.."
           id={"skillInfo"}
           name={"skillInfo"}
           value={formData.skillInfo}

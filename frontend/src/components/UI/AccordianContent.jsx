@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DeleteEducationDetails } from "../../utils/http";
+import { DeleteEducationDetails, queryClient } from "../../utils/http";
 import { useMutation } from "@tanstack/react-query";
 import { useUser } from "../../context/UserContext";
 
@@ -12,7 +12,6 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
 
   let entryTitle;
   let entrySubtitle;
-  console.log("Array of content :" , arrayOfContent)
 
   switch (title) {
     case "Professional Experience":
@@ -44,7 +43,8 @@ const AccordianContent = ({ title, enteries = [], onEdit, onDelete }) => {
   const { mutate: deleteMutation } = useMutation({
     mutationFn: ({ title, id }) => handleDelete({ title, id }),
     onSuccess: () => {
-      console.log("Deleted entry successfully");
+      // console.log("Deleted entry successfully");
+      queryClient.invalidateQueries({ queryKey: ["latestResume"] });
       // onDelete();
     },
   });

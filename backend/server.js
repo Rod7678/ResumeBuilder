@@ -780,7 +780,7 @@ app.put("/api/skills/latest", async (req, res) => {
       [skills, skillInfo, proficiencyLevel, userId],
     );
 
-    return res.status(201).json({ message: "skill added" });
+    return res.status(201).json({ message: "skill Updated" });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -833,11 +833,118 @@ app.delete("/api/skills/entryDelete/:id", async (req, res) => {
 // Certificate Endpoints
 app.post("/api/certificates/latest", async (req, res) => {
   try {
-    const {certicateName, issuingDate, organizationName, expiringDate} = req.body;
-  } catch (err) {
+    const { certificateName, issuingDate, organizationName, expiringDate } =
+      req.body;
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+    if (!users.length) {
+      return res.status(400).json({ message: "No user Exist" });
+    }
+    const userId = users[0].id;
+
+    await db.query(
+      "INSERT INTO certificates (user_id, certificate_name, issuing_organization, issue_date, expiration_date) VALUES (?,?,?,?)",
+      [userId, certificateName, organizationName, issuingDate, expiringDate],
+    );
+
+    return res.status(201).json({message: "Certificates Added"})
     
+  } catch (err) {
+    return res.status(500).json({error: err.message})
   }
 });
+
+app.post("/api/certificates/:id", async (req, res) => {
+  try {
+    const { certificateName, issuingDate, organizationName, expiringDate } =
+    req.body;
+    const userId = req.params.id;
+    
+    await db.query(
+      "INSERT INTO certificates (user_id, certificate_name, issuing_organization, issue_date, expiration_date) VALUES (?,?,?,?)",
+      [userId, certificateName, organizationName, issuingDate, expiringDate],
+    );
+    
+    return res.status(201).json({message: "Certificates Added"})
+    
+  } catch (err) {
+    return res.status(500).json({error: err.message})
+  }
+});
+
+app.put("/api/certificates/latest", async (req, res) => {
+  try {
+    const { certificateName, issuingDate, organizationName, expiringDate } =
+      req.body;
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+    if (!users.length) {
+      return res.status(400).json({ message: "No user Exist" });
+    }
+    const userId = users[0].id;
+
+    await db.query(
+      "UPDATE certificates AS c SET certificate_name = ?, issuing_organization = ? , issue_date = ?, expiration_date = ? WHERE c.user_id = ?",
+      [certificateName, organizationName, issuingDate, expiringDate, userId],
+    );
+
+    return res.status(201).json({message: "Certificates Updated"})
+    
+  } catch (err) {
+    return res.status(500).json({error: err.message})
+  }
+});
+
+app.put("/api/certificates/entry/:id", async (req, res) => {
+  try {
+    const { certificateName, issuingDate, organizationName, expiringDate } =
+      req.body;
+    const [users] = await db.query(
+      "SELECT id FROM users ORDER BY id DESC LIMIT 1",
+    );
+    if (!users.length) {
+      return res.status(400).json({ message: "No user Exist" });
+    }
+    const userId = users[0].id;
+    const entryId = req.params.id;
+
+    await db.query(
+      "UPDATE certificates AS c SET certificate_name = ?, issuing_organization = ? , issue_date = ?, expiration_date = ? WHERE c.user_id = ? AND c.id",
+      [certificateName, organizationName, issuingDate, expiringDate, userId, entryId],
+    );
+
+    return res.status(201).json({message: "Certificates Updated"})
+    
+  } catch (err) {
+    return res.status(500).json({error: err.message})
+  }
+});
+
+app.delete("/api/certificates/entryDelete/:id", async (req, res) => {
+  try {
+    const entryId = req.params.id;
+    const [users] = await db.query("SELECT id FROM users ORDER BY id DESC LIMIT 1");
+    if(!users.length){
+      return res.status(400).json({message: "No user Exist"});
+    }
+  
+    const userId = users[0].id;
+    
+    await db.query("DELETE FROM certificates AS c WHERE c.user_id = ? AND c.id = ?", [
+      userId,
+      entryId
+    ])
+
+    return res.status(201).json({message: "Deleted succesfully"})
+  } catch (err) {
+    return res.status(500).json({error: err.message})
+  }
+});
+
+
+
 
 // Resume Endpoints
 app.get("/api/resume/latest", async (req, res) => {
@@ -877,6 +984,11 @@ app.get("/api/resume/latest", async (req, res) => {
       userId,
     ]);
 
+    const [certificate] = await db.query(
+      "SELECT * FROM certificates WHERE user_id = ?",
+      [userId],
+    );
+
     res.json({
       user,
       professional,
@@ -884,6 +996,7 @@ app.get("/api/resume/latest", async (req, res) => {
       projects,
       languages,
       skills,
+      certificate,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -914,12 +1027,18 @@ app.get("/api/resume/:userId", async (req, res) => {
       userId,
     ]);
 
+    const [certificate] = await db.query(
+      "SELECT * FROM certificates WHERE user_id = ?",
+      [userId],
+    );
+
     res.json({
       user,
       professional,
       education,
       projects,
       skills,
+      certificate,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

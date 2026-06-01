@@ -152,6 +152,25 @@ export const SaveSkillsDetails = async (data) => {
   return res;  
 };
 
+export const SaveCertificateDetails = async (data) => {
+  const response = await fetch(`${url}/certificates/latest`,{
+    method: "POST",
+    headers: {
+      "Content-Type" : "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if(!response.ok){
+    const error = new Error("An Error occured during Saving");
+    error.code = esponse.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const res = await response.json();
+  return res;
+}
 
 export const SaveLanguageDetails = async (data) => {
   const response = await fetch(`${url}/languages/latest`, {
@@ -244,6 +263,27 @@ export const UpdateSkillsDetails = async ({data, id}) => {
   return res;
 };
 
+export const UpdateCertificateDetails = async ({data, id}) => {
+  const fetchUrl = id ? `${url}/certificates/entry/${id}` : `${url}/certificates/latest`;
+  const response = await fetch(fetchUrl, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = new Error("An error occured during sending project details");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const res = await response.json();
+
+  return res;
+};
 
 export const UpdateProfessionalDetails = async ({data, id}) => {
   const fetchUrl = id ? `${url}/professional/entry/${id}` : `${url}/professional/latest`;
@@ -332,6 +372,27 @@ export const DeleteSkillDetails = async (id) => {
 
   return res;
 };
+
+
+// Certificate details deletion
+export const DeleteCertificateDetails = async (id) => {
+  const fetchUrl = id ?  `${url}/certificates/entryDelete/${id}` : `${url}/certificates/latest`;
+  const response = await fetch(fetchUrl, {
+    method: "DELETE",
+  });
+
+  if(!response.ok){
+    const error = new Error("An error occured during deleting certificate");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const res = await response.json();
+
+  return res;
+};
+
 
 
 // Professional details deletion

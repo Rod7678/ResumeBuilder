@@ -10,8 +10,6 @@ const ResumePreview = () => {
   });
   const formatedLines = (description) => {
     const lines = description.split("\n");
-    console.log(lines);
-
     for (let i = 0; i < lines.length; i++) {
       <ul>
         <li className="list-disc">{lines[i]}</li>

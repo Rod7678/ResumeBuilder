@@ -10,6 +10,7 @@ import { queryClient, saveUserDetail } from "../utils/http.js";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { useUser } from "../context/UserContext.jsx";
+import Certificates from "./Form/Certificate.jsx";
 
 // const extractedForm = (data, updateFormInputState) => {
 //   updateFormInputState((prevData) => ({
@@ -50,7 +51,7 @@ const Main = ({ addingContent }) => {
 
   let content = null;
 
-  // console.log("selected type: ", selectedType);
+  console.log("selected type: ", selectedType);
   switch (selectedType) {
     case "Professional Experience":
       content = <ProfessionForm onSelect={handleFormSubmit} />;
@@ -69,6 +70,9 @@ const Main = ({ addingContent }) => {
       break;
     case "Skills":
       content = <Skills onSelect={handleFormSubmit}/>;
+      break;
+    case "Certificate":
+      content = <Certificates onSelect={handleFormSubmit}/>;
       break;
     default:
       content = <UserForm onSelect={handleFormSubmit} />;

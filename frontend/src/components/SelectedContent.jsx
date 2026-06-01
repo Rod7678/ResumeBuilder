@@ -32,7 +32,6 @@ const SELECTED_FORM = [
 
 const SelectedContent = ({ onEdit }) => {
   const { addedForms: data , setIsDeleting} = useUser();
-  console.log("dhsn :" , data)
   const uniqueSections = [...new Set(data)];
 
   const { data: addedFormsArray } = useQuery({
