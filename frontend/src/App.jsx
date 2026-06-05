@@ -5,6 +5,7 @@ import { queryClient } from "./utils/http.js";
 import { UserProvider } from "./context/UserContext.jsx";
 import MainBody from "./components/main-body/MainBody.jsx";
 import RootLayout from "./pages/RootLayout.jsx";
+import HomePage from "./pages/HomePage.jsx";
 
 function App() {
   return (
@@ -12,8 +13,9 @@ function App() {
       <UserProvider>
         <BrowserRouter>
         <Routes>
-          <Route  path="/" element={<RootLayout />}>
-          <Route index element={<MainBody/>}/>
+          <Route path="/" element={<RootLayout />}>
+          <Route index element={<HomePage />}/>
+          <Route path="/resumeCreate" element={<MainBody/>}/>
           </Route>
         </Routes>
         </BrowserRouter>

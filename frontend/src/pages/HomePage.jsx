@@ -1,5 +1,5 @@
 const HomePage = () => {
-  return (
+  return ( 
     <>
       <section className="nav">
         <h1>This is home page nav bar </h1>

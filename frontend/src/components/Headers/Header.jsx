@@ -2,13 +2,23 @@ import siteLogo from "../../assets/Logo.png";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ResumePDF from "../ResumePdf";
 import "./Header.css";
+import { Link, useLocation, useNavigate } from "react-router";
+import Button from "../UI/Button";
+
 // import { useUser } from "../../context/UserContext";
 
 export default function Header() {
   // const { user } = useUser();
+  
+  const location = useLocation();
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('//resumeCreate')
+  };
+
   return (
-    <header>
-      <img src={siteLogo} alt="" />
+    <header className="flex justify-between">
+      <Link to="/"><img src={siteLogo} alt="Resume Builder" /></Link>
       <PDFDownloadLink
         // document={<ResumePDF user={user} />}
         fileName="resume.pdf"
@@ -19,6 +29,7 @@ export default function Header() {
           </button>
         )}
       </PDFDownloadLink>
+      {location.pathname =='/' && <button className="flex-end w-fit py-4 px-6 bg-amber-50 text-zinc-900 font-semibold rounded-xl" onClick={handleClick}>Get Started</button>}
     </header>
   );
 }
