@@ -1,20 +1,29 @@
+import BoxShadow from "../components/UI/BoxShadow";
+
 const HomePage = () => {
   return ( 
     <>
-      <section className="nav">
-        <h1>This is home page nav bar </h1>
+      <section className="hero h-100 bg-neutral-400 flex items-center justify-center p-12 w-full">
+        <h1>Hero section</h1>
       </section>
-      <section className="hero">
-        <h2>Hero section</h2>
+      <section className="feature h-100 bg-purple-400 flex items-center justify-center p-12 w-full">
+        <h2 className="text-xl">Feature section</h2>
       </section>
-      <section className="feature">
-        <h2>Feature section</h2>
+      <section className="future h-100 bg-blue-400 flex items-center justify-center p-12 w-full">
+        <h2 className="text-xl">future section</h2>
       </section>
-      <section className="future">
-        <h2>future sect</h2>
-      </section>
-      <section className="templates">
-        <h2>Template Sec</h2>
+      <section className="templates h-100 bg-neutral-400 flex items-center justify-center p-12 w-full flex-col">
+        <h2 className="text-xl">Template Section</h2>
+        <div className="grid grid-cols-4 gap-4">
+          <BoxShadow></BoxShadow>
+          <BoxShadow></BoxShadow>
+          <BoxShadow></BoxShadow>
+          <BoxShadow></BoxShadow>
+          <BoxShadow></BoxShadow>
+          <BoxShadow></BoxShadow>
+          <BoxShadow></BoxShadow>
+          <BoxShadow></BoxShadow>
+        </div>
       </section>
     </>
   );
