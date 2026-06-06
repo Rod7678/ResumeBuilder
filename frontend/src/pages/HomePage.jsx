@@ -1,6 +1,7 @@
 import BoxShadow from "../components/UI/BoxShadow";
 import siteLogo from "../assets/Logo.png";
 import HeroSection from "../components/Sections/HeroSection";
+import TemplateSection from "../components/Sections/TemplateSection";
 
 const HomePage = () => {
   return ( 
@@ -23,20 +24,7 @@ const HomePage = () => {
       </section>
 
       {/* Template Section */}
-      {/* - in next time after creating templates i can make an list of array of object and then apply map for listing */}
-      <section className="templates h-100 bg-neutral-400 flex items-center justify-center p-12 w-full flex-col">
-        <h2 className="text-xl">Template Section</h2>
-        <div className="grid grid-cols-4 gap-4">
-          <BoxShadow className="h-20 p-10" >a</BoxShadow>
-          <BoxShadow className="h-20 p-10">bd</BoxShadow>
-          <BoxShadow className="h-20 p-10">bd</BoxShadow>
-          <BoxShadow className="h-20 p-10">bd</BoxShadow>
-          <BoxShadow className="h-20 p-10">bd</BoxShadow>
-          <BoxShadow className="h-20 p-10">bd</BoxShadow>
-          <BoxShadow className="h-20 p-10">bd</BoxShadow>
-          <BoxShadow className="h-20 p-10">bd</BoxShadow>
-        </div>
-      </section>
+     <TemplateSection />
 
       {/* FUture section */}
       <section className="future h-100 bg-blue-400 flex items-center justify-center p-12 w-full">
