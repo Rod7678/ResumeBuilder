@@ -3,6 +3,18 @@ import Button from "../UI/Button";
 import resume1 from "/resumeImg1.avif";
 
 const HeroSection = () => {
+    const imageArray = [
+        {id: 1,imgSrc : resume1},
+        {id: 2,imgSrc : resume1},
+        {id: 3,imgSrc : resume1},
+        {id: 4,imgSrc : resume1},
+        {id: 5,imgSrc : resume1},
+        {id: 6,imgSrc : resume1},
+        {id: 7,imgSrc : resume1},
+        {id: 8,imgSrc : resume1},
+        {id: 9,imgSrc : resume1},
+        {id: 10,imgSrc : resume1},
+    ];
   return (
     <>
       <section className="hero h-100 bg-neutral-400 flex items-center justify-center p-12 w-full">
@@ -18,11 +30,11 @@ const HeroSection = () => {
           <Button>Templates</Button>
         </div>
         <div className="grid grid-cols-5 gap-2">
-          <div className="img-grid1">
+          <ul>{imageArray.map((image)=>{<div key={image.id} className="img-grid1">
             <BoxShadow>
-              <img src={resume1} alt="Resume1" />
+              <img src={image.imgSrc} alt="Resume1" />
             </BoxShadow>
-          </div>
+          </div>})}</ul>
         </div>
       </section>
     </>
