@@ -1,12 +1,11 @@
 import BoxShadow from "../components/UI/BoxShadow";
 import siteLogo from "../assets/Logo.png";
+import HeroSection from "../components/Sections/HeroSection";
 
 const HomePage = () => {
   return ( 
     <>
-      <section className="hero h-100 bg-neutral-400 flex items-center justify-center p-12 w-full">
-        <h1>Hero section</h1>
-      </section>
+      <HeroSection />
 
       {/* Feature Section */}
       <section className="feature h-100 bg-purple-400 flex items-center justify-center p-12 w-full flex-col">
