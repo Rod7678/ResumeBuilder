@@ -7,7 +7,69 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #f6f1f1;
+  
+  /* ── Purple (Primary) ─────────────────────── */
+  --color-purple-50:  #EEEDFE;
+  --color-purple-100: #CECBF6;
+  --color-purple-200: #AFA9EC;
+  --color-purple-400: #7F77DD;
+  --color-purple-600: #534AB7;
+  --color-purple-800: #3C3489;
+  --color-purple-900: #26215C;
+ 
+  /* ── Teal (Accent / CTA) ──────────────────── */
+  --color-teal-50:  #E1F5EE;
+  --color-teal-100: #9FE1CB;
+  --color-teal-200: #5DCAA5;
+  --color-teal-400: #1D9E75;
+  --color-teal-600: #0F6E56;
+  --color-teal-800: #085041;
+  --color-teal-900: #04342C;
+ 
+  /* ── Gray (Neutrals) ──────────────────────── */
+  --color-gray-50:  #F1EFE8;
+  --color-gray-100: #D3D1C7;
+  --color-gray-200: #B4B2A9;
+  --color-gray-400: #888780;
+  --color-gray-600: #5F5E5A;
+  --color-gray-800: #444441;
+  --color-gray-900: #2C2C2A;
+ 
+  /* ── Semantic — Success ───────────────────── */
+  --color-success-bg:   #E1F5EE;
+  --color-success:      #1D9E75;
+  --color-success-dark: #0F6E56;
+ 
+  /* ── Semantic — Error / Warning ───────────── */
+  --color-error-bg:   #FAECE7;
+  --color-error:      #D85A30;
+  --color-error-dark: #993C1D;
+ 
+  /* ── Semantic — Info / Link ───────────────── */
+  --color-info-bg:   #EEEDFE;
+  --color-info:      #534AB7;
+  --color-info-dark: #3C3489;
+ 
+  /* ── Page & Surface Backgrounds ──────────── */
+  --color-page-bg:    #F8F7FF;
+  --color-surface:    #FFFFFF;
+  --color-surface-2:  #F1EFE8;
+ 
+  /* ── Text ─────────────────────────────────── */
+  --color-text-primary:   #26215C;
+  --color-text-secondary: #5F5E5A;
+  --color-text-muted:     #888780;
+  --color-text-on-dark:   #EEEDFE;
+ 
+  /* ── Borders ──────────────────────────────── */
+  --color-border:       #D3D1C7;
+  --color-border-light: #EEEDFE;
+  --color-border-brand: #AFA9EC;
+ 
+  /* ── Brand Shortcuts ──────────────────────── */
+  --brand-primary:  #3C3489;
+  --brand-accent:   #1D9E75;
+  --brand-headline: #26215C;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,7 +79,7 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--brand-accent);
   text-decoration: inherit;
 }
 a:hover {
@@ -27,7 +89,6 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
   width: 100%;
@@ -38,6 +99,11 @@ h1 {
   line-height: 1.1;
 }
 
+.btn-ful{
+  color: var(--color-text-on-dark);
+  background: var(--brand-accent);
+}
+
 .modal {
   margin: 0;
   padding: 2rem;
@@ -45,7 +111,7 @@ h1 {
   top: 10vh;
   left: calc(24% - 15rem);
   width: 80rem;
-  background: #ffffff;
+  background: var(--color-purple-50);
   border: none;
   border-radius: 6px;
   z-index: 100;
@@ -68,7 +134,7 @@ h1 {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: var(--color-purple-50);
   }
   a:hover {
     color: #747bff;

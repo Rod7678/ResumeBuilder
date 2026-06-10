@@ -29,7 +29,7 @@ export default function Header() {
           </button>
         )}
       </PDFDownloadLink>
-      {location.pathname =='/' && <button className="flex-end w-fit py-4 px-6 bg-amber-50 text-zinc-900 font-semibold rounded-xl" onClick={handleClick}>Get Started</button>}
+      {location.pathname =='/' && <button className="btn-ful flex-end w-fit py-4 px-6 font-semibold rounded-xl" onClick={handleClick}>Get Started</button>}
     </header>
   );
 }
