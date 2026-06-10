@@ -25,9 +25,9 @@ const HeroSection = () => {
           adipisci libero aut eveniet consectetur alias unde vel. Fugit dolorum
           ipsum natus nobis nulla!
         </p>
-        <div className="pt-10 flex flex-row gap-4 justify-center">
-          <Button>Get Started</Button>
-          <Button>Templates</Button>
+        <div className="pt-10 flex flex-row gap-4 w-full justify-center">
+          <Button className="btn-hal py-3 px-6">Get Started</Button>
+          <Button className="btn-txt">Templates</Button>
         </div>
         <div className="heroSection-temps" >
           <ul className="grid grid-cols-5 gap-2">

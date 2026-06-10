@@ -1,7 +1,7 @@
 header{
     display: flex;
     justify-content: space-between;
-    padding: 15px;
+    padding: 15px 60px;
     background-color: var(--brand-primary);
     align-items: center;
 }
@@ -9,4 +9,11 @@ header{
 header img{
     height: 100px;
     width: 100px;
+}
+
+header .resume-lo1{
+    color: var(--color-info-bg);
+}
+header .resume-lo2{
+    color: var(--brand-accent);
 }
