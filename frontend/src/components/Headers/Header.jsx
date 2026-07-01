@@ -54,12 +54,12 @@ export default function Header() {
       )}
       {location.pathname == "/" && (
         <div className="navigation  flex flex-row gap-4 items-center">
-          <ul className="navigator">
+          <ul className="navigator flex flex-row gap-4">
             <li>
               <a href="#templates">Templates</a>
             </li>
             <li>
-              <a href=""></a>
+              <a href="#features">Features</a>
             </li>
             <li>
               <a href=""></a>
