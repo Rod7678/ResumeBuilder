@@ -2,18 +2,30 @@ header{
     display: flex;
     justify-content: space-between;
     padding: 15px 60px;
-    background-color: var(--brand-primary);
+    background-color: #26215C;
     align-items: center;
 }
 
-header img{
-    height: 100px;
-    width: 100px;
-}
 
+header img{
+    height: 50px;
+}
 header .resume-lo1{
     color: var(--color-info-bg);
 }
 header .resume-lo2{
     color: var(--brand-accent);
+}
+
+.navigator li a{
+    text-decoration: none;
+    color: var(--color-info-bg);
+}
+
+@media (max-width: 600px) {
+    
+    header img{
+        height: 100px;
+        width: 100px;
+    }
 }

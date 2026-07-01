@@ -9,11 +9,6 @@ const HeroSection = () => {
     { id: 3, imgSrc: resume1, className: "mt-60" },
     { id: 4, imgSrc: resume1, className: "mt-40" },
     { id: 5, imgSrc: resume1, className: "mt-0" },
-    // { id: 6, imgSrc: resume1, className: "mt-0" },
-    // { id: 7, imgSrc: resume1, className: "mt-[[-10rem]]" },
-    // { id: 8, imgSrc: resume1, className: "mt-0" },
-    // { id: 9, imgSrc: resume1, className: "mt-0" },
-    // { id: 10, imgSrc: resume1, className: "mt-0" },
   ];
   return (
     <>

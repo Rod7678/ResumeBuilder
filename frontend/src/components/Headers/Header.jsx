@@ -1,14 +1,16 @@
-import siteLogo from "../../assets/Logo.png";
+// import siteLogo from "../../assets/Logo.png";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ResumePDF from "../ResumePdf";
 import "./Header.css";
 import { Link, useLocation, useNavigate } from "react-router";
 import Button from "../UI/Button";
+import { useEffect, useState } from "react";
 
-// import { useUser } from "../../context/UserContext";
+import { useUser } from "../../context/UserContext";
 
 export default function Header() {
-  // const { user } = useUser();
+  const { user } = useUser();
+  const [mobileScreen, setMobileScreen] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -16,34 +18,60 @@ export default function Header() {
     navigate("//resumeCreate");
   };
 
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobileScreen(true);
+    }
+    return;
+  }, []);
+
   return (
     <header className="flex justify-between">
       <Link to="/">
         <div className="flex flex-col md:flex-row ">
-          <img src={siteLogo} alt="Resume Builder" className="h-9 mr-2"/>
-          <div className="flex flex-row md:flex-col md:text-start tracking-wide md:justify-center">
-            <h4 className="resume-lo1 text-3xl font-bold">Resume</h4>
-            <h4 className="text-3xl font-bold resume-lo2">Forge</h4>
-          </div>
+          {!mobileScreen ? (
+            <img src="/resumeforge-navbar-logo.svg" alt="Resume Builder" />
+          ) : (
+            <img
+              src="/resumeforge-logo-icon.svg"
+              alt="Resume Builder"
+              className="h-9 mr-2"
+            />
+          )}
         </div>
       </Link>
-      <PDFDownloadLink
-        // document={<ResumePDF user={user} />}
-        fileName="resume.pdf"
-      >
-        {({ loading }) => (
-          <button className="btn-primary">
-            {loading ? "Preparing..." : "Download Resume"}
-          </button>
-        )}
-      </PDFDownloadLink>
-      {location.pathname == "/" && (
-        <button
-          className="btn-ful text-xl flex-end w-fit py-3 px-5 font-semibold rounded-xl"
-          onClick={handleClick}
+      {location.pathname == "/resumeCreate" && (
+        <PDFDownloadLink
+          document={<ResumePDF user={user} />}
+          fileName="resume.pdf"
         >
-          Get Started
-        </button>
+          {({ loading }) => (
+            <button className="btn-ful text-lg flex-end w-fit py-2 px-4 font-semibold rounded-xl">
+              {loading ? "Preparing..." : "Download Resume"}
+            </button>
+          )}
+        </PDFDownloadLink>
+      )}
+      {location.pathname == "/" && (
+        <div className="navigation  flex flex-row gap-4 items-center">
+          <ul className="navigator">
+            <li>
+              <a href="#templates">Templates</a>
+            </li>
+            <li>
+              <a href=""></a>
+            </li>
+            <li>
+              <a href=""></a>
+            </li>
+          </ul>
+          <button
+            className="btn-ful text-lg flex-end w-fit py-2 px-4 font-semibold rounded-xl"
+            onClick={handleClick}
+          >
+            Get Started
+          </button>
+        </div>
       )}
     </header>
   );
